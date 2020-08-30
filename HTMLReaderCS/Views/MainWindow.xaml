@@ -8,8 +8,53 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         prism:ViewModelLocator.AutoWireViewModel="True"
-        Title="{Binding Title}" Height="350" Width="525">
+        Title="{Binding Title}" Height="600" Width="800">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
         <ContentControl prism:RegionManager.RegionName="ContentRegion" />
+
+        <ListView ItemsSource="{Binding HtmlContents.TextElements}"
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                  Grid.Column="1"
+                  >
+
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="BorderThickness" Value="1"/>
+                    <Setter Property="BorderBrush" Value="LightGray"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+
+            <ListView.View>
+                <GridView>
+                    <GridView.Columns>
+
+                        <GridViewColumn DisplayMemberBinding="{Binding TagName}"
+                                        Header="タグ"
+                                        />
+                        <GridViewColumn Header="本文">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border BorderBrush="LightGray"
+                                            BorderThickness="1,0,0,0"
+                                            >
+                                        <TextBlock Text="{Binding TextContent}"
+                                                   TextWrapping="Wrap"
+                                                   Padding="4,0,0,0"
+                                                   />
+                                    </Border>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+                    </GridView.Columns>
+                    
+                </GridView>
+            </ListView.View>
+        </ListView>
+
     </Grid>
 </Window>
