@@ -1,4 +1,7 @@
-﻿using Prism.Mvvm;
+﻿using HTMLReaderCS.models;
+using Prism.Mvvm;
+using System.IO;
+using System.Text;
 
 namespace HTMLReaderCS.ViewModels
 {
@@ -9,6 +12,12 @@ namespace HTMLReaderCS.ViewModels
         {
             get { return _title; }
             set { SetProperty(ref _title, value); }
+        }
+
+        private HTMLContents htmlContents;
+        public HTMLContents HtmlContents {
+            get => htmlContents;
+            set => SetProperty(ref htmlContents, value);
         }
 
         public MainWindowViewModel()

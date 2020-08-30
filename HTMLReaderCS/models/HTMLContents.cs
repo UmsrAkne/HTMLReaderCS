@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace HTMLReaderCS.models {
-    class HTMLContents {
+    public class HTMLContents {
 
         private IHtmlDocument htmlDocument;
 
