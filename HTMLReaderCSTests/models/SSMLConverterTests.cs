@@ -14,6 +14,24 @@ namespace HTMLReaderCS.models.Tests
         [TestMethod()]
         public void SSMLConverterTest() {
             SSMLConverter converter = new SSMLConverter();
+            converter.Text = "test";
+            Assert.AreEqual(converter.getSSML(),"<speak>test</speak>");
+
+            Assert.IsTrue(converter.prosodyIsDefault());
+            converter.Volume = Volume.Medium;
+
+            Assert.IsFalse(converter.prosodyIsDefault());
+
+            Assert.AreEqual(converter.getSSML(), "<speak><prosody volume=\"medium\" >test</prosody></speak>");
+
+            converter.Rate = Rate.XSlow;
+            Assert.AreEqual(converter.getSSML(), "<speak><prosody rate=\"x-slow\" volume=\"medium\" >test</prosody></speak>");
+
+            converter.Pitch = Pitch.High;
+            Assert.AreEqual(converter.getSSML(), "<speak><prosody pitch=\"high\" rate=\"x-slow\" volume=\"medium\" >test</prosody></speak>");
+
+            converter.resetProsody();
+            Assert.IsTrue(converter.prosodyIsDefault());
         }
     }
 }
