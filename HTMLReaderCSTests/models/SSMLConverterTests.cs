@@ -38,6 +38,13 @@ namespace HTMLReaderCS.models.Tests
 
             converter.Rate = Rate.Slow;
             Assert.AreEqual(converter.getSSML(), "<speak><emphasis level=\"strong\"><prosody rate=\"slow\" >test</prosody></emphasis></speak>");
+
+            converter.DoReplaceNewLineToBreak = true;
+            converter.resetProsody();
+            converter.Emphasis = Emphasis.none;
+            converter.Break = Break.Medium;
+            converter.Text = "test\rtest\r\ntest\ntest";
+            Assert.AreEqual(converter.getSSML(), "<speak>test<break strength=\"medium\" />test<break strength=\"medium\" />test<break strength=\"medium\" />test</speak>");
         }
     }
 }

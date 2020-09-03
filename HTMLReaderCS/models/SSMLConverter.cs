@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace HTMLReaderCS.models
@@ -18,6 +19,12 @@ namespace HTMLReaderCS.models
         public Volume Volume{ get; set; } = Volume.Default;
 
         public Emphasis Emphasis { get; set; } = Emphasis.none;
+        public Break Break { get; set; } = Break.None;
+
+        /// <summary>
+        /// getSSML() を実行した際、Textに含まれる改行文字を <break strength="xxx" /> に置き換えるかどうかを指定します。
+        /// </summary>
+        public bool DoReplaceNewLineToBreak { get; set; } = false;
 
 
         public SSMLConverter() {
@@ -33,6 +40,12 @@ namespace HTMLReaderCS.models
         /// <returns></returns>
         public String getSSML() {
             String ssml = Text;
+
+            if (DoReplaceNewLineToBreak) {
+                String breakTag = "<break strength=" + breakStrings[this.Break] + " />";
+                ssml = Regex.Replace(ssml, @"\r\n?|\n", breakTag);
+            }
+
             if (!prosodyIsDefault()) {
                 ssml = "<prosody ";
                 ssml += (this.Pitch != Pitch.Default) ? "pitch=" + pitchStrings[this.Pitch] + " " : "";
@@ -92,6 +105,14 @@ namespace HTMLReaderCS.models
             {Volume.Plus10Db,   "\"+10bB\"" },
         };
 
+        private Dictionary<Break, String> breakStrings = new Dictionary<Break, string> {
+            {Break.None,    "\"none\"" },
+            {Break.XWeak,   "\"x-weak\"" },
+            {Break.Medium,  "\"medium\"" },
+            {Break.Strong,  "\"strong\"" },
+            {Break.XStrong, "\"x-strong\"" },
+        };
+
     }
 
     // 声の高さ
@@ -112,5 +133,10 @@ namespace HTMLReaderCS.models
     // 声の強弱
     public enum Emphasis {
         strong, moderate, none, reduced
+    }
+
+    // 声の一時停止の強弱
+    public enum Break {
+        None, XWeak, Medium, Strong, XStrong
     }
 }
