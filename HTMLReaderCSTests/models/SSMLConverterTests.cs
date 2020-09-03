@@ -32,6 +32,12 @@ namespace HTMLReaderCS.models.Tests
 
             converter.resetProsody();
             Assert.IsTrue(converter.prosodyIsDefault());
+
+            converter.Emphasis = Emphasis.strong;
+            Assert.AreEqual(converter.getSSML(), "<speak><emphasis level=\"strong\">test</emphasis></speak>");
+
+            converter.Rate = Rate.Slow;
+            Assert.AreEqual(converter.getSSML(), "<speak><emphasis level=\"strong\"><prosody rate=\"slow\" >test</prosody></emphasis></speak>");
         }
     }
 }

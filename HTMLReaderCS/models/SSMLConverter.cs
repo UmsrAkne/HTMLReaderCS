@@ -17,6 +17,9 @@ namespace HTMLReaderCS.models
         public Rate Rate { get; set; } = Rate.Default;
         public Volume Volume{ get; set; } = Volume.Default;
 
+        public Emphasis Emphasis { get; set; } = Emphasis.none;
+
+
         public SSMLConverter() {
         }
 
@@ -36,6 +39,10 @@ namespace HTMLReaderCS.models
                 ssml += (this.Rate != Rate.Default) ? "rate=" + rateStrings[this.Rate] + " " : "";
                 ssml += (this.Volume != Volume.Default) ? "volume=" + volumeStrings[this.Volume] + " " : "";
                 ssml += ">" + Text + "</prosody>";
+            }
+
+            if (this.Emphasis != Emphasis.none) {
+                ssml = "<emphasis level=" + "\"" + this.Emphasis.ToString() + "\">" + ssml + "</emphasis>";
             }
 
             ssml = "<speak>" + ssml + "</speak>";
@@ -100,5 +107,10 @@ namespace HTMLReaderCS.models
     // 音量
     public enum Volume {
         Default, XSoft, Soft, Medium, Loud, XLoud, Silent, Minus10Db, Plus10Db
+    }
+
+    // 声の強弱
+    public enum Emphasis {
+        strong, moderate, none, reduced
     }
 }
