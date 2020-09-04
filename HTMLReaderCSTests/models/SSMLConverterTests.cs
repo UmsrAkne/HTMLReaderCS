@@ -45,6 +45,38 @@ namespace HTMLReaderCS.models.Tests
             converter.Break = Break.Medium;
             converter.Text = "test\rtest\r\ntest\ntest";
             Assert.AreEqual(converter.getSSML(), "<speak>test<break strength=\"medium\" />test<break strength=\"medium\" />test<break strength=\"medium\" />test</speak>");
+
+            converter = new SSMLConverter("test");
+            converter.VocalTractLength = 120;
+
+            String expectedString = "<speak>";
+            expectedString += "<amazon:effect vocal-tract-length=\"120%\">test</amazon:effect>";
+            expectedString += "</speak>";
+
+            Assert.AreEqual(converter.getSSML(), expectedString);
+
+            converter.DoReplaceNewLineToBreak = true;
+            converter.Break = Break.Medium;
+            converter.Rate = Rate.Fast;
+            converter.Text = "test\r\ntest";
+
+            // max vocalTractLength
+            converter.VocalTractLength = 250;
+            Assert.AreEqual(converter.VocalTractLength, 200);
+
+            // min vocalTractLength
+            converter.VocalTractLength = 0;
+            Assert.AreEqual(converter.VocalTractLength, 50);
+
+            expectedString = "<speak>" +
+                                "<prosody rate=\"fast\" >" +
+                                    "<amazon:effect vocal-tract-length=\"50%\">" +
+                                        "test" + "<break strength=\"medium\" />" + "test" +
+                                    "</amazon:effect>" +
+                                "</prosody>" +
+                            "</speak>";
+
+            Assert.AreEqual(converter.getSSML(), expectedString);
         }
     }
 }

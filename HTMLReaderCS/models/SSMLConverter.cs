@@ -22,12 +22,32 @@ namespace HTMLReaderCS.models
         public Break Break { get; set; } = Break.None;
 
         /// <summary>
+        /// 声道の長さを指定します。デフォルト状態では DefaultVoiceTractLength の値が割り当てられます。
+        /// 値は 50 - 200 の間の値を指定します。
+        /// </summary>
+        public int VocalTractLength {
+            get => vocalTractLength;
+            set {
+                if(value < 50) {
+                    vocalTractLength = 50;
+                } else if(value > 200) {
+                    vocalTractLength = 200;
+                } else {
+                    vocalTractLength = value;
+                }
+            }
+        }
+        private int vocalTractLength;
+        public const int DefaultVocalTractLength = 100;
+
+        /// <summary>
         /// getSSML() を実行した際、Textに含まれる改行文字を <break strength="xxx" /> に置き換えるかどうかを指定します。
         /// </summary>
         public bool DoReplaceNewLineToBreak { get; set; } = false;
 
 
         public SSMLConverter() {
+            VocalTractLength = DefaultVocalTractLength;
         }
 
         public SSMLConverter(String text) : this() {
@@ -46,12 +66,19 @@ namespace HTMLReaderCS.models
                 ssml = Regex.Replace(ssml, @"\r\n?|\n", breakTag);
             }
 
+            if (VocalTractLength != DefaultVocalTractLength) {
+                string vtlTag = "<amazon:effect vocal-tract-length=";
+                vtlTag += "\"" + VocalTractLength.ToString() + "%\">";
+                ssml = vtlTag + ssml + "</amazon:effect>";
+            }
+
             if (!prosodyIsDefault()) {
-                ssml = "<prosody ";
-                ssml += (this.Pitch != Pitch.Default) ? "pitch=" + pitchStrings[this.Pitch] + " " : "";
-                ssml += (this.Rate != Rate.Default) ? "rate=" + rateStrings[this.Rate] + " " : "";
-                ssml += (this.Volume != Volume.Default) ? "volume=" + volumeStrings[this.Volume] + " " : "";
-                ssml += ">" + Text + "</prosody>";
+                string prosodyTag = "<prosody ";
+                prosodyTag += (this.Pitch != Pitch.Default) ? "pitch=" + pitchStrings[this.Pitch] + " " : "";
+                prosodyTag += (this.Rate != Rate.Default) ? "rate=" + rateStrings[this.Rate] + " " : "";
+                prosodyTag += (this.Volume != Volume.Default) ? "volume=" + volumeStrings[this.Volume] + " " : "";
+                prosodyTag += ">";
+                ssml = prosodyTag + ssml + "</prosody>";
             }
 
             if (this.Emphasis != Emphasis.none) {
