@@ -65,6 +65,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="models\HTMLContents.cs" />
+    <Compile Include="models\HTMLPlayer.cs" />
+    <Compile Include="models\ITalker.cs" />
     <Compile Include="models\SSMLConverter.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
