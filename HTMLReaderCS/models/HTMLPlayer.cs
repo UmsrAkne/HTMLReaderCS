@@ -16,9 +16,13 @@ namespace HTMLReaderCS.models
         }
 
         private SSMLConverter ssmlConverter;
+        private ITalker talker;
 
-        public HTMLPlayer() {
+        public HTMLPlayer(ITalker talker) {
+            this.talker = talker;
+            this.talker.TalkEnded += (sender, e) => {
 
+            };
         }
     }
 }
