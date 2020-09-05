@@ -16,7 +16,10 @@ namespace HTMLReaderCS.models
             set => SetProperty(ref htmlContents, value);
         }
 
-        private SSMLConverter ssmlConverter = new SSMLConverter();
+        private SSMLConverter titleTagConverter = new SSMLConverter();
+        private SSMLConverter pTagConverter = new SSMLConverter();
+        private SSMLConverter hTagConverter = new SSMLConverter();
+
         private ITalker talker;
 
         private int PlayingIndex { get; set; } = 0;
@@ -28,6 +31,13 @@ namespace HTMLReaderCS.models
                 PlayingIndex++;
                 PlayCommand.Execute();
             };
+
+            titleTagConverter.Emphasis = Emphasis.strong;
+
+            hTagConverter.Emphasis = Emphasis.moderate;
+
+            pTagConverter.DoReplaceNewLineToBreak = true;
+            pTagConverter.Break = Break.Medium;
         }
 
         private DelegateCommand playCommand;
@@ -39,8 +49,33 @@ namespace HTMLReaderCS.models
                     }
 
                     PlayingPlainText = htmlContents.TextElements[PlayingIndex].TextContent;
-                    ssmlConverter.Text = PlayingPlainText;
-                    talker.ssmlTalk(ssmlConverter.getSSML());
+
+                    SSMLConverter converter;
+                    switch(htmlContents.TextElements[PlayingIndex].TagName){
+                        case "TITLE":
+                            converter = titleTagConverter;
+                            break;
+                        case "H1":
+                            converter = hTagConverter;
+                            break;
+                        case "H2":
+                            converter = hTagConverter;
+                            break;
+                        case "H3":
+                            converter = hTagConverter;
+                            break;
+                        case "H4":
+                            converter = hTagConverter;
+                            break;
+                        case "H5":
+                            converter = hTagConverter;
+                            break;
+                        default:
+                            converter = pTagConverter;
+                            break;
+                    }
+                    converter.Text = PlayingPlainText;
+                    talker.ssmlTalk(converter.getSSML());
                 }
             ));
         }
