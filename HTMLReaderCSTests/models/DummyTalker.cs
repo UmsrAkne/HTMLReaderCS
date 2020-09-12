@@ -20,5 +20,8 @@ namespace HTMLReaderCSTests.models
         public void dispatchTalkEnded (){
             TalkEnded(this, new EventArgs());
         }
+
+        public void stop() {
+        }
     }
 }

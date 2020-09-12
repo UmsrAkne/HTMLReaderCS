@@ -21,5 +21,7 @@ namespace HTMLReaderCS.models
         /// 読み上げの終了時に送出されるイベントです
         /// </summary>
         event EventHandler TalkEnded;
+
+        void stop();
     }
 }
