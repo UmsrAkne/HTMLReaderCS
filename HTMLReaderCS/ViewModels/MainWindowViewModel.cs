@@ -1,4 +1,5 @@
 ﻿using HTMLReaderCS.models;
+using Prism.Commands;
 using Prism.Mvvm;
 using System.IO;
 using System.Text;
@@ -7,6 +8,7 @@ namespace HTMLReaderCS.ViewModels
 {
     public class MainWindowViewModel : BindableBase
     {
+
         private string _title = "Prism Application";
         public string Title
         {
@@ -20,9 +22,14 @@ namespace HTMLReaderCS.ViewModels
             set => SetProperty(ref htmlContents, value);
         }
 
-        public MainWindowViewModel()
-        {
+        private HTMLPlayer htmlPlayer;
+        public HTMLPlayer HTMLPlayer {
+            get => htmlPlayer;
+            set => SetProperty(ref htmlPlayer, value);
+        }
 
+
+        public MainWindowViewModel() {
         }
     }
 }
