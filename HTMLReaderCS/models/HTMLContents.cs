@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace HTMLReaderCS.models {
     public class HTMLContents {
@@ -13,6 +14,20 @@ namespace HTMLReaderCS.models {
         private IHtmlDocument htmlDocument;
 
         public HTMLContents(String htmlText) {
+            var parser = new HtmlParser();
+            htmlDocument = parser.ParseDocument(htmlText);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="htmlText"></param>
+        /// <param name="replaceRubyTag">true を入力した場合、ルビタグを漢字のみに置き換えた後にHTMLをパースします。</param>
+        public HTMLContents(String htmlText, bool doReplaceRubyTag) {
+            if (doReplaceRubyTag) {
+                htmlText = replaceRubyTag(htmlText);
+            }
+
             var parser = new HtmlParser();
             htmlDocument = parser.ParseDocument(htmlText);
         }
@@ -59,5 +74,11 @@ namespace HTMLReaderCS.models {
             }
         }
 
+        private string replaceRubyTag(string target) {
+            target = Regex.Replace(target, " |　", "");
+            target = Regex.Replace(target, "<rt>(.+?)</rt>", "");
+            target = Regex.Replace(target, "<rp>(.+?)</rp>", "");
+            return Regex.Replace(target, "<ruby>(.+?)</ruby>", "$1");
+        }
     }
 }
