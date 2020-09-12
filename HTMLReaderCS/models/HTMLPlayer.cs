@@ -79,5 +79,14 @@ namespace HTMLReaderCS.models
                 }
             ));
         }
+
+        private DelegateCommand stopCommand;
+        public DelegateCommand StopCommand {
+            get => stopCommand ?? (stopCommand = new DelegateCommand(
+                () => {
+                    talker.stop();
+                }
+            ));
+        }
     }
 }
