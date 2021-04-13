@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Amazon.Polly;
 using Amazon.Polly.Model;
+using System.Windows;
+using WMPLib;
 
 namespace HTMLReaderCS.models {
     public class PollyPlayer : ITalker {
@@ -15,6 +17,8 @@ namespace HTMLReaderCS.models {
         private DirectoryInfo OutputDirectoryInfo { get; set; } = new DirectoryInfo("outputs");
 
         private AmazonPollyClient PollyClient { get; set; }
+
+        private WindowsMediaPlayer WMP { get; set; } = new WindowsMediaPlayer();
 
         public event EventHandler TalkEnded;
 
@@ -28,10 +32,7 @@ namespace HTMLReaderCS.models {
             }
         }
 
-        public void ssmlTalk(string plainText) {
-
-            SsmlConverter.Text = plainText;
-            var ssmlText = SsmlConverter.getSSML();
+        public void ssmlTalk(string ssmlText) {
 
             var req = new SynthesizeSpeechRequest();
             req.VoiceId = VoiceId.Takumi;
@@ -51,11 +52,17 @@ namespace HTMLReaderCS.models {
                 stream.Flush();
                 stream.Close();
             }
+
+            play(filePath);
         }
 
         public void stop() {
             throw new NotImplementedException();
         }
 
+        private void play(string filePath) {
+            WMP.URL = filePath;
+            WMP.controls.play();
+        }
     }
 }

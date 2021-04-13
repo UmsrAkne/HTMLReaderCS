@@ -24,7 +24,7 @@ namespace HTMLReaderCS.Models {
 
             using (var reader = new StreamReader(files[0])) {
                 var text = reader.ReadToEnd();
-                vm.HtmlContents = new models.HTMLContents(text, true);
+                vm.HTMLPlayer.HtmlContents = new models.HTMLContents(text, true);
             }
         }
 

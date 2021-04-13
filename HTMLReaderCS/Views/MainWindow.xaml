@@ -47,7 +47,7 @@
 
         <ListView
             Grid.Column="1"
-            ItemsSource="{Binding HtmlContents.TextElements}"
+            ItemsSource="{Binding HTMLPlayer.HtmlContents.TextElements}"
             ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 
             <ListView.ItemContainerStyle>
