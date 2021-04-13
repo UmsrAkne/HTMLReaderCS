@@ -64,6 +64,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="models\DropBehavior.cs" />
     <Compile Include="models\HTMLContents.cs" />
     <Compile Include="models\HTMLPlayer.cs" />
     <Compile Include="models\ITalker.cs" />
