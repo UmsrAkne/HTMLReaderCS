@@ -13,6 +13,8 @@ namespace HTMLReaderCS.models {
 
         private IHtmlDocument htmlDocument;
 
+        public string FileName { get; set; } = "default";
+
         public HTMLContents(String htmlText) {
             var parser = new HtmlParser();
             htmlDocument = parser.ParseDocument(htmlText);

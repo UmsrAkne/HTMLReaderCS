@@ -29,10 +29,8 @@
 
         <ContentControl prism:RegionManager.RegionName="ContentRegion" />
 
-        <Grid
-            Grid.Column="0"
-            Height="30"
-            VerticalAlignment="Top">
+        <Grid Grid.Column="0" VerticalAlignment="Top">
+
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
                 <RowDefinition />
@@ -62,7 +60,9 @@
                 ItemsSource="{Binding HTMLPlayer.HtmlContentsList}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel />
+                        <StackPanel>
+                            <TextBlock Text="{Binding FileName}" />
+                        </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
