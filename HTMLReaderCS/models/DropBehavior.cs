@@ -31,6 +31,10 @@ namespace HTMLReaderCS.Models {
                 }
             }
 
+            if(vm.HTMLPlayer.SelectedItem == null && vm.HTMLPlayer.HtmlContentsList.Count > 0) {
+                vm.HTMLPlayer.SelectedItem = vm.HTMLPlayer.HtmlContentsList[0];
+            }
+
         }
 
         private void AssociatedObject_PreviewDragOver(object sender, DragEventArgs e) {
