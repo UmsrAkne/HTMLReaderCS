@@ -28,6 +28,18 @@ namespace HTMLReaderCS.models
         private int PlayingIndex { get; set; } = 0;
         public String PlayingPlainText { get; private set; } = "";
 
+        public HTMLContents SelectedItem { 
+            get => selectedItem;
+            set {
+                // 選択中のコンテンツが切り替わった時点で現在の再生状況はリセットするのが妥当。
+                PlayingIndex = 0;
+                this.talker.stop();
+
+                SetProperty(ref selectedItem, value);
+            }
+        }
+        private HTMLContents selectedItem;
+
         public HTMLPlayer(ITalker talker) {
             this.talker = talker;
             this.talker.TalkEnded += (sender, e) => {
@@ -47,14 +59,14 @@ namespace HTMLReaderCS.models
         public DelegateCommand PlayCommand {
             get => playCommand ?? (playCommand = new DelegateCommand(
                 () => {
-                    if(htmlContents.TextElements.Count <= PlayingIndex) {
+                    if(SelectedItem.TextElements.Count <= PlayingIndex) {
                         return;
                     }
 
-                    PlayingPlainText = htmlContents.TextElements[PlayingIndex].TextContent;
+                    PlayingPlainText = SelectedItem.TextElements[PlayingIndex].TextContent;
 
                     SSMLConverter converter;
-                    switch(htmlContents.TextElements[PlayingIndex].TagName){
+                    switch(SelectedItem.TextElements[PlayingIndex].TagName){
                         case "TITLE":
                             converter = titleTagConverter;
                             break;

@@ -86,7 +86,7 @@ namespace HTMLReaderCS.models {
         }
 
         public void stop() {
-            throw new NotImplementedException();
+            WMP.controls.stop();
         }
 
         private void play(string filePath) {

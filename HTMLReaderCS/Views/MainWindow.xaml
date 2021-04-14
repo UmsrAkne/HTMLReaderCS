@@ -57,7 +57,9 @@
                 Grid.Row="1"
                 Grid.Column="0"
                 Grid.ColumnSpan="2"
-                ItemsSource="{Binding HTMLPlayer.HtmlContentsList}">
+                ItemsSource="{Binding HTMLPlayer.HtmlContentsList}"
+                SelectedItem="{Binding HTMLPlayer.SelectedItem}">
+
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <StackPanel>
@@ -71,7 +73,7 @@
 
         <ListView
             Grid.Column="1"
-            ItemsSource="{Binding HTMLPlayer.HtmlContents.TextElements}"
+            ItemsSource="{Binding HTMLPlayer.SelectedItem.TextElements}"
             ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 
             <ListView.ItemContainerStyle>
