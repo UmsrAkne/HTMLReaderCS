@@ -2,6 +2,7 @@
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +16,8 @@ namespace HTMLReaderCS.models
             get => htmlContents;
             set => SetProperty(ref htmlContents, value);
         }
+
+        public ObservableCollection<HTMLContents> HtmlContentsList { get; set; } = new ObservableCollection<HTMLContents>();
 
         private SSMLConverter titleTagConverter = new SSMLConverter();
         private SSMLConverter pTagConverter = new SSMLConverter();
