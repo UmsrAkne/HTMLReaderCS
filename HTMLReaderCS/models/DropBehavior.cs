@@ -22,10 +22,19 @@ namespace HTMLReaderCS.Models {
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
             var vm = ((Window)sender).DataContext as MainWindowViewModel;
 
-            using (var reader = new StreamReader(files[0])) {
-                var text = reader.ReadToEnd();
-                vm.HTMLPlayer.HtmlContents = new models.HTMLContents(text, true);
+            foreach(string filePath in files) {
+                using (var reader = new StreamReader(filePath)) {
+                    var text = reader.ReadToEnd();
+                    var htmlContents = new models.HTMLContents(text, true);
+                    htmlContents.FileName = Path.GetFileName(filePath);
+                    vm.HTMLPlayer.HtmlContentsList.Add(htmlContents);
+                }
             }
+
+            if(vm.HTMLPlayer.SelectedItem == null && vm.HTMLPlayer.HtmlContentsList.Count > 0) {
+                vm.HTMLPlayer.SelectedItem = vm.HTMLPlayer.HtmlContentsList[0];
+            }
+
         }
 
         private void AssociatedObject_PreviewDragOver(object sender, DragEventArgs e) {

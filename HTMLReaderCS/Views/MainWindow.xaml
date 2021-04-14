@@ -26,28 +26,54 @@
             <ColumnDefinition Width="1*" />
             <ColumnDefinition Width="3*" />
         </Grid.ColumnDefinitions>
+
         <ContentControl prism:RegionManager.RegionName="ContentRegion" />
 
-        <Grid Height="30" VerticalAlignment="Top">
+        <Grid Grid.Column="0" VerticalAlignment="Top">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
             <Button
+                Grid.Row="0"
                 Grid.Column="0"
                 Command="{Binding HTMLPlayer.PlayCommand}"
                 Content="再生" />
 
             <Button
+                Grid.Row="0"
                 Grid.Column="1"
                 Command="{Binding HTMLPlayer.StopCommand}"
                 Content="停止" />
+
+            <ListView
+                Grid.Row="1"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                ItemsSource="{Binding HTMLPlayer.HtmlContentsList}"
+                SelectedItem="{Binding HTMLPlayer.SelectedItem}">
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <TextBlock Text="{Binding FileName}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
         </Grid>
 
         <ListView
             Grid.Column="1"
-            ItemsSource="{Binding HTMLPlayer.HtmlContents.TextElements}"
+            ItemsSource="{Binding HTMLPlayer.SelectedItem.TextElements}"
             ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 
             <ListView.ItemContainerStyle>
