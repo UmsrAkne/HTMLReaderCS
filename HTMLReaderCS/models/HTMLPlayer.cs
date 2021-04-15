@@ -40,6 +40,12 @@ namespace HTMLReaderCS.models
         }
         private HTMLContents selectedItem;
 
+        public int SelectedContentIndex {
+            get => selectedContentIndex;
+            set => SetProperty(ref selectedContentIndex, value);
+        }
+        private int selectedContentIndex = 0;
+
         public HTMLPlayer(ITalker talker) {
             this.talker = talker;
             this.talker.TalkEnded += (sender, e) => {
@@ -59,8 +65,15 @@ namespace HTMLReaderCS.models
         public DelegateCommand PlayCommand {
             get => playCommand ?? (playCommand = new DelegateCommand(
                 () => {
+
                     if(SelectedItem.TextElements.Count <= PlayingIndex) {
-                        return;
+                        if(SelectedContentIndex < HtmlContentsList.Count -1) {
+                            SelectedContentIndex++;
+                            SelectedItem = HtmlContentsList[SelectedContentIndex];
+                        }
+                        else {
+                            return; // 次の HTML ファイルが存在しない場合は処理を中止
+                        }
                     }
 
                     PlayingPlainText = SelectedItem.TextElements[PlayingIndex].TextContent;
