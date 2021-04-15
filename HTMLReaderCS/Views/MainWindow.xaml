@@ -58,6 +58,7 @@
                 Grid.Column="0"
                 Grid.ColumnSpan="2"
                 ItemsSource="{Binding HTMLPlayer.HtmlContentsList}"
+                SelectedIndex="{Binding HTMLPlayer.SelectedContentIndex}"
                 SelectedItem="{Binding HTMLPlayer.SelectedItem}">
 
                 <ListView.ItemTemplate>
