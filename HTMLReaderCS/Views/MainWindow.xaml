@@ -27,9 +27,26 @@
             <ColumnDefinition Width="3*" />
         </Grid.ColumnDefinitions>
 
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
         <ContentControl prism:RegionManager.RegionName="ContentRegion" />
 
-        <Grid Grid.Column="0" VerticalAlignment="Top">
+        <Menu
+            Grid.Row="0"
+            Grid.Column="0"
+            Grid.ColumnSpan="2">
+            <MenuItem Header="ファイル">
+                <MenuItem Command="{Binding ResetFileListCommand}" Header="ファイルリストをリセット" />
+            </MenuItem>
+        </Menu>
+
+        <Grid
+            Grid.Row="1"
+            Grid.Column="0"
+            VerticalAlignment="Top">
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
@@ -73,6 +90,7 @@
         </Grid>
 
         <ListView
+            Grid.Row="1"
             Grid.Column="1"
             ItemsSource="{Binding HTMLPlayer.SelectedItem.TextElements}"
             ScrollViewer.HorizontalScrollBarVisibility="Disabled">

@@ -25,5 +25,16 @@ namespace HTMLReaderCS.ViewModels
         public MainWindowViewModel() {
             HTMLPlayer = new HTMLPlayer(new PollyPlayer());
         }
+
+
+        public DelegateCommand ResetFileListCommand {
+            #region
+            get => resetFileListCommand ?? (resetFileListCommand = new DelegateCommand(() => {
+                HTMLPlayer.resetContents();
+            }));
+        }
+        private DelegateCommand resetFileListCommand;
+        #endregion
+
     }
 }

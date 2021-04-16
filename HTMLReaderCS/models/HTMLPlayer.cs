@@ -61,6 +61,12 @@ namespace HTMLReaderCS.models
             pTagConverter.Break = Break.Medium;
         }
 
+        public void resetContents() {
+            StopCommand.Execute();
+            HtmlContentsList.Clear();
+            SelectedItem = null;
+        }
+
         private DelegateCommand playCommand;
         public DelegateCommand PlayCommand {
             get => playCommand ?? (playCommand = new DelegateCommand(
