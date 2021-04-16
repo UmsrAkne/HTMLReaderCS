@@ -34,9 +34,12 @@
 
         <ContentControl prism:RegionManager.RegionName="ContentRegion" />
 
-        <Menu>
+        <Menu
+            Grid.Row="0"
+            Grid.Column="0"
+            Grid.ColumnSpan="2">
             <MenuItem Header="ファイル">
-                <MenuItem Header="ファイルリストをリセット" />
+                <MenuItem Command="{Binding ResetFileListCommand}" Header="ファイルリストをリセット" />
             </MenuItem>
         </Menu>
 
