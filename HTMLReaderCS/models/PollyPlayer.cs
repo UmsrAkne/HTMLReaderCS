@@ -15,6 +15,8 @@ namespace HTMLReaderCS.models {
 
         public SSMLConverter SsmlConverter { get; set; } = new SSMLConverter();
 
+        public string LastOutputFileName { get; set; }
+
         private DirectoryInfo OutputDirectoryInfo { get; set; } = new DirectoryInfo("outputs");
 
         private AmazonPollyClient PollyClient { get; set; }
@@ -73,8 +75,8 @@ namespace HTMLReaderCS.models {
 
             var stream = response.AudioStream;
 
-            var outputFileName = DateTime.Now.ToString("yyyyMMddHHmmssff");
-            var filePath = $"{OutputDirectoryInfo.Name}\\{outputFileName}.mp3";
+            LastOutputFileName = DateTime.Now.ToString("yyyyMMddHHmmssff");
+            var filePath = $"{OutputDirectoryInfo.Name}\\{LastOutputFileName}.mp3";
 
             using (var output = new FileStream(filePath, FileMode.Create)) {
                 stream.CopyTo(output);
