@@ -68,6 +68,7 @@
     <Compile Include="models\HTMLContents.cs" />
     <Compile Include="models\HTMLPlayer.cs" />
     <Compile Include="models\ITalker.cs" />
+    <Compile Include="models\OutputFileInfo.cs" />
     <Compile Include="models\PollyPlayer.cs" />
     <Compile Include="models\SQLiteHelper.cs" />
     <Compile Include="models\SSMLConverter.cs" />

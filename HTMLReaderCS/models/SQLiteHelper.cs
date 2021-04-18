@@ -11,7 +11,6 @@ namespace HTMLReaderCS.models {
         public string DBFileName => "OutputHistory.sqlite";
         public string TableName => "output_history";
 
-        private SQLiteConnectionStringBuilder SQLiteConnectionStringBuilder { get; set; }
         private SQLiteConnection Connection {
             get {
                 var sqliteSb = new SQLiteConnectionStringBuilder() { DataSource = DBFileName };
@@ -22,13 +21,13 @@ namespace HTMLReaderCS.models {
         public SQLiteHelper() {
             executeNonQuer(
                 $"CREATE TABLE IF NOT EXISTS {TableName} (" +
-                $"id                INTEGER NOT NULL PRIMARY KEY, " +
-                $"lengthSec         INTEGER NOT NULL, " +
-                $"fileName          TEXT NOT NULL, " +
-                $"outputDateTime    TEXT NOT NULL, " +
-                $"htmlFileName      TEXT NOT NULL, " +
-                $"tagName           TEXT NOT NULL, " +
-                $"headerText        TEXT NOT NULL" +
+                $"id                                         INTEGER NOT NULL PRIMARY KEY, " +
+                $"{nameof(OutputFileInfo.LengthSec)}         INTEGER NOT NULL, " +
+                $"{nameof(OutputFileInfo.FileName)}          TEXT NOT NULL, " +
+                $"{nameof(OutputFileInfo.OutputDateTime)}    TEXT NOT NULL, " +
+                $"{nameof(OutputFileInfo.HtmlFileName)}      TEXT NOT NULL, " +
+                $"{nameof(OutputFileInfo.TagName)}           TEXT NOT NULL, " +
+                $"{nameof(OutputFileInfo.HeaderText)}        TEXT NOT NULL" +
                 $");"
             );
         }
