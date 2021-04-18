@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Linq;
@@ -32,6 +33,52 @@ namespace HTMLReaderCS.models {
             );
         }
 
+        public void insert(OutputFileInfo outputFileInfo) {
+            var count = getCount() + 1;
+            executeNonQuer($"INSERT INTO {TableName}(" +
+                $"id," +
+                $"{nameof(OutputFileInfo.LengthSec)}," +
+                $"{nameof(OutputFileInfo.FileName)}," +
+                $"{nameof(OutputFileInfo.OutputDateTime)}," +
+                $"{nameof(OutputFileInfo.HtmlFileName)}," +
+                $"{nameof(OutputFileInfo.TagName)}," +
+                $"{nameof(OutputFileInfo.HeaderText)}" +
+                $") VALUES (" +
+                $"{count}, " + 
+                $"{outputFileInfo.LengthSec}," +
+                $"'{outputFileInfo.FileName}'," +
+                $"'{outputFileInfo.OutputDateTime}'," +
+                $"'{outputFileInfo.HtmlFileName}'," +
+                $"'{outputFileInfo.TagName}'," +
+                $"'{outputFileInfo.HeaderText}'" +
+                $");"
+            );
+        }
+
+        public long getCount() {
+            return (long)select($"SELECT COUNT(*) FROM {TableName};").First()["COUNT(*)"];
+        }
+
+        public List<Hashtable> select(string sql) {
+            using (var con = Connection) {
+                List<Hashtable> resultList = new List<Hashtable>();
+                con.Open();
+                var command = new SQLiteCommand(sql, con);
+                var dataReader = command.ExecuteReader();
+
+                while (dataReader.Read()) {
+                    var hashtable = new Hashtable();
+                    for (int i = 0; i < dataReader.FieldCount; i++) {
+                        hashtable[dataReader.GetName(i)] = dataReader.GetValue(i);
+                    }
+                    resultList.Add(hashtable);
+                }
+
+                dataReader.Close();
+                return resultList;
+            };
+        }
+
         private void executeNonQuer(string sql) {
             using (var con = Connection) {
                 con.Open();
@@ -41,6 +88,5 @@ namespace HTMLReaderCS.models {
                 }
             }
         }
-
     }
 }

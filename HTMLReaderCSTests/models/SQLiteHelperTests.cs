@@ -13,5 +13,17 @@ namespace HTMLReaderCS.models.Tests {
         public void SQLiteHelperTest() {
             var SQLiteHelper = new SQLiteHelper();
         }
+
+        [TestMethod()]
+        public void insertTest() {
+            var sqliteHelper = new SQLiteHelper();
+            sqliteHelper.insert(new OutputFileInfo());
+        }
+
+        [TestMethod()]
+        public void selectTest() {
+            var sqliteHelper = new SQLiteHelper();
+            var l = sqliteHelper.select($"select * from {sqliteHelper.TableName};");
+        }
     }
 }
