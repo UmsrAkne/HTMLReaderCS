@@ -15,7 +15,10 @@ namespace HTMLReaderCS.models {
 
         public SSMLConverter SsmlConverter { get; set; } = new SSMLConverter();
 
-        public string LastOutputFileName { get; set; }
+        /// <summary>
+        /// 最後に読み上げた音声ファイル名を取得します。
+        /// </summary>
+        public string OutputFileName { get; private set; }
 
         private DirectoryInfo OutputDirectoryInfo { get; set; } = new DirectoryInfo("outputs");
 
@@ -75,8 +78,8 @@ namespace HTMLReaderCS.models {
 
             var stream = response.AudioStream;
 
-            LastOutputFileName = DateTime.Now.ToString("yyyyMMddHHmmssff");
-            var filePath = $"{OutputDirectoryInfo.Name}\\{LastOutputFileName}.mp3";
+            OutputFileName = $"{DateTime.Now.ToString("yyyyMMddHHmmssff")}.mp3";
+            var filePath = $"{OutputDirectoryInfo.Name}\\{OutputFileName}";
 
             using (var output = new FileStream(filePath, FileMode.Create)) {
                 stream.CopyTo(output);

@@ -23,5 +23,7 @@ namespace HTMLReaderCS.models
         event EventHandler TalkEnded;
 
         void stop();
+
+        string OutputFileName { get; }
     }
 }

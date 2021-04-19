@@ -125,12 +125,7 @@ namespace HTMLReaderCS.models
                     outputFileInfo.HeaderText = PlayingPlainText.Substring(0, Math.Min(50,PlayingPlainText.Length));
                     outputFileInfo.OutputDateTime = DateTime.Now;
                     outputFileInfo.TagName = SelectedItem.TextElements[PlayingIndex].TagName;
-
-                    PollyPlayer pp = talker as PollyPlayer;
-
-                    if(pp != null) {
-                        outputFileInfo.FileName = pp.LastOutputFileName;
-                    }
+                    outputFileInfo.FileName = talker.OutputFileName;
                 }
             ));
         }
