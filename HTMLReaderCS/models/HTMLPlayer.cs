@@ -129,6 +129,7 @@ namespace HTMLReaderCS.models
                     outputFileInfo.OutputDateTime = DateTime.Now;
                     outputFileInfo.TagName = SelectedItem.TextElements[PlayingIndex].TagName;
                     outputFileInfo.FileName = talker.OutputFileName;
+                    outputFileInfo.HtmlFileName = SelectedItem.FileName;
                 }
             ));
         }
