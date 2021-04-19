@@ -68,7 +68,9 @@
     <Compile Include="models\HTMLContents.cs" />
     <Compile Include="models\HTMLPlayer.cs" />
     <Compile Include="models\ITalker.cs" />
+    <Compile Include="models\OutputFileInfo.cs" />
     <Compile Include="models\PollyPlayer.cs" />
+    <Compile Include="models\SQLiteHelper.cs" />
     <Compile Include="models\SSMLConverter.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
@@ -107,6 +109,9 @@
       <Version>3.7.0.9</Version>
     </PackageReference>
     <PackageReference Include="Prism.Unity" Version="7.2.0.1422" />
+    <PackageReference Include="System.Data.SQLite.Core">
+      <Version>1.0.113.7</Version>
+    </PackageReference>
     <PackageReference Include="System.Text.Encoding.CodePages">
       <Version>4.3.0</Version>
     </PackageReference>

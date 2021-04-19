@@ -3,6 +3,7 @@ using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,6 +29,10 @@ namespace HTMLReaderCS.models
         private int PlayingIndex { get; set; } = 0;
         public String PlayingPlainText { get; private set; } = "";
 
+        private OutputFileInfo outputFileInfo;
+        private SQLiteHelper sqLiteHelper = new SQLiteHelper();
+        private Stopwatch stopwatch = new Stopwatch();
+
         public HTMLContents SelectedItem { 
             get => selectedItem;
             set {
@@ -49,6 +54,13 @@ namespace HTMLReaderCS.models
         public HTMLPlayer(ITalker talker) {
             this.talker = talker;
             this.talker.TalkEnded += (sender, e) => {
+
+                stopwatch.Stop();
+                outputFileInfo.LengthSec = (int)stopwatch.Elapsed.TotalSeconds;
+                stopwatch.Reset();
+
+                sqLiteHelper.insert(outputFileInfo);
+
                 PlayingIndex++;
                 PlayCommand.Execute();
             };
@@ -110,6 +122,14 @@ namespace HTMLReaderCS.models
                     }
                     converter.Text = PlayingPlainText;
                     talker.ssmlTalk(converter.getSSML());
+
+                    stopwatch.Start();
+                    outputFileInfo = new OutputFileInfo();
+                    outputFileInfo.HeaderText = PlayingPlainText.Substring(0, Math.Min(50,PlayingPlainText.Length));
+                    outputFileInfo.OutputDateTime = DateTime.Now;
+                    outputFileInfo.TagName = SelectedItem.TextElements[PlayingIndex].TagName;
+                    outputFileInfo.FileName = talker.OutputFileName;
+                    outputFileInfo.HtmlFileName = SelectedItem.FileName;
                 }
             ));
         }
