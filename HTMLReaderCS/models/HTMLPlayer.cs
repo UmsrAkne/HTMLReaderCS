@@ -54,8 +54,11 @@ namespace HTMLReaderCS.models
         public HTMLPlayer(ITalker talker) {
             this.talker = talker;
             this.talker.TalkEnded += (sender, e) => {
+
                 stopwatch.Stop();
                 outputFileInfo.LengthSec = (int)stopwatch.Elapsed.TotalSeconds;
+                stopwatch.Reset();
+
                 sqLiteHelper.insert(outputFileInfo);
 
                 PlayingIndex++;
