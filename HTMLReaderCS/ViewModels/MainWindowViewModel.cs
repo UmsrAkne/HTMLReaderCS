@@ -1,6 +1,8 @@
 ﻿using HTMLReaderCS.models;
+using HTMLReaderCS.Views;
 using Prism.Commands;
 using Prism.Mvvm;
+using Prism.Services.Dialogs;
 using System.IO;
 using System.Text;
 
@@ -22,10 +24,12 @@ namespace HTMLReaderCS.ViewModels
             set => SetProperty(ref htmlPlayer, value);
         }
 
-        public MainWindowViewModel() {
+        private IDialogService dialogService;
+
+        public MainWindowViewModel(IDialogService _dialogService) {
+            dialogService = _dialogService;
             HTMLPlayer = new HTMLPlayer(new PollyPlayer());
         }
-
 
         public DelegateCommand ResetFileListCommand {
             #region
@@ -34,6 +38,17 @@ namespace HTMLReaderCS.ViewModels
             }));
         }
         private DelegateCommand resetFileListCommand;
+        #endregion
+
+
+        public DelegateCommand ShowHistoryWindowCommand {
+            #region
+            get => showHistoryWindowCommand ?? (showHistoryWindowCommand = new DelegateCommand(() => {
+                dialogService.ShowDialog(nameof(HistoryWindow), new DialogParameters(), (IDialogResult result) => {
+                });
+            }));
+        }
+        private DelegateCommand showHistoryWindowCommand;
         #endregion
 
     }
