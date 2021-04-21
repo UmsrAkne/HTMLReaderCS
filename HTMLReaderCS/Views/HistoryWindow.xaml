@@ -5,11 +5,15 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:HTMLReaderCS.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="clr-namespace:HTMLReaderCS.Models"
     xmlns:prism="http://prismlibrary.com/"
     Width="600"
     Height="450"
     prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
+    <UserControl.Resources>
+        <models:DateTimeConverter x:Key="DateTimeConverter" />
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
@@ -25,7 +29,7 @@
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
 
-                        <TextBlock Width="200" Text="{Binding FileName}" />
+                        <TextBlock Width="150" Text="{Binding FileName}" />
 
                         <Border Width="1" Background="Black" />
 
@@ -43,11 +47,15 @@
 
                         <Border Width="1" Background="Black" />
 
-                        <TextBlock Width="100" Text="{Binding HeaderText}" />
+                        <TextBlock Width="120" Text="{Binding HeaderText}" />
 
                         <Border Width="1" Background="Black" />
 
-                        <TextBlock Width="100" Text="{Binding OutputDateTime}" />
+                        <TextBlock
+                            Width="120"
+                            Text="{Binding OutputDateTime, Converter={StaticResource DateTimeConverter}}"
+                            TextAlignment="Center" />
+
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
