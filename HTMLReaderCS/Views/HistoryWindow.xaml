@@ -11,9 +11,12 @@
     Height="450"
     prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
+
     <UserControl.Resources>
         <models:DateTimeConverter x:Key="DateTimeConverter" />
+        <models:HeaderTextConverter x:Key="HeaderTextConverter" />
     </UserControl.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
@@ -47,7 +50,10 @@
 
                         <Border Width="1" Background="Black" />
 
-                        <TextBlock Width="120" Text="{Binding HeaderText}" />
+                        <TextBlock
+                            Width="220"
+                            Padding="5,0"
+                            Text="{Binding HeaderText, Converter={StaticResource HeaderTextConverter}}" />
 
                         <Border Width="1" Background="Black" />
 
