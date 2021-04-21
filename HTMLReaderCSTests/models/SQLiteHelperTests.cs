@@ -25,5 +25,11 @@ namespace HTMLReaderCS.models.Tests {
             var sqliteHelper = new SQLiteHelper();
             var l = sqliteHelper.select($"select * from {sqliteHelper.TableName};");
         }
+
+        [TestMethod()]
+        public void getHistoriesTest() {
+            var sqliteHelper = new SQLiteHelper();
+            var l = sqliteHelper.getHistories();
+        }
     }
 }
