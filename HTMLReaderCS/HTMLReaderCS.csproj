@@ -68,6 +68,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="models\AzureSSMLGen.cs" />
     <Compile Include="models\DateTimeConverter.cs" />
     <Compile Include="models\DropBehavior.cs" />
     <Compile Include="models\HeaderTextConverter.cs" />
