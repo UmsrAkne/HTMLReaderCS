@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="clr-namespace:HTMLReaderCS.Models"
     xmlns:prism="http://prismlibrary.com/"
-    Width="600"
+    Width="800"
     Height="450"
     prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
@@ -51,7 +51,7 @@
                         <Border Width="1" Background="Black" />
 
                         <TextBlock
-                            Width="220"
+                            Width="280"
                             Padding="5,0"
                             Text="{Binding HeaderText, Converter={StaticResource HeaderTextConverter}}" />
 
@@ -61,6 +61,13 @@
                             Width="120"
                             Text="{Binding OutputDateTime, Converter={StaticResource DateTimeConverter}}"
                             TextAlignment="Center" />
+
+                        <Border Width="1" Background="Black" />
+
+                        <TextBlock
+                            Width="80"
+                            Padding="5,0"
+                            Text="{Binding HtmlFileName}" />
 
                     </StackPanel>
                 </DataTemplate>
