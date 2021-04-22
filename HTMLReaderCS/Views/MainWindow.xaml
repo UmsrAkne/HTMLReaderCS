@@ -41,6 +41,10 @@
             <MenuItem Header="ファイル">
                 <MenuItem Command="{Binding ResetFileListCommand}" Header="ファイルリストをリセット" />
             </MenuItem>
+
+            <MenuItem Header="表示">
+                <MenuItem Command="{Binding ShowHistoryWindowCommand}" Header="履歴ウィンドウ" />
+            </MenuItem>
         </Menu>
 
         <Grid

@@ -2,6 +2,7 @@
 using Prism.Ioc;
 using Prism.Modularity;
 using System.Windows;
+using HTMLReaderCS.ViewModels;
 
 namespace HTMLReaderCS
 {
@@ -17,7 +18,7 @@ namespace HTMLReaderCS
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-
+            containerRegistry.RegisterDialog<HistoryWindow, HistoryWindowViewModel>();
         }
     }
 }

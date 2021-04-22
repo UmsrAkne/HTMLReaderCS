@@ -79,6 +79,24 @@ namespace HTMLReaderCS.models {
             };
         }
 
+        public List<OutputFileInfo> getHistories() {
+            var list = new List<OutputFileInfo>();
+            var hashs = select($"SELECT * FROM {TableName} ORDER BY {nameof(OutputFileInfo.OutputDateTime)};");
+            foreach(var h in hashs) {
+                var outputFileInfo = new OutputFileInfo();
+                outputFileInfo.FileName = (string)h[nameof(outputFileInfo.FileName)];
+                outputFileInfo.HeaderText = (string)h[nameof(outputFileInfo.HeaderText)];
+                outputFileInfo.HtmlFileName = (string)h[nameof(outputFileInfo.HtmlFileName)];
+                outputFileInfo.TagName = (string)h[nameof(outputFileInfo.TagName)];
+                outputFileInfo.LengthSec = (int)(long)h[nameof(outputFileInfo.LengthSec)];
+                outputFileInfo.OutputDateTime = DateTime.Parse((string)h[nameof(outputFileInfo.OutputDateTime)]);
+
+                list.Add(outputFileInfo);
+            }
+
+            return list;
+        }
+
         private void executeNonQuer(string sql) {
             using (var con = Connection) {
                 con.Open();

@@ -13,6 +13,8 @@ namespace HTMLReaderCSTests.models
 
         public String PlayingText { get; set; }
 
+        public string OutputFileName { get; }
+
         public void ssmlTalk(string ssmlText) {
             PlayingText = ssmlText;
         }
