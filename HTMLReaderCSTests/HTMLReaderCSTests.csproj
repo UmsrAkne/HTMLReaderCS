@@ -61,6 +61,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="models\AzureSSMLGenTests.cs" />
+    <Compile Include="models\AzureTalkerTests.cs" />
     <Compile Include="models\DummyTalker.cs" />
     <Compile Include="models\HTMLPlayerTests.cs" />
     <Compile Include="models\PollyPlayerTests.cs" />
