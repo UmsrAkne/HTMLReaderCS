@@ -12,7 +12,8 @@ namespace HTMLReaderCS.models.Tests {
         [TestMethod()]
         public void m1Test() {
             var azureTalker = new AzureTalker();
-            azureTalker.m1();
+            var ssmlGen = new AzureSSMLGen();
+            azureTalker.ssmlTalk(ssmlGen.getSSML("このテキストを読み上げます"));
         }
     }
 }
