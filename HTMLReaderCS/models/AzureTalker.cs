@@ -19,6 +19,12 @@ namespace HTMLReaderCS.models {
             if (!OutputDirectoryInfo.Exists) {
                 OutputDirectoryInfo.Create();
             }
+
+            WMP.PlayStateChange += (int NewState) => {
+                if(WMP.playState == WMPPlayState.wmppsMediaEnded) {
+                    TalkEnded?.Invoke(this, new EventArgs());
+                }
+            };
         }
 
         public async void ssmlTalk(string ssmlText) {
@@ -49,6 +55,5 @@ namespace HTMLReaderCS.models {
             WMP.URL = $"{OutputDirectoryInfo.Name}\\{OutputFileName}";
             WMP.controls.play();
         }
-
     }
 }
