@@ -19,6 +19,10 @@ namespace HTMLReaderCS.ViewModels {
         public List<OutputFileInfo> OutputHistory { get => outputHistory; set => SetProperty(ref outputHistory, value); }
         private List<OutputFileInfo> outputHistory;
 
+        public OutputFileInfo SelectedItem { get => selectedItem; set => SetProperty(ref selectedItem, value); }
+        private OutputFileInfo selectedItem;
+
+
         public bool CanCloseDialog() => true;
 
         public void OnDialogClosed() {
@@ -28,6 +32,17 @@ namespace HTMLReaderCS.ViewModels {
             SQLiteHelper = new SQLiteHelper();
             OutputHistory = SQLiteHelper.getHistories();
         }
+
+        public DelegateCommand PlayFileCommand {
+            #region
+            get => playFileCommand ?? (playFileCommand = new DelegateCommand(() => {
+                if(SelectedItem != null) {
+                    System.Diagnostics.Debug.WriteLine(SelectedItem);
+                }
+            }));
+        }
+        private DelegateCommand playFileCommand;
+        #endregion
 
         public DelegateCommand CloseWindowCommand {
             #region
