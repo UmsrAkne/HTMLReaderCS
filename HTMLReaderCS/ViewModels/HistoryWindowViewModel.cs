@@ -39,7 +39,7 @@ namespace HTMLReaderCS.ViewModels {
             #region
             get => playFileCommand ?? (playFileCommand = new DelegateCommand(() => {
                 if(SelectedItem != null && SelectedItem.Exists) {
-                    WMP.URL = $"outputs\\{SelectedItem.FileName}";
+                    WMP.URL = $"{Properties.Settings.Default.OutputDirectoryName}\\{SelectedItem.FileName}";
                     WMP.controls.play();
                 }
             }));

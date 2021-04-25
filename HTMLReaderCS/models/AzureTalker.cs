@@ -13,7 +13,7 @@ namespace HTMLReaderCS.models {
 
         public event EventHandler TalkEnded;
 
-        private DirectoryInfo OutputDirectoryInfo = new DirectoryInfo("outputs");
+        private DirectoryInfo OutputDirectoryInfo = new DirectoryInfo(Properties.Settings.Default.OutputDirectoryName);
 
         public AzureTalker() {
             if (!OutputDirectoryInfo.Exists) {

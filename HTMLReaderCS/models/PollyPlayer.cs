@@ -20,7 +20,7 @@ namespace HTMLReaderCS.models {
         /// </summary>
         public string OutputFileName { get; private set; }
 
-        private DirectoryInfo OutputDirectoryInfo { get; set; } = new DirectoryInfo("outputs");
+        private DirectoryInfo OutputDirectoryInfo { get; set; } = new DirectoryInfo(Properties.Settings.Default.OutputDirectoryName);
 
         private AmazonPollyClient PollyClient { get; set; }
 

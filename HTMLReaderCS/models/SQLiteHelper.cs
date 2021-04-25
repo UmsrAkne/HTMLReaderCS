@@ -95,7 +95,7 @@ namespace HTMLReaderCS.models {
             }
 
             foreach(var of in list) {
-                of.Exists = System.IO.File.Exists($"outputs\\{of.FileName}");
+                of.Exists = System.IO.File.Exists($"{Properties.Settings.Default.OutputDirectoryName}\\{of.FileName}");
             }
 
             return list;
