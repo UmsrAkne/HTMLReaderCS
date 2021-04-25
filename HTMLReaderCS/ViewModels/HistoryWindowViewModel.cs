@@ -47,6 +47,15 @@ namespace HTMLReaderCS.ViewModels {
         private DelegateCommand playFileCommand;
         #endregion
 
+        public DelegateCommand StopSoundCommand {
+            #region
+            get => stopSoundCommand ?? (stopSoundCommand = new DelegateCommand(() => {
+                WMP.controls.stop();
+            }));
+        }
+        private DelegateCommand stopSoundCommand;
+        #endregion
+
         public DelegateCommand CloseWindowCommand {
             #region
             get => closeWindowCommand ?? (closeWindowCommand = new DelegateCommand(() => {
