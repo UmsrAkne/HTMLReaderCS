@@ -30,7 +30,18 @@
         <ListBox Grid.Row="1" ItemsSource="{Binding OutputHistory}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
+
                     <StackPanel Orientation="Horizontal">
+
+                        <StackPanel.Style>
+                            <Style TargetType="StackPanel">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Exists}" Value="false">
+                                        <Setter Property="Opacity" Value="0.4" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </StackPanel.Style>
 
                         <TextBlock Width="150" Text="{Binding FileName}" />
 
