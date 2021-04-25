@@ -94,6 +94,10 @@ namespace HTMLReaderCS.models {
                 list.Add(outputFileInfo);
             }
 
+            foreach(var of in list) {
+                of.Exists = System.IO.File.Exists($"outputs\\{of.FileName}");
+            }
+
             return list;
         }
 

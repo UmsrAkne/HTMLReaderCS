@@ -14,5 +14,10 @@ namespace HTMLReaderCS.models {
         public string TagName { get; set; }
         public DateTime OutputDateTime { get; set; }
 
+        /// <summary>
+        /// このオブジェクトを生成した時点でファイルが存在するかどうかを示します。
+        /// </summary>
+        public bool Exists { get; set; }
+
     }
 }
