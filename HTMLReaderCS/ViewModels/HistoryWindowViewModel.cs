@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WMPLib;
 
 namespace HTMLReaderCS.ViewModels {
     class HistoryWindowViewModel : BindableBase, IDialogAware {
@@ -19,6 +20,11 @@ namespace HTMLReaderCS.ViewModels {
         public List<OutputFileInfo> OutputHistory { get => outputHistory; set => SetProperty(ref outputHistory, value); }
         private List<OutputFileInfo> outputHistory;
 
+        public OutputFileInfo SelectedItem { get => selectedItem; set => SetProperty(ref selectedItem, value); }
+        private OutputFileInfo selectedItem;
+
+        private WindowsMediaPlayer WMP { get; } = new WindowsMediaPlayer();
+
         public bool CanCloseDialog() => true;
 
         public void OnDialogClosed() {
@@ -28,6 +34,27 @@ namespace HTMLReaderCS.ViewModels {
             SQLiteHelper = new SQLiteHelper();
             OutputHistory = SQLiteHelper.getHistories();
         }
+
+        public DelegateCommand PlayFileCommand {
+            #region
+            get => playFileCommand ?? (playFileCommand = new DelegateCommand(() => {
+                if(SelectedItem != null && SelectedItem.Exists) {
+                    WMP.URL = $"{Properties.Settings.Default.OutputDirectoryName}\\{SelectedItem.FileName}";
+                    WMP.controls.play();
+                }
+            }));
+        }
+        private DelegateCommand playFileCommand;
+        #endregion
+
+        public DelegateCommand StopSoundCommand {
+            #region
+            get => stopSoundCommand ?? (stopSoundCommand = new DelegateCommand(() => {
+                WMP.controls.stop();
+            }));
+        }
+        private DelegateCommand stopSoundCommand;
+        #endregion
 
         public DelegateCommand CloseWindowCommand {
             #region
