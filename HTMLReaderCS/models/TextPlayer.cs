@@ -4,15 +4,16 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace HTMLReaderCS.models
 {
-    public class TextPlayer : BindableBase{
+    public class TextPlayer : BindableBase, IPlayer {
 
-        public ObservableCollection<string> TextFiles { get; set; } = new ObservableCollection<string>();
+        public ObservableCollection<FileInfo> FileList { get; set; } = new ObservableCollection<FileInfo>();
 
         private ITalker talker;
 
@@ -25,23 +26,36 @@ namespace HTMLReaderCS.models
         private SQLiteHelper sqLiteHelper = new SQLiteHelper();
         private Stopwatch stopwatch = new Stopwatch();
 
-        public string SelectedFile { 
+        public FileInfo SelectedFile {
             get => selectedFile;
             set {
                 // 選択中のコンテンツが切り替わった時点で現在の再生状況はリセットするのが妥当。
                 PlayingLineNumber = 0;
                 this.talker.stop();
-
                 SetProperty(ref selectedFile, value);
+
+                Texts = File.ReadAllLines(selectedFile.FullName).ToList<string>();
             }
         }
-        private string selectedFile;
+        private FileInfo selectedFile;
+
+        private List<string> texts = new List<string>();
+        public List<string> Texts {
+            get => texts;
+            set => SetProperty(ref texts, value);
+        }
+
+        public int SelectedTextIndex {
+            get => selectedTextIndex;
+            set => SetProperty(ref selectedTextIndex, value);
+        }
+        private int selectedTextIndex = 0;
 
         public int SelectedFileIndex {
             get => selectedFileIndex;
             set => SetProperty(ref selectedFileIndex, value);
         }
-        private int selectedFileIndex = 0;
+        private int selectedFileIndex;
 
         public TextPlayer(ITalker talker) {
             this.talker = talker;
@@ -62,7 +76,7 @@ namespace HTMLReaderCS.models
 
         public void resetContents() {
             StopCommand.Execute();
-            TextFiles.Clear();
+            //TextFiles.Clear();
             SelectedFile = null;
         }
 
@@ -71,27 +85,39 @@ namespace HTMLReaderCS.models
             get => playCommand ?? (playCommand = new DelegateCommand(
                 () => {
 
-                    //if(SelectedFile..Count <= PlayingLineNumber) {
-                    //    if(SelectedFileIndex < TextFiles.Count -1) {
-                    //        SelectedFileIndex++;
-                    //        SelectedFile = TextFiles[SelectedFileIndex];
-                    //    }
-                    //    else {
-                    //        return; // 次の HTML ファイルが存在しない場合は処理を中止
-                    //    }
-                    //}
+                    if(Texts.Count == 0) {
+                        return;
+                    }
 
-                    //PlayingPlainText = SelectedFile[PlayingLineNumber];
+                    if(Texts.Count <= PlayingLineNumber) {
+                        if(SelectedFileIndex < FileList.Count -1) {
+                            SelectedFileIndex++;
+                            SelectedFile = FileList[SelectedFileIndex];
+                        }
+                        else {
+                            return; // 次の HTML ファイルが存在しない場合は処理を中止
+                        }
+                    }
 
-                    //talker.ssmlTalk(SSMLConverter.getSSML(SelectedFile[PlayingLineNumber]));
+                    PlayingPlainText = Texts[PlayingLineNumber];
 
-                    //stopwatch.Start();
-                    //outputFileInfo = new OutputFileInfo();
-                    //outputFileInfo.HeaderText = PlayingPlainText.Substring(0, Math.Min(50,PlayingPlainText.Length));
-                    //outputFileInfo.OutputDateTime = DateTime.Now;
-                    //outputFileInfo.TagName = SelectedItem.TextElements[PlayingLineNumber].TagName;
-                    //outputFileInfo.FileName = talker.OutputFileName;
-                    //outputFileInfo.HtmlFileName = SelectedItem.FileName;
+                    // PlayingPlainText が空文字だった場合はスキップして次の行を入力する。
+                    while (String.IsNullOrEmpty(PlayingPlainText)) {
+                        PlayingLineNumber++;
+                        PlayingPlainText = Texts[PlayingLineNumber];
+
+                        if(Texts.Count <= PlayingLineNumber) {
+                            break;
+                        }
+                    }
+
+                    talker.ssmlTalk(SSMLConverter.getSSML(Texts[PlayingLineNumber]));
+
+                    stopwatch.Start();
+                    outputFileInfo = new OutputFileInfo();
+                    outputFileInfo.HeaderText = PlayingPlainText.Substring(0, Math.Min(50,PlayingPlainText.Length));
+                    outputFileInfo.OutputDateTime = DateTime.Now;
+                    outputFileInfo.FileName = talker.OutputFileName;
                 }
             ));
         }

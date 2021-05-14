@@ -14,6 +14,8 @@ namespace HTMLReaderCS.models {
         int SelectedFileIndex { get; set; }
         int SelectedTextIndex { get; set; }
 
+        List<string> Texts { get; }
+
         DelegateCommand PlayCommand { get; }
         DelegateCommand StopCommand { get; }
 
