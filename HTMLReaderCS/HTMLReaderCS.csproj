@@ -94,6 +94,7 @@
     <Compile Include="models\DropBehavior.cs" />
     <Compile Include="models\HeaderTextConverter.cs" />
     <Compile Include="models\HTMLContents.cs" />
+    <Compile Include="models\TextPlayer.cs" />
     <Compile Include="models\HTMLPlayer.cs" />
     <Compile Include="models\ITalker.cs" />
     <Compile Include="models\OutputFileInfo.cs" />
