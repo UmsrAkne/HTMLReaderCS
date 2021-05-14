@@ -1,4 +1,5 @@
 ﻿using HTMLReaderCS.ViewModels;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -24,10 +25,16 @@ namespace HTMLReaderCS.Models {
 
             foreach(string filePath in files) {
                 using (var reader = new StreamReader(filePath)) {
-                    var text = reader.ReadToEnd();
-                    var htmlContents = new models.HTMLContents(text, true);
-                    htmlContents.FileName = Path.GetFileName(filePath);
-                    vm.HTMLPlayer.HtmlContentsList.Add(htmlContents);
+
+                    if(Path.GetExtension(filePath) == ".txt") {
+                        vm.TextPlayer.FileList.Add(new FileInfo(filePath));
+                    }
+                    else {
+                        var text = reader.ReadToEnd();
+                        var htmlContents = new models.HTMLContents(text, true);
+                        htmlContents.FileName = Path.GetFileName(filePath);
+                        vm.HTMLPlayer.HtmlContentsList.Add(htmlContents);
+                    }
                 }
             }
 

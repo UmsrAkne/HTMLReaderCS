@@ -24,11 +24,18 @@ namespace HTMLReaderCS.ViewModels
             set => SetProperty(ref htmlPlayer, value);
         }
 
+        private IPlayer textPlayer;
+        public IPlayer TextPlayer {
+            get => textPlayer;
+            set => SetProperty(ref textPlayer, value);
+        }
+
         private IDialogService dialogService;
 
         public MainWindowViewModel(IDialogService _dialogService) {
             dialogService = _dialogService;
             HTMLPlayer = new HTMLPlayer(new AzureTalker());
+            TextPlayer = new TextPlayer(new AzureTalker());
         }
 
         public DelegateCommand ResetFileListCommand {
