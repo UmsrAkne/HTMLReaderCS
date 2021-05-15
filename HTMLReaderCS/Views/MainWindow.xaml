@@ -65,22 +65,22 @@
             <Button
                 Grid.Row="0"
                 Grid.Column="0"
-                Command="{Binding TextPlayer.PlayCommand}"
+                Command="{Binding Player.PlayCommand}"
                 Content="再生" />
 
             <Button
                 Grid.Row="0"
                 Grid.Column="1"
-                Command="{Binding TextPlayer.StopCommand}"
+                Command="{Binding Player.StopCommand}"
                 Content="停止" />
 
             <ListView
                 Grid.Row="1"
                 Grid.Column="0"
                 Grid.ColumnSpan="2"
-                ItemsSource="{Binding TextPlayer.FileList}"
-                SelectedIndex="{Binding TextPlayer.SelectedFileIndex}"
-                SelectedItem="{Binding TextPlayer.SelectedFile}">
+                ItemsSource="{Binding Player.FileList}"
+                SelectedIndex="{Binding Player.SelectedFileIndex}"
+                SelectedItem="{Binding Player.SelectedFile}">
 
                 <ListView.ItemTemplate>
                     <DataTemplate>
@@ -96,7 +96,7 @@
         <ListView
             Grid.Row="1"
             Grid.Column="1"
-            ItemsSource="{Binding TextPlayer.Texts}"
+            ItemsSource="{Binding Player.Texts}"
             ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 
             <ListView.ItemContainerStyle>

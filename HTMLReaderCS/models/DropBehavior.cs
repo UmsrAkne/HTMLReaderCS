@@ -25,12 +25,12 @@ namespace HTMLReaderCS.Models {
 
             foreach(string filePath in files) {
                 using (var reader = new StreamReader(filePath)) {
-                    vm.TextPlayer.FileList.Add(new FileInfo(filePath));
+                    vm.Player.FileList.Add(new FileInfo(filePath));
                 }
             }
 
-            if(vm.TextPlayer.SelectedFile == null && vm.TextPlayer.FileList.Count > 0) {
-                vm.TextPlayer.SelectedFile = vm.TextPlayer.FileList[0];
+            if(vm.Player.SelectedFile == null && vm.Player.FileList.Count > 0) {
+                vm.Player.SelectedFile = vm.Player.FileList[0];
             }
 
         }
