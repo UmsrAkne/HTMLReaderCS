@@ -4,21 +4,18 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace HTMLReaderCS.models
 {
-    public class HTMLPlayer : BindableBase{
+    public class HTMLPlayer : BindableBase, IPlayer{
 
-        private HTMLContents htmlContents; 
-        public HTMLContents HtmlContents {
-            get => htmlContents;
-            set => SetProperty(ref htmlContents, value);
-        }
+        private HTMLContents currentHtmlContents { get; set; }
 
-        public ObservableCollection<HTMLContents> HtmlContentsList { get; set; } = new ObservableCollection<HTMLContents>();
+        public ObservableCollection<FileInfo> FileList { get; set; } = new ObservableCollection<FileInfo>();
 
         private ITalker talker;
 
@@ -31,23 +28,37 @@ namespace HTMLReaderCS.models
         private SQLiteHelper sqLiteHelper = new SQLiteHelper();
         private Stopwatch stopwatch = new Stopwatch();
 
-        public HTMLContents SelectedItem { 
-            get => selectedItem;
+        public FileInfo SelectedFile { 
+            get => selectedFile;
             set {
+                currentHtmlContents = new HTMLContents(File.ReadAllText(value.FullName));
+
                 // 選択中のコンテンツが切り替わった時点で現在の再生状況はリセットするのが妥当。
                 PlayingIndex = 0;
                 this.talker.stop();
 
-                SetProperty(ref selectedItem, value);
+                SetProperty(ref selectedFile, value);
             }
         }
-        private HTMLContents selectedItem;
+        private FileInfo selectedFile;
 
-        public int SelectedContentIndex {
-            get => selectedContentIndex;
-            set => SetProperty(ref selectedContentIndex, value);
+        public int SelectedFileIndex {
+            get => selectedFileIndex;
+            set => SetProperty(ref selectedFileIndex, value);
         }
-        private int selectedContentIndex = 0;
+        private int selectedFileIndex = 0;
+
+        public int SelectedTextIndex {
+            get => selectedTextIndex;
+            set => SetProperty(ref selectedTextIndex, value);
+        }
+        private int selectedTextIndex;
+
+        public List<string> Texts {
+            get => texts;
+            set => SetProperty(ref texts, value);
+        }
+        private List<string> texts = new List<string>();
 
         public HTMLPlayer(ITalker talker) {
             this.talker = talker;
@@ -68,8 +79,8 @@ namespace HTMLReaderCS.models
 
         public void resetContents() {
             StopCommand.Execute();
-            HtmlContentsList.Clear();
-            SelectedItem = null;
+            FileList.Clear();
+            SelectedFile = null;
         }
 
         private DelegateCommand playCommand;
@@ -77,17 +88,17 @@ namespace HTMLReaderCS.models
             get => playCommand ?? (playCommand = new DelegateCommand(
                 () => {
 
-                    if(SelectedItem.TextElements.Count <= PlayingIndex) {
-                        if(SelectedContentIndex < HtmlContentsList.Count -1) {
-                            SelectedContentIndex++;
-                            SelectedItem = HtmlContentsList[SelectedContentIndex];
+                    if(currentHtmlContents.TextElements.Count <= PlayingIndex) {
+                        if(SelectedFileIndex < FileList.Count -1) {
+                            SelectedFileIndex++;
+                            SelectedFile = FileList[SelectedFileIndex];
                         }
                         else {
                             return; // 次の HTML ファイルが存在しない場合は処理を中止
                         }
                     }
 
-                    PlayingPlainText = SelectedItem.TextElements[PlayingIndex].TextContent;
+                    PlayingPlainText = currentHtmlContents.TextElements[PlayingIndex].TextContent;
 
                     talker.ssmlTalk(SSMLConverter.getSSML(PlayingPlainText));
 
@@ -95,9 +106,9 @@ namespace HTMLReaderCS.models
                     outputFileInfo = new OutputFileInfo();
                     outputFileInfo.HeaderText = PlayingPlainText.Substring(0, Math.Min(50,PlayingPlainText.Length));
                     outputFileInfo.OutputDateTime = DateTime.Now;
-                    outputFileInfo.TagName = SelectedItem.TextElements[PlayingIndex].TagName;
+                    outputFileInfo.TagName = currentHtmlContents.TextElements[PlayingIndex].TagName;
                     outputFileInfo.FileName = talker.OutputFileName;
-                    outputFileInfo.HtmlFileName = SelectedItem.FileName;
+                    outputFileInfo.HtmlFileName = currentHtmlContents.FileName;
                 }
             ));
         }

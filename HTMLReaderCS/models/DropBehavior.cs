@@ -25,21 +25,12 @@ namespace HTMLReaderCS.Models {
 
             foreach(string filePath in files) {
                 using (var reader = new StreamReader(filePath)) {
-
-                    if(Path.GetExtension(filePath) == ".txt") {
-                        vm.TextPlayer.FileList.Add(new FileInfo(filePath));
-                    }
-                    else {
-                        var text = reader.ReadToEnd();
-                        var htmlContents = new models.HTMLContents(text, true);
-                        htmlContents.FileName = Path.GetFileName(filePath);
-                        vm.HTMLPlayer.HtmlContentsList.Add(htmlContents);
-                    }
+                    vm.TextPlayer.FileList.Add(new FileInfo(filePath));
                 }
             }
 
-            if(vm.HTMLPlayer.SelectedItem == null && vm.HTMLPlayer.HtmlContentsList.Count > 0) {
-                vm.HTMLPlayer.SelectedItem = vm.HTMLPlayer.HtmlContentsList[0];
+            if(vm.TextPlayer.SelectedFile == null && vm.TextPlayer.FileList.Count > 0) {
+                vm.TextPlayer.SelectedFile = vm.TextPlayer.FileList[0];
             }
 
         }

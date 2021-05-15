@@ -34,7 +34,6 @@ namespace HTMLReaderCS.ViewModels
 
         public MainWindowViewModel(IDialogService _dialogService) {
             dialogService = _dialogService;
-            HTMLPlayer = new HTMLPlayer(new AzureTalker());
             TextPlayer = new TextPlayer(new AzureTalker());
         }
 
