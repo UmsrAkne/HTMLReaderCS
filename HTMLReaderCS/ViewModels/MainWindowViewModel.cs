@@ -18,12 +18,6 @@ namespace HTMLReaderCS.ViewModels
             set { SetProperty(ref _title, value); }
         }
 
-        private HTMLPlayer htmlPlayer;
-        public HTMLPlayer HTMLPlayer {
-            get => htmlPlayer;
-            set => SetProperty(ref htmlPlayer, value);
-        }
-
         private IPlayer textPlayer;
         public IPlayer TextPlayer {
             get => textPlayer;
@@ -40,7 +34,7 @@ namespace HTMLReaderCS.ViewModels
         public DelegateCommand ResetFileListCommand {
             #region
             get => resetFileListCommand ?? (resetFileListCommand = new DelegateCommand(() => {
-                HTMLPlayer.resetContents();
+                TextPlayer.resetFiles();
             }));
         }
         private DelegateCommand resetFileListCommand;

@@ -19,5 +19,7 @@ namespace HTMLReaderCS.models {
         DelegateCommand PlayCommand { get; }
         DelegateCommand StopCommand { get; }
 
+        void resetFiles();
+
     }
 }

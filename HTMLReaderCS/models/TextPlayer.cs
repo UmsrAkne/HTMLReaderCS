@@ -74,9 +74,9 @@ namespace HTMLReaderCS.models
             SSMLConverter.Rate = 85;
         }
 
-        public void resetContents() {
+        public void resetFiles() {
             StopCommand.Execute();
-            //TextFiles.Clear();
+            FileList.Clear();
             SelectedFile = null;
         }
 
