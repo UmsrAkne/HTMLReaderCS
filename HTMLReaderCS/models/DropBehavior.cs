@@ -1,4 +1,5 @@
-﻿using HTMLReaderCS.ViewModels;
+﻿using HTMLReaderCS.models;
+using HTMLReaderCS.ViewModels;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows;
@@ -22,6 +23,13 @@ namespace HTMLReaderCS.Models {
             // ファイルパスの一覧の配列
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
             var vm = ((Window)sender).DataContext as MainWindowViewModel;
+
+            if(vm.Player == null) {
+                vm.Player =
+                (Path.GetExtension(files[0]) == "html")
+                    ? (IPlayer)new HTMLPlayer(new AzureTalker())
+                    : (IPlayer)new TextPlayer(new AzureTalker());
+            }
 
             foreach(string filePath in files) {
                 using (var reader = new StreamReader(filePath)) {

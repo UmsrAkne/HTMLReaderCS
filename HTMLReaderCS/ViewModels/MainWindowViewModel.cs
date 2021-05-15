@@ -28,7 +28,6 @@ namespace HTMLReaderCS.ViewModels
 
         public MainWindowViewModel(IDialogService _dialogService) {
             dialogService = _dialogService;
-            Player = new TextPlayer(new AzureTalker());
         }
 
         public DelegateCommand ResetFileListCommand {
