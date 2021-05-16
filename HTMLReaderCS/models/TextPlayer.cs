@@ -25,6 +25,7 @@ namespace HTMLReaderCS.models
         private OutputFileInfo outputFileInfo;
         private SQLiteHelper sqLiteHelper = new SQLiteHelper();
         private Stopwatch stopwatch = new Stopwatch();
+        private int BlankLineWaitTime { get; } = 1000;
 
         public FileInfo SelectedFile {
             get => selectedFile;
@@ -100,9 +101,11 @@ namespace HTMLReaderCS.models
                     }
 
                     PlayingPlainText = Texts[PlayingLineNumber];
+                    int emptyLineCount = 0;
 
                     // PlayingPlainText が空文字だった場合はスキップして次の行を入力する。
                     while (String.IsNullOrEmpty(PlayingPlainText)) {
+                        emptyLineCount++;
                         PlayingLineNumber++;
                         PlayingPlainText = Texts[PlayingLineNumber];
 
@@ -111,6 +114,8 @@ namespace HTMLReaderCS.models
                         }
                     }
 
+                    // 空行があった場合は、行数に応じてウェイトを挟む。
+                    SSMLConverter.BeforeWait = new TimeSpan(0, 0, 0, 0, BlankLineWaitTime * emptyLineCount);
                     talker.ssmlTalk(SSMLConverter.getSSML(Texts[PlayingLineNumber]));
 
                     stopwatch.Start();

@@ -26,6 +26,20 @@ namespace HTMLReaderCS.models.Tests {
 
             Assert.AreEqual(ssmlActual, expected);
 
+            gen.BeforeWait = new TimeSpan(0, 0, 0, 0, 1000);
+            gen.AfterWait = new TimeSpan(0, 0, 0, 0, 2000);
+
+            string expected2 = "<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xml:lang=\"string\">" +
+                                  "<voice name=\"ja-JP-KeitaNeural\">" +
+                                    "<break time=\"1000\" />" +
+                                        "<prosody rate=\"0.8\">" +
+                                            "読み上げるテキスト" +
+                                        "</prosody>" +
+                                    "<break time=\"2000\" />" +
+                                  "</voice>" +
+                              "</speak>";
+
+            Assert.AreEqual(gen.getSSML("読み上げるテキスト"), expected2);
         }
     }
 }
