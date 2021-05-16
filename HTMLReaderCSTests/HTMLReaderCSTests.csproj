@@ -84,8 +84,6 @@
     <Compile Include="models\AzureSSMLGenTests.cs" />
     <Compile Include="models\AzureTalkerTests.cs" />
     <Compile Include="models\DummyTalker.cs" />
-    <Compile Include="models\HTMLPlayerTests.cs" />
-    <Compile Include="models\PollyPlayerTests.cs" />
     <Compile Include="models\SQLiteHelperTests.cs" />
     <Compile Include="models\SSMLConverterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
