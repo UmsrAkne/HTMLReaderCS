@@ -11,9 +11,7 @@ using System.Threading.Tasks;
 
 namespace HTMLReaderCS.models
 {
-    public class HTMLPlayer : BindableBase, IPlayer{
-
-        private HTMLContents currentHtmlContents { get; set; }
+    public class TextPlayer : BindableBase, IPlayer {
 
         public ObservableCollection<FileInfo> FileList { get; set; } = new ObservableCollection<FileInfo>();
 
@@ -21,46 +19,46 @@ namespace HTMLReaderCS.models
 
         public AzureSSMLGen SSMLConverter { get; } = new AzureSSMLGen();
 
-        private int PlayingIndex { get; set; } = 0;
+        private int PlayingLineNumber { get; set; } = 0;
         public String PlayingPlainText { get; private set; } = "";
 
         private OutputFileInfo outputFileInfo;
         private SQLiteHelper sqLiteHelper = new SQLiteHelper();
         private Stopwatch stopwatch = new Stopwatch();
+        private int BlankLineWaitTime { get; } = 1000;
 
-        public FileInfo SelectedFile { 
+        public FileInfo SelectedFile {
             get => selectedFile;
             set {
-                currentHtmlContents = new HTMLContents(File.ReadAllText(value.FullName));
-
                 // 選択中のコンテンツが切り替わった時点で現在の再生状況はリセットするのが妥当。
-                PlayingIndex = 0;
+                PlayingLineNumber = 0;
                 this.talker.stop();
-
                 SetProperty(ref selectedFile, value);
+
+                Texts = File.ReadAllLines(selectedFile.FullName).ToList<string>();
             }
         }
         private FileInfo selectedFile;
 
-        public int SelectedFileIndex {
-            get => selectedFileIndex;
-            set => SetProperty(ref selectedFileIndex, value);
+        private List<string> texts = new List<string>();
+        public List<string> Texts {
+            get => texts;
+            set => SetProperty(ref texts, value);
         }
-        private int selectedFileIndex = 0;
 
         public int SelectedTextIndex {
             get => selectedTextIndex;
             set => SetProperty(ref selectedTextIndex, value);
         }
-        private int selectedTextIndex;
+        private int selectedTextIndex = 0;
 
-        public List<string> Texts {
-            get => texts;
-            set => SetProperty(ref texts, value);
+        public int SelectedFileIndex {
+            get => selectedFileIndex;
+            set => SetProperty(ref selectedFileIndex, value);
         }
-        private List<string> texts = new List<string>();
+        private int selectedFileIndex;
 
-        public HTMLPlayer(ITalker talker) {
+        public TextPlayer(ITalker talker) {
             this.talker = talker;
             this.talker.TalkEnded += (sender, e) => {
 
@@ -70,7 +68,7 @@ namespace HTMLReaderCS.models
 
                 sqLiteHelper.insert(outputFileInfo);
 
-                PlayingIndex++;
+                PlayingLineNumber++;
                 PlayCommand.Execute();
             };
 
@@ -88,7 +86,11 @@ namespace HTMLReaderCS.models
             get => playCommand ?? (playCommand = new DelegateCommand(
                 () => {
 
-                    if(currentHtmlContents.TextElements.Count <= PlayingIndex) {
+                    if(Texts.Count == 0) {
+                        return;
+                    }
+
+                    if(Texts.Count <= PlayingLineNumber) {
                         if(SelectedFileIndex < FileList.Count -1) {
                             SelectedFileIndex++;
                             SelectedFile = FileList[SelectedFileIndex];
@@ -98,17 +100,29 @@ namespace HTMLReaderCS.models
                         }
                     }
 
-                    PlayingPlainText = currentHtmlContents.TextElements[PlayingIndex].TextContent;
+                    PlayingPlainText = Texts[PlayingLineNumber];
+                    int emptyLineCount = 0;
 
-                    talker.ssmlTalk(SSMLConverter.getSSML(PlayingPlainText));
+                    // PlayingPlainText が空文字だった場合はスキップして次の行を入力する。
+                    while (String.IsNullOrEmpty(PlayingPlainText)) {
+                        emptyLineCount++;
+                        PlayingLineNumber++;
+                        PlayingPlainText = Texts[PlayingLineNumber];
+
+                        if(Texts.Count <= PlayingLineNumber) {
+                            break;
+                        }
+                    }
+
+                    // 空行があった場合は、行数に応じてウェイトを挟む。
+                    SSMLConverter.BeforeWait = new TimeSpan(0, 0, 0, 0, BlankLineWaitTime * emptyLineCount);
+                    talker.ssmlTalk(SSMLConverter.getSSML(Texts[PlayingLineNumber]));
 
                     stopwatch.Start();
                     outputFileInfo = new OutputFileInfo();
                     outputFileInfo.HeaderText = PlayingPlainText.Substring(0, Math.Min(50,PlayingPlainText.Length));
                     outputFileInfo.OutputDateTime = DateTime.Now;
-                    outputFileInfo.TagName = currentHtmlContents.TextElements[PlayingIndex].TagName;
                     outputFileInfo.FileName = talker.OutputFileName;
-                    outputFileInfo.HtmlFileName = currentHtmlContents.FileName;
                 }
             ));
         }

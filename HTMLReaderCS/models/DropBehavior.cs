@@ -1,4 +1,6 @@
-﻿using HTMLReaderCS.ViewModels;
+﻿using HTMLReaderCS.models;
+using HTMLReaderCS.ViewModels;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -22,17 +24,21 @@ namespace HTMLReaderCS.Models {
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
             var vm = ((Window)sender).DataContext as MainWindowViewModel;
 
+            if(vm.Player == null) {
+                vm.Player =
+                (Path.GetExtension(files[0]) == "html")
+                    ? (IPlayer)new HTMLPlayer(new AzureTalker())
+                    : (IPlayer)new TextPlayer(new AzureTalker());
+            }
+
             foreach(string filePath in files) {
                 using (var reader = new StreamReader(filePath)) {
-                    var text = reader.ReadToEnd();
-                    var htmlContents = new models.HTMLContents(text, true);
-                    htmlContents.FileName = Path.GetFileName(filePath);
-                    vm.HTMLPlayer.HtmlContentsList.Add(htmlContents);
+                    vm.Player.FileList.Add(new FileInfo(filePath));
                 }
             }
 
-            if(vm.HTMLPlayer.SelectedItem == null && vm.HTMLPlayer.HtmlContentsList.Count > 0) {
-                vm.HTMLPlayer.SelectedItem = vm.HTMLPlayer.HtmlContentsList[0];
+            if(vm.Player.SelectedFile == null && vm.Player.FileList.Count > 0) {
+                vm.Player.SelectedFile = vm.Player.FileList[0];
             }
 
         }

@@ -21,6 +21,16 @@ namespace HTMLReaderCS.models {
         public int Rate { get; set; }
         public int DefaultRate => 100;
 
+        /// <summary>
+        /// ssml を生成する際、テキスト冒頭にウェイトを挿入します。時間指定は最大で 5000ms です。
+        /// </summary>
+        public TimeSpan BeforeWait { get; set; }
+
+        /// <summary>
+        /// ssml を生成する際、テキスト末尾にウェイトを挿入します。時間指定は最大で 5000ms です。
+        /// </summary>
+        public TimeSpan AfterWait { get; set; }
+
         public AzureSSMLGen() {
             Rate = DefaultRate;
         }
@@ -35,11 +45,24 @@ namespace HTMLReaderCS.models {
                 prosodyEndTag = "</prosody>";
             }
 
+            string beforeWaitTag = "";
+            string afterWaitTag = "";
+
+            if(BeforeWait.TotalMilliseconds != 0) {
+                beforeWaitTag = $"<break time=\"{BeforeWait.TotalMilliseconds}\" />";
+            }
+
+            if(AfterWait.TotalMilliseconds != 0) {
+                afterWaitTag = $"<break time=\"{AfterWait.TotalMilliseconds}\" />";
+            }
+
             return $"{RootStartTag}" +
                        $"{VoiceNameStartTag}" +
-                           $"{prosodyStartTag}" +
-                               $"{plainText}" +
-                           $"{prosodyEndTag}" +
+                           $"{beforeWaitTag}" +
+                               $"{prosodyStartTag}" +
+                                   $"{plainText}" +
+                               $"{prosodyEndTag}" +
+                            $"{afterWaitTag}" +
                        $"{VoiceNameEndTag}" +
                    $"{RootEndTag}";
         }
