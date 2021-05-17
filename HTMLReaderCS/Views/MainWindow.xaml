@@ -76,8 +76,28 @@
 
             <StackPanel
                 Grid.Row="1"
+                Margin="1,0"
                 HorizontalAlignment="Right"
-                Orientation="Horizontal" />
+                Orientation="Horizontal">
+
+                <Button
+                    Width="100"
+                    Margin="3,0"
+                    Content="指定行へジャンプ" />
+
+                <TextBox
+                    Width="50"
+                    Text="{Binding Player.SelectedTextIndex}"
+                    TextAlignment="Center" />
+
+                <TextBlock Margin="5,0" Text="/" />
+
+                <TextBlock
+                    Width="50"
+                    Text="{Binding Player.Texts.Count}"
+                    TextAlignment="Center" />
+
+            </StackPanel>
 
         </Grid>
 
