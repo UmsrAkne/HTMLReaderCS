@@ -87,6 +87,7 @@
 
                 <TextBox
                     Width="50"
+                    modesl:TextBoxNumericBehavior.IsNumeric="True"
                     Text="{Binding Player.SelectedTextIndex}"
                     TextAlignment="Center" />
 
