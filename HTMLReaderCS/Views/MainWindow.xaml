@@ -29,6 +29,7 @@
 
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
 
@@ -50,51 +51,56 @@
         <Grid
             Grid.Row="1"
             Grid.Column="0"
-            VerticalAlignment="Top">
+            Grid.ColumnSpan="2">
 
             <Grid.RowDefinitions>
-                <RowDefinition Height="auto" />
+                <RowDefinition />
                 <RowDefinition />
             </Grid.RowDefinitions>
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Row="0" Orientation="Horizontal">
 
-            <Button
-                Grid.Row="0"
-                Grid.Column="0"
-                Command="{Binding Player.PlayCommand}"
-                Content="再生" />
+                <Button
+                    Width="80"
+                    Margin="3,1"
+                    Command="{Binding Player.PlayCommand}"
+                    Content="再生" />
 
-            <Button
-                Grid.Row="0"
-                Grid.Column="1"
-                Command="{Binding Player.StopCommand}"
-                Content="停止" />
+                <Button
+                    Width="80"
+                    Margin="3,1"
+                    Command="{Binding Player.StopCommand}"
+                    Content="停止" />
 
-            <ListView
+            </StackPanel>
+
+            <StackPanel
                 Grid.Row="1"
-                Grid.Column="0"
-                Grid.ColumnSpan="2"
-                ItemsSource="{Binding Player.FileList}"
-                SelectedIndex="{Binding Player.SelectedFileIndex}"
-                SelectedItem="{Binding Player.SelectedFile}">
-
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel>
-                            <TextBlock Text="{Binding Name}" />
-                        </StackPanel>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                HorizontalAlignment="Right"
+                Orientation="Horizontal" />
 
         </Grid>
 
         <ListView
-            Grid.Row="1"
+            Grid.Row="2"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            ItemsSource="{Binding Player.FileList}"
+            SelectedIndex="{Binding Player.SelectedFileIndex}"
+            SelectedItem="{Binding Player.SelectedFile}">
+
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="{Binding Name}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+
+        <ListView
+            Grid.Row="2"
             Grid.Column="1"
             ItemsSource="{Binding Player.Texts}"
             ScrollViewer.HorizontalScrollBarVisibility="Disabled">
