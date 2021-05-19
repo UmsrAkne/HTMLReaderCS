@@ -83,6 +83,7 @@
                 <Button
                     Width="100"
                     Margin="3,0"
+                    Command="{Binding Player.PlayFromIndexCommand}"
                     Content="指定行へジャンプ" />
 
                 <TextBox

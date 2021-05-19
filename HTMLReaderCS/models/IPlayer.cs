@@ -17,6 +17,7 @@ namespace HTMLReaderCS.models {
         List<string> Texts { get; }
 
         DelegateCommand PlayCommand { get; }
+        DelegateCommand PlayFromIndexCommand { get; }
         DelegateCommand StopCommand { get; }
 
         void resetFiles();

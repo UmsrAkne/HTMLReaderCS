@@ -113,6 +113,14 @@ namespace HTMLReaderCS.models
             ));
         }
 
+        public DelegateCommand PlayFromIndexCommand {
+            #region
+            get => playFromIndexCommand ?? (playFromIndexCommand = new DelegateCommand(() => {
+            }));
+        }
+        private DelegateCommand playFromIndexCommand;
+        #endregion
+
         private DelegateCommand stopCommand;
         public DelegateCommand StopCommand {
             get => stopCommand ?? (stopCommand = new DelegateCommand(

@@ -127,6 +127,19 @@ namespace HTMLReaderCS.models
             ));
         }
 
+        public DelegateCommand PlayFromIndexCommand {
+            #region
+            get => playFromIndexCommand ?? (playFromIndexCommand = new DelegateCommand(() => {
+                if(SelectedTextIndex < Texts.Count) {
+                    talker.stop();
+                    PlayingLineNumber = SelectedTextIndex;
+                    PlayCommand.Execute();
+                }
+            }));
+        }
+        private DelegateCommand playFromIndexCommand;
+        #endregion
+
         private DelegateCommand stopCommand;
         public DelegateCommand StopCommand {
             get => stopCommand ?? (stopCommand = new DelegateCommand(
