@@ -113,6 +113,10 @@ namespace HTMLReaderCS.models {
                     $"WHERE {nameof(OutputFileInfo.Hash)} = '{fileHash}'" +
                     $"ORDER BY {nameof(OutputFileInfo.Position)}");
 
+            if((h.First()["MAX(Position)"] == DBNull.Value)) {
+                return 0;
+            }
+
             return (int)(long)(h.First()["MAX(Position)"]);
         }
 
