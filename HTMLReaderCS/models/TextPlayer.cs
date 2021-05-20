@@ -26,6 +26,7 @@ namespace HTMLReaderCS.models
         private SQLiteHelper sqLiteHelper = new SQLiteHelper();
         private Stopwatch stopwatch = new Stopwatch();
         private int BlankLineWaitTime { get; } = 1000;
+        private string CurrentFileHash { get; set; } = "";
 
         public FileInfo SelectedFile {
             get => selectedFile;
@@ -36,6 +37,7 @@ namespace HTMLReaderCS.models
                 SetProperty(ref selectedFile, value);
 
                 Texts = File.ReadAllLines(selectedFile.FullName).ToList<string>();
+                CurrentFileHash = HashGenerator.getMD5Hash(File.ReadAllText(selectedFile.FullName));
             }
         }
         private FileInfo selectedFile;
@@ -123,6 +125,8 @@ namespace HTMLReaderCS.models
                     outputFileInfo.HeaderText = PlayingPlainText.Substring(0, Math.Min(50,PlayingPlainText.Length));
                     outputFileInfo.OutputDateTime = DateTime.Now;
                     outputFileInfo.FileName = talker.OutputFileName;
+                    outputFileInfo.Hash = CurrentFileHash;
+                    outputFileInfo.Position = PlayingLineNumber;
                 }
             ));
         }

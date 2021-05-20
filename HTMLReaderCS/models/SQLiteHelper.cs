@@ -25,6 +25,8 @@ namespace HTMLReaderCS.models {
                 $"id                                         INTEGER NOT NULL PRIMARY KEY, " +
                 $"{nameof(OutputFileInfo.LengthSec)}         INTEGER NOT NULL, " +
                 $"{nameof(OutputFileInfo.FileName)}          TEXT NOT NULL, " +
+                $"{nameof(OutputFileInfo.Hash)}              TEXT NOT NULL, " +
+                $"{nameof(OutputFileInfo.Position)}          INTEGER NOT NULL, " +
                 $"{nameof(OutputFileInfo.OutputDateTime)}    TEXT NOT NULL, " +
                 $"{nameof(OutputFileInfo.HtmlFileName)}      TEXT NOT NULL, " +
                 $"{nameof(OutputFileInfo.TagName)}           TEXT NOT NULL, " +
@@ -41,6 +43,8 @@ namespace HTMLReaderCS.models {
                 $"{nameof(OutputFileInfo.FileName)}," +
                 $"{nameof(OutputFileInfo.OutputDateTime)}," +
                 $"{nameof(OutputFileInfo.HtmlFileName)}," +
+                $"{nameof(OutputFileInfo.Hash)}," +
+                $"{nameof(OutputFileInfo.Position)}," +
                 $"{nameof(OutputFileInfo.TagName)}," +
                 $"{nameof(OutputFileInfo.HeaderText)}" +
                 $") VALUES (" +
@@ -49,6 +53,8 @@ namespace HTMLReaderCS.models {
                 $"'{outputFileInfo.FileName}'," +
                 $"'{outputFileInfo.OutputDateTime}'," +
                 $"'{outputFileInfo.HtmlFileName}'," +
+                $"'{outputFileInfo.Hash}'," +
+                $"'{outputFileInfo.Position}'," +
                 $"'{outputFileInfo.TagName}'," +
                 $"'{outputFileInfo.HeaderText}'" +
                 $");"
