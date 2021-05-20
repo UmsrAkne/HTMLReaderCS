@@ -107,6 +107,19 @@ namespace HTMLReaderCS.models {
             return list;
         }
 
+        public int getUnreadLine(string fileHash) {
+            var h = select($"SELECT MAX({nameof(OutputFileInfo.Position)}) " +
+                    $"FROM {TableName} " +
+                    $"WHERE {nameof(OutputFileInfo.Hash)} = '{fileHash}'" +
+                    $"ORDER BY {nameof(OutputFileInfo.Position)}");
+
+            if((h.First()["MAX(Position)"] == DBNull.Value)) {
+                return 0;
+            }
+
+            return (int)(long)(h.First()["MAX(Position)"]);
+        }
+
         private void executeNonQuer(string sql) {
             using (var con = Connection) {
                 con.Open();

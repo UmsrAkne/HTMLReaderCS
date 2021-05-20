@@ -144,6 +144,20 @@ namespace HTMLReaderCS.models
         private DelegateCommand playFromIndexCommand;
         #endregion
 
+
+        public DelegateCommand JumpToUnreadCommand {
+            #region
+            get => jumpToUnreadCommand ?? (jumpToUnreadCommand = new DelegateCommand(() => {
+                talker.stop();
+                var unreadLineNumber = sqLiteHelper.getUnreadLine(CurrentFileHash);
+                PlayingLineNumber = unreadLineNumber;
+                SelectedTextIndex = unreadLineNumber;
+            }));
+        }
+        private DelegateCommand jumpToUnreadCommand;
+        #endregion
+
+
         private DelegateCommand stopCommand;
         public DelegateCommand StopCommand {
             get => stopCommand ?? (stopCommand = new DelegateCommand(

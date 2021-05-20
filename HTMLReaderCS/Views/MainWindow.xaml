@@ -46,6 +46,10 @@
             <MenuItem Header="表示">
                 <MenuItem Command="{Binding ShowHistoryWindowCommand}" Header="履歴ウィンドウ" />
             </MenuItem>
+
+            <MenuItem Header="機能">
+                <MenuItem Command="{Binding Player.JumpToUnreadCommand}" Header="未読行へジャンプ" />
+            </MenuItem>
         </Menu>
 
         <Grid
