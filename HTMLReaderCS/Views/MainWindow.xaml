@@ -142,7 +142,6 @@
                 <GridView>
                     <GridView.Columns>
 
-                        <GridViewColumn DisplayMemberBinding="{Binding TagName}" Header="タグ" />
                         <GridViewColumn Header="本文">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
