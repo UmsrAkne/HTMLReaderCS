@@ -76,6 +76,12 @@
                     Command="{Binding Player.StopCommand}"
                     Content="停止" />
 
+                <Button
+                    Width="80"
+                    Margin="3,1"
+                    Command="{Binding PlayNextCommand}"
+                    Content="次の行を再生" />
+
             </StackPanel>
 
             <StackPanel
