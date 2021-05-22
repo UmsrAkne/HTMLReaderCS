@@ -25,7 +25,7 @@ namespace HTMLReaderCS.models
         private OutputFileInfo outputFileInfo;
         private SQLiteHelper sqLiteHelper = new SQLiteHelper();
         private Stopwatch stopwatch = new Stopwatch();
-        private int BlankLineWaitTime { get; } = 1000;
+        private int BlankLineWaitTime { get; } = 750;
         private string CurrentFileHash { get; set; } = "";
 
         public FileInfo SelectedFile {
