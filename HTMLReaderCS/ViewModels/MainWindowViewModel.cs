@@ -30,6 +30,18 @@ namespace HTMLReaderCS.ViewModels
             dialogService = _dialogService;
         }
 
+
+        public DelegateCommand PlayNextCommand {
+            #region
+            get => playNextCommand ?? (playNextCommand = new DelegateCommand(() => {
+                Player.StopCommand.Execute();
+                Player.PlayingIndex++;
+                Player.PlayCommand.Execute();
+            }));
+        }
+        private DelegateCommand playNextCommand;
+        #endregion
+
         public DelegateCommand ResetFileListCommand {
             #region
             get => resetFileListCommand ?? (resetFileListCommand = new DelegateCommand(() => {
