@@ -19,7 +19,7 @@ namespace HTMLReaderCS.models
 
         public AzureSSMLGen SSMLConverter { get; } = new AzureSSMLGen();
 
-        private int PlayingLineNumber { get; set; } = 0;
+        public int PlayingIndex { get; set; } = 0;
         public String PlayingPlainText { get; private set; } = "";
 
         private OutputFileInfo outputFileInfo;
@@ -32,7 +32,7 @@ namespace HTMLReaderCS.models
             get => selectedFile;
             set {
                 // 選択中のコンテンツが切り替わった時点で現在の再生状況はリセットするのが妥当。
-                PlayingLineNumber = 0;
+                PlayingIndex = 0;
                 this.talker.stop();
                 SetProperty(ref selectedFile, value);
 
@@ -70,7 +70,7 @@ namespace HTMLReaderCS.models
 
                 sqLiteHelper.insert(outputFileInfo);
 
-                PlayingLineNumber++;
+                PlayingIndex++;
                 PlayCommand.Execute();
             };
 
@@ -92,7 +92,7 @@ namespace HTMLReaderCS.models
                         return;
                     }
 
-                    if(Texts.Count <= PlayingLineNumber) {
+                    if(Texts.Count <= PlayingIndex) {
                         if(SelectedFileIndex < FileList.Count -1) {
                             SelectedFileIndex++;
                             SelectedFile = FileList[SelectedFileIndex];
@@ -102,23 +102,23 @@ namespace HTMLReaderCS.models
                         }
                     }
 
-                    PlayingPlainText = Texts[PlayingLineNumber];
+                    PlayingPlainText = Texts[PlayingIndex];
                     int emptyLineCount = 0;
 
                     // PlayingPlainText が空文字だった場合はスキップして次の行を入力する。
                     while (String.IsNullOrEmpty(PlayingPlainText)) {
                         emptyLineCount++;
-                        PlayingLineNumber++;
-                        PlayingPlainText = Texts[PlayingLineNumber];
+                        PlayingIndex++;
+                        PlayingPlainText = Texts[PlayingIndex];
 
-                        if(Texts.Count <= PlayingLineNumber) {
+                        if(Texts.Count <= PlayingIndex) {
                             break;
                         }
                     }
 
                     // 空行があった場合は、行数に応じてウェイトを挟む。
                     SSMLConverter.BeforeWait = new TimeSpan(0, 0, 0, 0, BlankLineWaitTime * emptyLineCount);
-                    talker.ssmlTalk(SSMLConverter.getSSML(Texts[PlayingLineNumber]));
+                    talker.ssmlTalk(SSMLConverter.getSSML(Texts[PlayingIndex]));
 
                     stopwatch.Start();
                     outputFileInfo = new OutputFileInfo();
@@ -126,7 +126,7 @@ namespace HTMLReaderCS.models
                     outputFileInfo.OutputDateTime = DateTime.Now;
                     outputFileInfo.FileName = talker.OutputFileName;
                     outputFileInfo.Hash = CurrentFileHash;
-                    outputFileInfo.Position = PlayingLineNumber;
+                    outputFileInfo.Position = PlayingIndex;
                 }
             ));
         }
@@ -136,7 +136,7 @@ namespace HTMLReaderCS.models
             get => playFromIndexCommand ?? (playFromIndexCommand = new DelegateCommand(() => {
                 if(SelectedTextIndex < Texts.Count) {
                     talker.stop();
-                    PlayingLineNumber = SelectedTextIndex;
+                    PlayingIndex = SelectedTextIndex;
                     PlayCommand.Execute();
                 }
             }));
@@ -150,7 +150,7 @@ namespace HTMLReaderCS.models
             get => jumpToUnreadCommand ?? (jumpToUnreadCommand = new DelegateCommand(() => {
                 talker.stop();
                 var unreadLineNumber = sqLiteHelper.getUnreadLine(CurrentFileHash);
-                PlayingLineNumber = unreadLineNumber;
+                PlayingIndex = unreadLineNumber;
                 SelectedTextIndex = unreadLineNumber;
             }));
         }

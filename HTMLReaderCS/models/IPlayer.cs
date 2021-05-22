@@ -13,6 +13,7 @@ namespace HTMLReaderCS.models {
         FileInfo SelectedFile { get; set; }
         int SelectedFileIndex { get; set; }
         int SelectedTextIndex { get; set; }
+        int PlayingIndex { get; set; }
 
         List<string> Texts { get; }
 

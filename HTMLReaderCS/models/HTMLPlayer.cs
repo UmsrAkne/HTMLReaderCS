@@ -21,7 +21,7 @@ namespace HTMLReaderCS.models
 
         public AzureSSMLGen SSMLConverter { get; } = new AzureSSMLGen();
 
-        private int PlayingIndex { get; set; } = 0;
+        public int PlayingIndex { get; set; } = 0;
         public String PlayingPlainText { get; private set; } = "";
 
         private OutputFileInfo outputFileInfo;
