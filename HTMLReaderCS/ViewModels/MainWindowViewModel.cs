@@ -11,7 +11,7 @@ namespace HTMLReaderCS.ViewModels
     public class MainWindowViewModel : BindableBase
     {
 
-        private string _title = "Prism Application";
+        private string _title = "HTML Reader CS";
         public string Title
         {
             get { return _title; }
