@@ -2,9 +2,9 @@
 {
     using System.Collections.Generic;
     using System.IO;
+    using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Interactivity;
-    using System.Windows;
     using HTMLReaderCS.models;
     using HTMLReaderCS.ViewModels;
 
@@ -20,6 +20,13 @@
 
             // ファイルをドロップした際の処理
             this.AssociatedObject.Drop += AssociatedObject_Drop;
+        }
+
+        protected override void OnDetaching()
+        {
+            base.OnDetaching();
+            this.AssociatedObject.PreviewDragOver -= AssociatedObject_PreviewDragOver;
+            this.AssociatedObject.Drop -= AssociatedObject_Drop;
         }
 
         private void AssociatedObject_Drop(object sender, DragEventArgs e)
@@ -55,13 +62,6 @@
         {
             e.Effects = DragDropEffects.Copy;
             e.Handled = e.Data.GetDataPresent(DataFormats.FileDrop);
-        }
-
-        protected override void OnDetaching()
-        {
-            base.OnDetaching();
-            this.AssociatedObject.PreviewDragOver -= AssociatedObject_PreviewDragOver;
-            this.AssociatedObject.Drop -= AssociatedObject_Drop;
         }
     }
 }

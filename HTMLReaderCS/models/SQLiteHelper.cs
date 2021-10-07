@@ -1,28 +1,13 @@
 ﻿namespace HTMLReaderCS.models
 {
     using System;
-    using System.Collections.Generic;
     using System.Collections;
+    using System.Collections.Generic;
     using System.Data.SQLite;
     using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
 
     public class SQLiteHelper
     {
-
-        public string DBFileName => "OutputHistory.sqlite";
-        public string TableName => "output_history";
-
-        private SQLiteConnection Connection
-        {
-            get
-            {
-                var sqliteSb = new SQLiteConnectionStringBuilder() { DataSource = DBFileName };
-                return new SQLiteConnection(sqliteSb.ToString());
-            }
-        }
-
         public SQLiteHelper()
         {
             executeNonQuer(
@@ -37,6 +22,18 @@
                 $"{nameof(OutputFileInfo.TagName)}           TEXT NOT NULL, " +
                 $"{nameof(OutputFileInfo.HeaderText)}        TEXT NOT NULL" +
                 $");");
+        }
+
+        public string DBFileName => "OutputHistory.sqlite";
+        public string TableName => "output_history";
+
+        private SQLiteConnection Connection
+        {
+            get
+            {
+                var sqliteSb = new SQLiteConnectionStringBuilder() { DataSource = DBFileName };
+                return new SQLiteConnection(sqliteSb.ToString());
+            }
         }
 
         public void insert(OutputFileInfo outputFileInfo)

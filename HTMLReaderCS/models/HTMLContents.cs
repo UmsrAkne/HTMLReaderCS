@@ -1,21 +1,18 @@
 ﻿namespace HTMLReaderCS.models
 {
-    using AngleSharp.Html.Dom;
-    using AngleSharp.Dom;
-    using AngleSharp.Html.Parser;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using System.Text.RegularExpressions;
+    using AngleSharp.Dom;
+    using AngleSharp.Html.Dom;
+    using AngleSharp.Html.Parser;
 
     public class HTMLContents
     {
-
+        private List<IElement> textElements;
         private IHtmlDocument htmlDocument;
-
-        public string FileName { get; set; } = "default";
+        private List<string> targetTags = new List<string>(new string[] { "P", "TITLE", "H1", "H2", "H3", "H4", "H5" });
 
         public HTMLContents(string htmlText)
         {
@@ -39,7 +36,7 @@
             htmlDocument = parser.ParseDocument(htmlText);
         }
 
-        private List<string> targetTags = new List<string>(new string[] { "P", "TITLE", "H1", "H2", "H3", "H4", "H5" });
+        public string FileName { get; set; } = "default";
 
         /// <summary>
         /// TextElementsプロパティを呼び出した際、このリストに含まれるタグを抜き出し、リストを作成します。
@@ -56,13 +53,6 @@
                 var _ = TextElements;
             }
         }
-
-        public IHtmlAllCollection getAllElement()
-        {
-            return htmlDocument.All;
-        }
-
-        private List<IElement> textElements;
 
         /// <summary>
         /// 内部で保持するHTMLDocument から、テキストを含む要素を抜き出し、リストとして取得します。
@@ -87,6 +77,11 @@
                 }
                 return textElements;
             }
+        }
+
+        public IHtmlAllCollection getAllElement()
+        {
+            return htmlDocument.All;
         }
 
         private string replaceRubyTag(string target)

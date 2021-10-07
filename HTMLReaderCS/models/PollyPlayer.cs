@@ -1,36 +1,15 @@
 ﻿namespace HTMLReaderCS.models
 {
     using System;
-    using System.Collections.Generic;
     using System.IO;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using System.Windows.Threading;
-    using System.Windows;
-    using Amazon.Polly.Model;
     using Amazon.Polly;
+    using Amazon.Polly.Model;
     using WMPLib;
 
     public class PollyPlayer : ITalker
     {
-
-        public SSMLConverter SsmlConverter { get; set; } = new SSMLConverter();
-
-        /// <summary>
-        /// 最後に読み上げた音声ファイル名を取得します。
-        /// </summary>
-        public string OutputFileName { get; private set; }
-
-        private DirectoryInfo OutputDirectoryInfo { get; set; } = new DirectoryInfo(Properties.Settings.Default.OutputDirectoryName);
-
-        private AmazonPollyClient PollyClient { get; set; }
-
-        private WindowsMediaPlayer WMP { get; set; } = new WindowsMediaPlayer();
-
         private DispatcherTimer timer;
-
-        public event EventHandler TalkEnded;
 
         public PollyPlayer()
         {
@@ -65,13 +44,20 @@
             };
         }
 
-        private void WMP_PlayStateChange(int NewState)
-        {
-            if ((int)WMP.playState == (int)WMPPlayState.wmppsMediaEnded)
-            {
-                timer.Start();
-            }
-        }
+        public event EventHandler TalkEnded;
+
+        public SSMLConverter SsmlConverter { get; set; } = new SSMLConverter();
+
+        /// <summary>
+        /// 最後に読み上げた音声ファイル名を取得します。
+        /// </summary>
+        public string OutputFileName { get; private set; }
+
+        private DirectoryInfo OutputDirectoryInfo { get; set; } = new DirectoryInfo(Properties.Settings.Default.OutputDirectoryName);
+
+        private AmazonPollyClient PollyClient { get; set; }
+
+        private WindowsMediaPlayer WMP { get; set; } = new WindowsMediaPlayer();
 
         public void ssmlTalk(string ssmlText)
         {
@@ -102,6 +88,14 @@
         public void stop()
         {
             WMP.controls.stop();
+        }
+
+        private void WMP_PlayStateChange(int NewState)
+        {
+            if ((int)WMP.playState == (int)WMPPlayState.wmppsMediaEnded)
+            {
+                timer.Start();
+            }
         }
 
         private void play(string filePath)

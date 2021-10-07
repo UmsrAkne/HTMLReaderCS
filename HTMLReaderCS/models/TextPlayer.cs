@@ -1,7 +1,5 @@
 ﻿namespace HTMLReaderCS.models
 {
-    using Prism.Commands;
-    using Prism.Mvvm;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
@@ -10,61 +8,24 @@
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+    using Prism.Commands;
+    using Prism.Mvvm;
 
     public class TextPlayer : BindableBase, IPlayer
     {
-
-        public ObservableCollection<FileInfo> FileList { get; set; } = new ObservableCollection<FileInfo>();
-
         private ITalker talker;
-
-        public AzureSSMLGen SSMLConverter { get; } = new AzureSSMLGen();
-
-        public int PlayingIndex { get; set; } = 0;
-        public string PlayingPlainText { get; private set; } = string.Empty;
+        private FileInfo selectedFile;
+        private List<string> texts = new List<string>();
+        private int selectedTextIndex = 0;
+        private int selectedFileIndex;
 
         private OutputFileInfo outputFileInfo;
         private SQLiteHelper sqLiteHelper = new SQLiteHelper();
         private Stopwatch stopwatch = new Stopwatch();
-        private int BlankLineWaitTime { get; } = 750;
-        private string CurrentFileHash { get; set; } = string.Empty;
-
-        public FileInfo SelectedFile
-        {
-            get => selectedFile;
-            set
-            {
-                // 選択中のコンテンツが切り替わった時点で現在の再生状況はリセットするのが妥当。
-                PlayingIndex = 0;
-                this.talker.stop();
-                SetProperty(ref selectedFile, value);
-
-                Texts = File.ReadAllLines(selectedFile.FullName).ToList<string>();
-                CurrentFileHash = HashGenerator.getMD5Hash(File.ReadAllText(selectedFile.FullName));
-            }
-        }
-        private FileInfo selectedFile;
-
-        private List<string> texts = new List<string>();
-        public List<string> Texts
-        {
-            get => texts;
-            set => SetProperty(ref texts, value);
-        }
-
-        public int SelectedTextIndex
-        {
-            get => selectedTextIndex;
-            set => SetProperty(ref selectedTextIndex, value);
-        }
-        private int selectedTextIndex = 0;
-
-        public int SelectedFileIndex
-        {
-            get => selectedFileIndex;
-            set => SetProperty(ref selectedFileIndex, value);
-        }
-        private int selectedFileIndex;
+        private DelegateCommand playCommand;
+        private DelegateCommand playFromIndexCommand;
+        private DelegateCommand jumpToUnreadCommand;
+        private DelegateCommand stopCommand;
 
         public TextPlayer(ITalker talker)
         {
@@ -85,14 +46,47 @@
             SSMLConverter.Rate = 85;
         }
 
-        public void resetFiles()
+        public ObservableCollection<FileInfo> FileList { get; set; } = new ObservableCollection<FileInfo>();
+
+        public AzureSSMLGen SSMLConverter { get; } = new AzureSSMLGen();
+
+        public string PlayingPlainText { get; private set; } = string.Empty;
+
+        public int PlayingIndex { get; set; } = 0;
+
+        public FileInfo SelectedFile
         {
-            StopCommand.Execute();
-            FileList.Clear();
-            SelectedFile = null;
+            get => selectedFile;
+            set
+            {
+                // 選択中のコンテンツが切り替わった時点で現在の再生状況はリセットするのが妥当。
+                PlayingIndex = 0;
+                this.talker.stop();
+                SetProperty(ref selectedFile, value);
+
+                Texts = File.ReadAllLines(selectedFile.FullName).ToList<string>();
+                CurrentFileHash = HashGenerator.getMD5Hash(File.ReadAllText(selectedFile.FullName));
+            }
         }
 
-        private DelegateCommand playCommand;
+        public List<string> Texts
+        {
+            get => texts;
+            set => SetProperty(ref texts, value);
+        }
+
+        public int SelectedTextIndex
+        {
+            get => selectedTextIndex;
+            set => SetProperty(ref selectedTextIndex, value);
+        }
+
+        public int SelectedFileIndex
+        {
+            get => selectedFileIndex;
+            set => SetProperty(ref selectedFileIndex, value);
+        }
+
         public DelegateCommand PlayCommand
         {
             get => playCommand ?? (playCommand = new DelegateCommand(
@@ -149,7 +143,6 @@
 
         public DelegateCommand PlayFromIndexCommand
         {
-            #region
             get => playFromIndexCommand ?? (playFromIndexCommand = new DelegateCommand(() =>
             {
                 if (SelectedTextIndex < Texts.Count)
@@ -160,13 +153,9 @@
                 }
             }));
         }
-        private DelegateCommand playFromIndexCommand;
-        #endregion
-
 
         public DelegateCommand JumpToUnreadCommand
         {
-            #region
             get => jumpToUnreadCommand ?? (jumpToUnreadCommand = new DelegateCommand(() =>
             {
                 talker.stop();
@@ -175,11 +164,7 @@
                 SelectedTextIndex = unreadLineNumber;
             }));
         }
-        private DelegateCommand jumpToUnreadCommand;
-        #endregion
 
-
-        private DelegateCommand stopCommand;
         public DelegateCommand StopCommand
         {
             get => stopCommand ?? (stopCommand = new DelegateCommand(
@@ -188,5 +173,17 @@
                 talker.stop();
             }));
         }
+
+        private int BlankLineWaitTime { get; } = 750;
+
+        private string CurrentFileHash { get; set; } = string.Empty;
+
+        public void resetFiles()
+        {
+            StopCommand.Execute();
+            FileList.Clear();
+            SelectedFile = null;
+        }
+
     }
 }

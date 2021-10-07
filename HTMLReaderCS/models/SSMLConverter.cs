@@ -7,11 +7,90 @@
     using System.Text.RegularExpressions;
     using System.Threading.Tasks;
 
+    // 声の高さ
+    public enum Pitch
+    {
+        Default, XLow, Low, Mediaum, High, XHigh
+    }
+
+    // 読み上げ速度
+    public enum Rate
+    {
+        Default, XSlow, Slow, Medium, Fast, XFast
+    }
+
+    // 音量
+    public enum Volume
+    {
+        Default, XSoft, Soft, Medium, Loud, XLoud, Silent, Minus10Db, Plus10Db
+    }
+
+    // 声の強弱
+    public enum Emphasis
+    {
+        strong, moderate, none, reduced
+    }
+
+    // 声の一時停止の強弱
+    public enum Break
+    {
+        None, XWeak, Medium, Strong, XStrong
+    }
     /// <summary>
     /// テキストを SSML に変換する機能を提供します
     /// </summary>
+
     public class SSMLConverter
     {
+        public const int DefaultVocalTractLength = 100;
+        private int vocalTractLength;
+
+        private Dictionary<Pitch, string> pitchStrings = new Dictionary<Pitch, string> {
+            { Pitch.Default,    "\"default\"" },
+            { Pitch.XLow,       "\"x-low\"" },
+            { Pitch.Low,        "\"low\"" },
+            { Pitch.Mediaum,    "\"medium\"" },
+            { Pitch.High,       "\"high\"" },
+            { Pitch.XHigh,      "\"x-high\"" }
+        };
+
+        private Dictionary<Rate, string> rateStrings = new Dictionary<Rate, string> {
+            { Rate.Default,  "\"default\"" },
+            { Rate.XSlow,    "\"x-slow\"" },
+            { Rate.Slow,     "\"slow\"" },
+            { Rate.Medium,   "\"medium\"" },
+            { Rate.Fast,     "\"fast\"" },
+            { Rate.XFast,    "\"x-fast\"" },
+        };
+
+        private Dictionary<Volume, string> volumeStrings = new Dictionary<Volume, string> {
+            { Volume.Default,    "\"default\"" },
+            { Volume.XSoft,      "\"x-soft\"" },
+            { Volume.Soft,       "\"soft\"" },
+            { Volume.Medium,     "\"medium\"" },
+            { Volume.Loud,       "\"loud\"" },
+            { Volume.XLoud,      "\"x-loud\"" },
+            { Volume.Silent,     "\"silent\"" },
+            { Volume.Minus10Db,  "\"-10dB\"" },
+            { Volume.Plus10Db,   "\"+10bB\"" },
+        };
+
+        private Dictionary<Break, string> breakStrings = new Dictionary<Break, string> {
+            { Break.None,    "\"none\"" },
+            { Break.XWeak,   "\"x-weak\"" },
+            { Break.Medium,  "\"medium\"" },
+            { Break.Strong,  "\"strong\"" },
+            { Break.XStrong, "\"x-strong\"" },
+        };
+        public SSMLConverter()
+        {
+            VocalTractLength = DefaultVocalTractLength;
+        }
+
+        public SSMLConverter(string text) : this()
+        {
+            Text = text;
+        }
 
         public string Text { get; set; }
 
@@ -45,24 +124,11 @@
                 }
             }
         }
-        private int vocalTractLength;
-        public const int DefaultVocalTractLength = 100;
 
         /// <summary>
         /// getSSML() を実行した際、Textに含まれる改行文字を <break strength="xxx" /> に置き換えるかどうかを指定します。
         /// </summary>
         public bool DoReplaceNewLineToBreak { get; set; } = false;
-
-
-        public SSMLConverter()
-        {
-            VocalTractLength = DefaultVocalTractLength;
-        }
-
-        public SSMLConverter(string text) : this()
-        {
-            Text = text;
-        }
 
         /// <summary>
         /// メソッド内部でSSMLを生成して返します
@@ -117,73 +183,5 @@
             Rate = Rate.Default;
             Volume = Volume.Default;
         }
-
-        private Dictionary<Pitch, string> pitchStrings = new Dictionary<Pitch, string> {
-            { Pitch.Default,    "\"default\"" },
-            { Pitch.XLow,       "\"x-low\"" },
-            { Pitch.Low,        "\"low\"" },
-            { Pitch.Mediaum,    "\"medium\"" },
-            { Pitch.High,       "\"high\"" },
-            { Pitch.XHigh,      "\"x-high\"" }
-        };
-
-        private Dictionary<Rate, string> rateStrings = new Dictionary<Rate, string> {
-            { Rate.Default,  "\"default\"" },
-            { Rate.XSlow,    "\"x-slow\"" },
-            { Rate.Slow,     "\"slow\"" },
-            { Rate.Medium,   "\"medium\"" },
-            { Rate.Fast,     "\"fast\"" },
-            { Rate.XFast,    "\"x-fast\"" },
-        };
-
-        private Dictionary<Volume, string> volumeStrings = new Dictionary<Volume, string> {
-            { Volume.Default,    "\"default\"" },
-            { Volume.XSoft,      "\"x-soft\"" },
-            { Volume.Soft,       "\"soft\"" },
-            { Volume.Medium,     "\"medium\"" },
-            { Volume.Loud,       "\"loud\"" },
-            { Volume.XLoud,      "\"x-loud\"" },
-            { Volume.Silent,     "\"silent\"" },
-            { Volume.Minus10Db,  "\"-10dB\"" },
-            { Volume.Plus10Db,   "\"+10bB\"" },
-        };
-
-        private Dictionary<Break, string> breakStrings = new Dictionary<Break, string> {
-            { Break.None,    "\"none\"" },
-            { Break.XWeak,   "\"x-weak\"" },
-            { Break.Medium,  "\"medium\"" },
-            { Break.Strong,  "\"strong\"" },
-            { Break.XStrong, "\"x-strong\"" },
-        };
-    }
-
-    // 声の高さ
-    public enum Pitch
-    {
-        Default, XLow, Low, Mediaum, High, XHigh
-    }
-
-    // 読み上げ速度
-    public enum Rate
-    {
-        Default, XSlow, Slow, Medium, Fast, XFast
-    }
-
-    // 音量
-    public enum Volume
-    {
-        Default, XSoft, Soft, Medium, Loud, XLoud, Silent, Minus10Db, Plus10Db
-    }
-
-    // 声の強弱
-    public enum Emphasis
-    {
-        strong, moderate, none, reduced
-    }
-
-    // 声の一時停止の強弱
-    public enum Break
-    {
-        None, XWeak, Medium, Strong, XStrong
     }
 }

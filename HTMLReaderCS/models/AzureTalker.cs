@@ -3,18 +3,12 @@
     using System;
     using System.IO;
     using System.Threading.Tasks;
-    using Microsoft.CognitiveServices.Speech.Audio;
     using Microsoft.CognitiveServices.Speech;
+    using Microsoft.CognitiveServices.Speech.Audio;
     using WMPLib;
 
     public class AzureTalker : ITalker
     {
-
-        public string OutputFileName { get; private set; }
-        private WindowsMediaPlayer WMP { get; } = new WindowsMediaPlayer();
-
-        public event EventHandler TalkEnded;
-
         private DirectoryInfo OutputDirectoryInfo = new DirectoryInfo(Properties.Settings.Default.OutputDirectoryName);
 
         public AzureTalker()
@@ -32,6 +26,12 @@
                 }
             };
         }
+
+        public event EventHandler TalkEnded;
+
+        public string OutputFileName { get; private set; }
+
+        private WindowsMediaPlayer WMP { get; } = new WindowsMediaPlayer();
 
         public async void ssmlTalk(string ssmlText)
         {
