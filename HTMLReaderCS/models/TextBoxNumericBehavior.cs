@@ -1,9 +1,8 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-
-namespace HTMLReaderCS.Models
+﻿namespace HTMLReaderCS.Models
 {
+    using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Input;
 
     /// <summary>
     /// TextBox 添付ビヘイビア
@@ -14,12 +13,8 @@ namespace HTMLReaderCS.Models
         /// <summary>
         /// True なら入力を数字のみに制限します。
         /// </summary>
-        public static readonly DependencyProperty IsNumericProperty =
-                    DependencyProperty.RegisterAttached(
-                        "IsNumeric", typeof(bool),
-                        typeof(TextBoxNumericBehavior),
-                        new UIPropertyMetadata(false, IsNumericChanged)
-                    );
+        public static readonly DependencyProperty IsNumericProperty = DependencyProperty.RegisterAttached(
+                "IsNumeric", typeof(bool), typeof(TextBoxNumericBehavior), new UIPropertyMetadata(false, IsNumericChanged));
 
         [AttachedPropertyBrowsableForType(typeof(TextBox))]
         public static bool GetIsNumeric(DependencyObject obj)
@@ -33,8 +28,7 @@ namespace HTMLReaderCS.Models
             obj.SetValue(IsNumericProperty, value);
         }
 
-        private static void IsNumericChanged
-            (DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        private static void IsNumericChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
 
             var textBox = sender as TextBox;

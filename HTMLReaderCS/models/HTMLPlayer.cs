@@ -1,16 +1,16 @@
-﻿using Prism.Commands;
-using Prism.Mvvm;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HTMLReaderCS.models
+﻿namespace HTMLReaderCS.models
 {
+    using Prism.Commands;
+    using Prism.Mvvm;
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Diagnostics;
+    using System.IO;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+
     public class HTMLPlayer : BindableBase, IPlayer
     {
 
@@ -23,7 +23,7 @@ namespace HTMLReaderCS.models
         public AzureSSMLGen SSMLConverter { get; } = new AzureSSMLGen();
 
         public int PlayingIndex { get; set; } = 0;
-        public String PlayingPlainText { get; private set; } = "";
+        public string PlayingPlainText { get; private set; } = string.Empty;
 
         private OutputFileInfo outputFileInfo;
         private SQLiteHelper sqLiteHelper = new SQLiteHelper();
@@ -95,8 +95,7 @@ namespace HTMLReaderCS.models
         private DelegateCommand playCommand;
         public DelegateCommand PlayCommand
         {
-            get => playCommand ?? (playCommand = new DelegateCommand(
-                () =>
+            get => playCommand ?? (playCommand = new DelegateCommand(() =>
                 {
 
                     if (currentHtmlContents.TextElements.Count <= PlayingIndex)
@@ -123,8 +122,7 @@ namespace HTMLReaderCS.models
                     outputFileInfo.TagName = currentHtmlContents.TextElements[PlayingIndex].TagName;
                     outputFileInfo.FileName = talker.OutputFileName;
                     outputFileInfo.HtmlFileName = currentHtmlContents.FileName;
-                }
-            ));
+                }));
         }
 
         public DelegateCommand PlayFromIndexCommand
@@ -152,12 +150,10 @@ namespace HTMLReaderCS.models
         private DelegateCommand stopCommand;
         public DelegateCommand StopCommand
         {
-            get => stopCommand ?? (stopCommand = new DelegateCommand(
-                () =>
-                {
-                    talker.stop();
-                }
-            ));
+            get => stopCommand ?? (stopCommand = new DelegateCommand(() =>
+            {
+                talker.stop();
+            }));
         }
     }
 }

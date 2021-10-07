@@ -1,17 +1,17 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using HTMLReaderCS.models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HTMLReaderCS.models.Tests
+﻿namespace HTMLReaderCS.models.Tests
 {
-    [TestClass()]
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using HTMLReaderCS.models;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+
+    [TestClass]
     public class SSMLConverterTests
     {
-        [TestMethod()]
+        [TestMethod]
         public void SSMLConverterTest()
         {
             SSMLConverter converter = new SSMLConverter();
@@ -50,7 +50,7 @@ namespace HTMLReaderCS.models.Tests
             converter = new SSMLConverter("test");
             converter.VocalTractLength = 120;
 
-            String expectedString = "<speak>";
+            string expectedString = "<speak>";
             expectedString += "<amazon:effect vocal-tract-length=\"120%\">test</amazon:effect>";
             expectedString += "</speak>";
 

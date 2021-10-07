@@ -1,9 +1,9 @@
-﻿using System;
-using System.Text;
-using System.Security.Cryptography;
-
-namespace HTMLReaderCS.models
+﻿namespace HTMLReaderCS.models
 {
+    using System;
+    using System.Security.Cryptography;
+    using System.Text;
+
     public class HashGenerator
     {
 
@@ -22,7 +22,7 @@ namespace HTMLReaderCS.models
             {
                 byte[] bs = md5.ComputeHash(data);
                 md5.Clear();
-                return BitConverter.ToString(bs).ToLower().Replace("-", "").ToString();
+                return BitConverter.ToString(bs).ToLower().Replace("-", string.Empty).ToString();
             }
         }
     }

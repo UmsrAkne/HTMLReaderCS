@@ -1,12 +1,12 @@
-﻿using System;
-using System.IO;
-using System.Threading.Tasks;
-using Microsoft.CognitiveServices.Speech;
-using Microsoft.CognitiveServices.Speech.Audio;
-using WMPLib;
-
-namespace HTMLReaderCS.models
+﻿namespace HTMLReaderCS.models
 {
+    using System;
+    using System.IO;
+    using System.Threading.Tasks;
+    using Microsoft.CognitiveServices.Speech.Audio;
+    using Microsoft.CognitiveServices.Speech;
+    using WMPLib;
+
     public class AzureTalker : ITalker
     {
 

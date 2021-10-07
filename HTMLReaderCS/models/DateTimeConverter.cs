@@ -1,10 +1,10 @@
-﻿using System;
-using System.Windows.Data;
-using System.Globalization;
-
-namespace HTMLReaderCS.Models
+﻿namespace HTMLReaderCS.Models
 {
-    class DateTimeConverter : IValueConverter
+    using System;
+    using System.Globalization;
+    using System.Windows.Data;
+
+    public class DateTimeConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

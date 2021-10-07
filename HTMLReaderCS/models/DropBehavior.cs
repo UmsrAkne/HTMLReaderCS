@@ -1,14 +1,14 @@
-﻿using HTMLReaderCS.models;
-using HTMLReaderCS.ViewModels;
-using System.Collections.Generic;
-using System.IO;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Interactivity;
-
-namespace HTMLReaderCS.Models
+﻿namespace HTMLReaderCS.Models
 {
-    class DropBehavior : Behavior<Window>
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Windows.Controls;
+    using System.Windows.Interactivity;
+    using System.Windows;
+    using HTMLReaderCS.models;
+    using HTMLReaderCS.ViewModels;
+
+    public class DropBehavior : Behavior<Window>
     {
 
         protected override void OnAttached()

@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Amazon.Polly;
-using Amazon.Polly.Model;
-using System.Windows;
-using WMPLib;
-using System.Windows.Threading;
-
-namespace HTMLReaderCS.models
+﻿namespace HTMLReaderCS.models
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Windows.Threading;
+    using System.Windows;
+    using Amazon.Polly.Model;
+    using Amazon.Polly;
+    using WMPLib;
+
     public class PollyPlayer : ITalker
     {
 

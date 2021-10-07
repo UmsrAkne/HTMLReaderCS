@@ -1,13 +1,13 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using HTMLReaderCS.models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HTMLReaderCS.models.Tests
+﻿namespace HTMLReaderCS.models.Tests
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using HTMLReaderCS.models;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     [TestClass()]
     public class AzureSSMLGenTests
     {

@@ -1,37 +1,31 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using HTMLReaderCS.models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HTMLReaderCS.models.Tests
+﻿namespace HTMLReaderCS.models.Tests
 {
-    [TestClass()]
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+    [TestClass]
     public class SQLiteHelperTests
     {
-        [TestMethod()]
+        [TestMethod]
         public void SQLiteHelperTest()
         {
             var SQLiteHelper = new SQLiteHelper();
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void insertTest()
         {
             var sqliteHelper = new SQLiteHelper();
             sqliteHelper.insert(new OutputFileInfo());
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void selectTest()
         {
             var sqliteHelper = new SQLiteHelper();
             var l = sqliteHelper.select($"select * from {sqliteHelper.TableName};");
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void getHistoriesTest()
         {
             var sqliteHelper = new SQLiteHelper();

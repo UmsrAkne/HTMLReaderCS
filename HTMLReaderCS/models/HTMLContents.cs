@@ -1,15 +1,15 @@
-﻿using AngleSharp.Html.Dom;
-using AngleSharp.Dom;
-using AngleSharp.Html.Parser;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Text.RegularExpressions;
-
-namespace HTMLReaderCS.models
+﻿namespace HTMLReaderCS.models
 {
+    using AngleSharp.Html.Dom;
+    using AngleSharp.Dom;
+    using AngleSharp.Html.Parser;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Text.RegularExpressions;
+
     public class HTMLContents
     {
 
@@ -17,7 +17,7 @@ namespace HTMLReaderCS.models
 
         public string FileName { get; set; } = "default";
 
-        public HTMLContents(String htmlText)
+        public HTMLContents(string htmlText)
         {
             var parser = new HtmlParser();
             htmlDocument = parser.ParseDocument(htmlText);
@@ -28,7 +28,7 @@ namespace HTMLReaderCS.models
         /// </summary>
         /// <param name="htmlText"></param>
         /// <param name="replaceRubyTag">true を入力した場合、ルビタグを漢字のみに置き換えた後にHTMLをパースします。</param>
-        public HTMLContents(String htmlText, bool doReplaceRubyTag)
+        public HTMLContents(string htmlText, bool doReplaceRubyTag)
         {
             if (doReplaceRubyTag)
             {
@@ -39,13 +39,12 @@ namespace HTMLReaderCS.models
             htmlDocument = parser.ParseDocument(htmlText);
         }
 
-        private List<String> targetTags = new List<String>(new String[]{
-            "P","TITLE", "H1","H2","H3","H4","H5"});
+        private List<string> targetTags = new List<string>(new string[] { "P", "TITLE", "H1", "H2", "H3", "H4", "H5" });
 
         /// <summary>
         /// TextElementsプロパティを呼び出した際、このリストに含まれるタグを抜き出し、リストを作成します。
         /// </summary>
-        public List<String> TargetTags
+        public List<string> TargetTags
         {
             get => targetTags;
             set
@@ -79,7 +78,7 @@ namespace HTMLReaderCS.models
                     {
                         if (TargetTags.Any(t => t == e.TagName))
                         {
-                            if (!String.IsNullOrEmpty(e.TextContent))
+                            if (!string.IsNullOrEmpty(e.TextContent))
                             {
                                 textElements.Add(e);
                             }
@@ -92,9 +91,9 @@ namespace HTMLReaderCS.models
 
         private string replaceRubyTag(string target)
         {
-            target = Regex.Replace(target, " |　", "");
-            target = Regex.Replace(target, "<rt>(.+?)</rt>", "");
-            target = Regex.Replace(target, "<rp>(.+?)</rp>", "");
+            target = Regex.Replace(target, " |　", string.Empty);
+            target = Regex.Replace(target, "<rt>(.+?)</rt>", string.Empty);
+            target = Regex.Replace(target, "<rp>(.+?)</rp>", string.Empty);
             return Regex.Replace(target, "<ruby>(.+?)</ruby>", "$1");
         }
     }

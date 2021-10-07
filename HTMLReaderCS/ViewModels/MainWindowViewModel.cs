@@ -1,13 +1,13 @@
-﻿using HTMLReaderCS.models;
-using HTMLReaderCS.Views;
-using Prism.Commands;
-using Prism.Mvvm;
-using Prism.Services.Dialogs;
-using System.IO;
-using System.Text;
-
-namespace HTMLReaderCS.ViewModels
+﻿namespace HTMLReaderCS.ViewModels
 {
+    using System.IO;
+    using System.Text;
+    using HTMLReaderCS.Views;
+    using HTMLReaderCS.models;
+    using Prism.Commands;
+    using Prism.Mvvm;
+    using Prism.Services.Dialogs;
+
     public class MainWindowViewModel : BindableBase
     {
 
@@ -63,9 +63,7 @@ namespace HTMLReaderCS.ViewModels
             #region
             get => showHistoryWindowCommand ?? (showHistoryWindowCommand = new DelegateCommand(() =>
             {
-                dialogService.ShowDialog(nameof(HistoryWindow), new DialogParameters(), (IDialogResult result) =>
-                {
-                });
+                dialogService.ShowDialog(nameof(HistoryWindow), new DialogParameters(), (IDialogResult result) => { });
             }));
         }
         private DelegateCommand showHistoryWindowCommand;

@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HTMLReaderCS.models
+﻿namespace HTMLReaderCS.models
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// テキストを読み上げる機能を持つクラスが実装するインターフェースです
@@ -16,7 +15,7 @@ namespace HTMLReaderCS.models
         /// <summary>
         /// ssmlのテキストを読み上げる機能です。
         /// </summary>
-        void ssmlTalk(String ssmlText);
+        void ssmlTalk(string ssmlText);
 
         /// <summary>
         /// 読み上げの終了時に送出されるイベントです

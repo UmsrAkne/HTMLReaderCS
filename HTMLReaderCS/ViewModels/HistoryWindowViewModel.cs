@@ -1,17 +1,17 @@
-﻿using HTMLReaderCS.models;
-using Prism.Commands;
-using Prism.Mvvm;
-using Prism.Services.Dialogs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WMPLib;
-
-namespace HTMLReaderCS.ViewModels
+﻿namespace HTMLReaderCS.ViewModels
 {
-    class HistoryWindowViewModel : BindableBase, IDialogAware
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System;
+    using HTMLReaderCS.models;
+    using Prism.Commands;
+    using Prism.Mvvm;
+    using Prism.Services.Dialogs;
+    using WMPLib;
+
+    public class HistoryWindowViewModel : BindableBase, IDialogAware
     {
         public string Title => "履歴";
 

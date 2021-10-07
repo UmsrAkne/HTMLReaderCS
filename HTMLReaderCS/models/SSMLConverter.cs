@@ -1,19 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-
-namespace HTMLReaderCS.models
+﻿namespace HTMLReaderCS.models
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Text.RegularExpressions;
+    using System.Threading.Tasks;
+
     /// <summary>
     /// テキストを SSML に変換する機能を提供します
     /// </summary>
     public class SSMLConverter
     {
 
-        public String Text { get; set; }
+        public string Text { get; set; }
 
         public Pitch Pitch { get; set; } = Pitch.Default;
         public Rate Rate { get; set; } = Rate.Default;
@@ -59,7 +59,7 @@ namespace HTMLReaderCS.models
             VocalTractLength = DefaultVocalTractLength;
         }
 
-        public SSMLConverter(String text) : this()
+        public SSMLConverter(string text) : this()
         {
             Text = text;
         }
@@ -68,13 +68,13 @@ namespace HTMLReaderCS.models
         /// メソッド内部でSSMLを生成して返します
         /// </summary>
         /// <returns></returns>
-        public String getSSML()
+        public string getSSML()
         {
-            String ssml = Text;
+            string ssml = Text;
 
             if (DoReplaceNewLineToBreak)
             {
-                String breakTag = "<break strength=" + breakStrings[this.Break] + " />";
+                string breakTag = "<break strength=" + breakStrings[this.Break] + " />";
                 ssml = Regex.Replace(ssml, @"\r\n?|\n", breakTag);
             }
 
@@ -88,9 +88,9 @@ namespace HTMLReaderCS.models
             if (!prosodyIsDefault())
             {
                 string prosodyTag = "<prosody ";
-                prosodyTag += (this.Pitch != Pitch.Default) ? "pitch=" + pitchStrings[this.Pitch] + " " : "";
-                prosodyTag += (this.Rate != Rate.Default) ? "rate=" + rateStrings[this.Rate] + " " : "";
-                prosodyTag += (this.Volume != Volume.Default) ? "volume=" + volumeStrings[this.Volume] + " " : "";
+                prosodyTag += (this.Pitch != Pitch.Default) ? "pitch=" + pitchStrings[this.Pitch] + " " : string.Empty;
+                prosodyTag += (this.Rate != Rate.Default) ? "rate=" + rateStrings[this.Rate] + " " : string.Empty;
+                prosodyTag += (this.Volume != Volume.Default) ? "volume=" + volumeStrings[this.Volume] + " " : string.Empty;
                 prosodyTag += ">";
                 ssml = prosodyTag + ssml + "</prosody>";
             }
@@ -118,44 +118,43 @@ namespace HTMLReaderCS.models
             Volume = Volume.Default;
         }
 
-        private Dictionary<Pitch, String> pitchStrings = new Dictionary<Pitch, string> {
-            {Pitch.Default, "\"default\"" },
-            {Pitch.XLow,    "\"x-low\"" },
-            {Pitch.Low,     "\"low\"" },
-            {Pitch.Mediaum, "\"medium\"" },
-            {Pitch.High,    "\"high\"" },
-            {Pitch.XHigh,   "\"x-high\"" },
+        private Dictionary<Pitch, string> pitchStrings = new Dictionary<Pitch, string> {
+            { Pitch.Default,    "\"default\"" },
+            { Pitch.XLow,       "\"x-low\"" },
+            { Pitch.Low,        "\"low\"" },
+            { Pitch.Mediaum,    "\"medium\"" },
+            { Pitch.High,       "\"high\"" },
+            { Pitch.XHigh,      "\"x-high\"" }
         };
 
-        private Dictionary<Rate, String> rateStrings = new Dictionary<Rate, string> {
-            {Rate.Default,  "\"default\"" },
-            {Rate.XSlow,    "\"x-slow\"" },
-            {Rate.Slow,     "\"slow\"" },
-            {Rate.Medium,   "\"medium\"" },
-            {Rate.Fast,     "\"fast\"" },
-            {Rate.XFast,    "\"x-fast\"" },
+        private Dictionary<Rate, string> rateStrings = new Dictionary<Rate, string> {
+            { Rate.Default,  "\"default\"" },
+            { Rate.XSlow,    "\"x-slow\"" },
+            { Rate.Slow,     "\"slow\"" },
+            { Rate.Medium,   "\"medium\"" },
+            { Rate.Fast,     "\"fast\"" },
+            { Rate.XFast,    "\"x-fast\"" },
         };
 
-        private Dictionary<Volume, String> volumeStrings = new Dictionary<Volume, string> {
-            {Volume.Default,    "\"default\"" },
-            {Volume.XSoft,      "\"x-soft\"" },
-            {Volume.Soft,       "\"soft\"" },
-            {Volume.Medium,     "\"medium\"" },
-            {Volume.Loud,       "\"loud\"" },
-            {Volume.XLoud,      "\"x-loud\"" },
-            {Volume.Silent,     "\"silent\"" },
-            {Volume.Minus10Db,  "\"-10dB\"" },
-            {Volume.Plus10Db,   "\"+10bB\"" },
+        private Dictionary<Volume, string> volumeStrings = new Dictionary<Volume, string> {
+            { Volume.Default,    "\"default\"" },
+            { Volume.XSoft,      "\"x-soft\"" },
+            { Volume.Soft,       "\"soft\"" },
+            { Volume.Medium,     "\"medium\"" },
+            { Volume.Loud,       "\"loud\"" },
+            { Volume.XLoud,      "\"x-loud\"" },
+            { Volume.Silent,     "\"silent\"" },
+            { Volume.Minus10Db,  "\"-10dB\"" },
+            { Volume.Plus10Db,   "\"+10bB\"" },
         };
 
-        private Dictionary<Break, String> breakStrings = new Dictionary<Break, string> {
-            {Break.None,    "\"none\"" },
-            {Break.XWeak,   "\"x-weak\"" },
-            {Break.Medium,  "\"medium\"" },
-            {Break.Strong,  "\"strong\"" },
-            {Break.XStrong, "\"x-strong\"" },
+        private Dictionary<Break, string> breakStrings = new Dictionary<Break, string> {
+            { Break.None,    "\"none\"" },
+            { Break.XWeak,   "\"x-weak\"" },
+            { Break.Medium,  "\"medium\"" },
+            { Break.Strong,  "\"strong\"" },
+            { Break.XStrong, "\"x-strong\"" },
         };
-
     }
 
     // 声の高さ

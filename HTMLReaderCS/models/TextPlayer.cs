@@ -1,16 +1,16 @@
-﻿using Prism.Commands;
-using Prism.Mvvm;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HTMLReaderCS.models
+﻿namespace HTMLReaderCS.models
 {
+    using Prism.Commands;
+    using Prism.Mvvm;
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Diagnostics;
+    using System.IO;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+
     public class TextPlayer : BindableBase, IPlayer
     {
 
@@ -21,13 +21,13 @@ namespace HTMLReaderCS.models
         public AzureSSMLGen SSMLConverter { get; } = new AzureSSMLGen();
 
         public int PlayingIndex { get; set; } = 0;
-        public String PlayingPlainText { get; private set; } = "";
+        public string PlayingPlainText { get; private set; } = string.Empty;
 
         private OutputFileInfo outputFileInfo;
         private SQLiteHelper sqLiteHelper = new SQLiteHelper();
         private Stopwatch stopwatch = new Stopwatch();
         private int BlankLineWaitTime { get; } = 750;
-        private string CurrentFileHash { get; set; } = "";
+        private string CurrentFileHash { get; set; } = string.Empty;
 
         public FileInfo SelectedFile
         {
@@ -121,7 +121,7 @@ namespace HTMLReaderCS.models
                     int emptyLineCount = 0;
 
                     // PlayingPlainText が空文字だった場合はスキップして次の行を入力する。
-                    while (String.IsNullOrEmpty(PlayingPlainText))
+                    while (string.IsNullOrEmpty(PlayingPlainText))
                     {
                         emptyLineCount++;
                         PlayingIndex++;
@@ -144,8 +144,7 @@ namespace HTMLReaderCS.models
                     outputFileInfo.FileName = talker.OutputFileName;
                     outputFileInfo.Hash = CurrentFileHash;
                     outputFileInfo.Position = PlayingIndex;
-                }
-            ));
+                }));
         }
 
         public DelegateCommand PlayFromIndexCommand
@@ -184,11 +183,10 @@ namespace HTMLReaderCS.models
         public DelegateCommand StopCommand
         {
             get => stopCommand ?? (stopCommand = new DelegateCommand(
-                () =>
-                {
-                    talker.stop();
-                }
-            ));
+            () =>
+            {
+                talker.stop();
+            }));
         }
     }
 }

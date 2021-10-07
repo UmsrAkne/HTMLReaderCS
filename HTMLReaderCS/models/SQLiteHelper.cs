@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Data.SQLite;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HTMLReaderCS.models
+﻿namespace HTMLReaderCS.models
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Collections;
+    using System.Data.SQLite;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+
     public class SQLiteHelper
     {
 
@@ -36,8 +36,7 @@ namespace HTMLReaderCS.models
                 $"{nameof(OutputFileInfo.HtmlFileName)}      TEXT NOT NULL, " +
                 $"{nameof(OutputFileInfo.TagName)}           TEXT NOT NULL, " +
                 $"{nameof(OutputFileInfo.HeaderText)}        TEXT NOT NULL" +
-                $");"
-            );
+                $");");
         }
 
         public void insert(OutputFileInfo outputFileInfo)
@@ -63,8 +62,7 @@ namespace HTMLReaderCS.models
                 $"'{outputFileInfo.Position}'," +
                 $"'{outputFileInfo.TagName}'," +
                 $"'{outputFileInfo.HeaderText}'" +
-                $");"
-            );
+                $");");
         }
 
         public long getCount()
@@ -93,7 +91,7 @@ namespace HTMLReaderCS.models
 
                 dataReader.Close();
                 return resultList;
-            };
+            }
         }
 
         public List<OutputFileInfo> getHistories()
@@ -128,12 +126,12 @@ namespace HTMLReaderCS.models
                     $"WHERE {nameof(OutputFileInfo.Hash)} = '{fileHash}'" +
                     $"ORDER BY {nameof(OutputFileInfo.Position)}");
 
-            if ((h.First()["MAX(Position)"] == DBNull.Value))
+            if (h.First()["MAX(Position)"] == DBNull.Value)
             {
                 return 0;
             }
 
-            return (int)(long)(h.First()["MAX(Position)"]);
+            return (int)(long)h.First()["MAX(Position)"];
         }
 
         private void executeNonQuer(string sql)

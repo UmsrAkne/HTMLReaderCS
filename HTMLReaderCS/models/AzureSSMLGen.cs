@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HTMLReaderCS.models
+﻿namespace HTMLReaderCS.models
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+
     public class AzureSSMLGen
     {
 
@@ -40,18 +40,18 @@ namespace HTMLReaderCS.models
 
         public string getSSML(string plainText)
         {
-            string prosodyStartTag = "";
-            string prosodyEndTag = "";
+            string prosodyStartTag = string.Empty;
+            string prosodyEndTag = string.Empty;
 
             if (Rate != DefaultRate)
             {
-                Decimal rateDecimal = Decimal.Divide(Rate, 100);
+                decimal rateDecimal = decimal.Divide(Rate, 100);
                 prosodyStartTag = $"<prosody rate=\"{rateDecimal}\">";
                 prosodyEndTag = "</prosody>";
             }
 
-            string beforeWaitTag = "";
-            string afterWaitTag = "";
+            string beforeWaitTag = string.Empty;
+            string afterWaitTag = string.Empty;
 
             if (BeforeWait.TotalMilliseconds != 0)
             {
