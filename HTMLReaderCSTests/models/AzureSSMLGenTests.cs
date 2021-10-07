@@ -6,11 +6,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HTMLReaderCS.models.Tests {
+namespace HTMLReaderCS.models.Tests
+{
     [TestClass()]
-    public class AzureSSMLGenTests {
+    public class AzureSSMLGenTests
+    {
         [TestMethod()]
-        public void getSSMLTest() {
+        public void getSSMLTest()
+        {
             var gen = new AzureSSMLGen();
             gen.Rate = 80;
 

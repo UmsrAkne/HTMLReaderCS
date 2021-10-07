@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HTMLReaderCS.models {
-    public class OutputFileInfo {
+namespace HTMLReaderCS.models
+{
+    public class OutputFileInfo
+    {
 
         public int LengthSec { get; set; }
         public string FileName { get; set; }

@@ -2,12 +2,14 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace HTMLReaderCS.Models {
+namespace HTMLReaderCS.Models
+{
 
     /// <summary>
     /// TextBox 添付ビヘイビア
     /// </summary>
-    public class TextBoxNumericBehavior {
+    public class TextBoxNumericBehavior
+    {
 
         /// <summary>
         /// True なら入力を数字のみに制限します。
@@ -20,17 +22,20 @@ namespace HTMLReaderCS.Models {
                     );
 
         [AttachedPropertyBrowsableForType(typeof(TextBox))]
-        public static bool GetIsNumeric(DependencyObject obj) {
+        public static bool GetIsNumeric(DependencyObject obj)
+        {
             return (bool)obj.GetValue(IsNumericProperty);
         }
 
         [AttachedPropertyBrowsableForType(typeof(TextBox))]
-        public static void SetIsNumeric(DependencyObject obj, bool value) {
+        public static void SetIsNumeric(DependencyObject obj, bool value)
+        {
             obj.SetValue(IsNumericProperty, value);
         }
 
         private static void IsNumericChanged
-            (DependencyObject sender, DependencyPropertyChangedEventArgs e) {
+            (DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
 
             var textBox = sender as TextBox;
             if (textBox == null) return;
@@ -39,31 +44,37 @@ namespace HTMLReaderCS.Models {
             textBox.KeyDown -= OnKeyDown;
             textBox.TextChanged -= OnTextChanged;
             var newValue = (bool)e.NewValue;
-            if (newValue) {
+            if (newValue)
+            {
                 textBox.KeyDown += OnKeyDown;
                 textBox.TextChanged += OnTextChanged;
             }
         }
 
-        static void OnKeyDown(object sender, KeyEventArgs e) {
+        static void OnKeyDown(object sender, KeyEventArgs e)
+        {
             var textBox = sender as TextBox;
             if (textBox == null) return;
 
             if ((Key.D0 <= e.Key && e.Key <= Key.D9) ||
                 (Key.NumPad0 <= e.Key && e.Key <= Key.NumPad9) ||
-                (Key.Delete == e.Key) || (Key.Back == e.Key) || (Key.Tab == e.Key)) {
+                (Key.Delete == e.Key) || (Key.Back == e.Key) || (Key.Tab == e.Key))
+            {
                 e.Handled = false;
             }
-            else {
+            else
+            {
                 e.Handled = true;
             }
         }
 
-        private static void OnTextChanged(object sender, TextChangedEventArgs e) {
+        private static void OnTextChanged(object sender, TextChangedEventArgs e)
+        {
             var textBox = sender as TextBox;
             if (textBox == null) return;
 
-            if (string.IsNullOrEmpty(textBox.Text)) {
+            if (string.IsNullOrEmpty(textBox.Text))
+            {
                 textBox.Text = "0";
             }
         }

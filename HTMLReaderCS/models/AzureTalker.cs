@@ -5,8 +5,10 @@ using Microsoft.CognitiveServices.Speech;
 using Microsoft.CognitiveServices.Speech.Audio;
 using WMPLib;
 
-namespace HTMLReaderCS.models {
-    public class AzureTalker : ITalker {
+namespace HTMLReaderCS.models
+{
+    public class AzureTalker : ITalker
+    {
 
         public string OutputFileName { get; private set; }
         private WindowsMediaPlayer WMP { get; } = new WindowsMediaPlayer();
@@ -15,27 +17,34 @@ namespace HTMLReaderCS.models {
 
         private DirectoryInfo OutputDirectoryInfo = new DirectoryInfo(Properties.Settings.Default.OutputDirectoryName);
 
-        public AzureTalker() {
-            if (!OutputDirectoryInfo.Exists) {
+        public AzureTalker()
+        {
+            if (!OutputDirectoryInfo.Exists)
+            {
                 OutputDirectoryInfo.Create();
             }
 
-            WMP.PlayStateChange += (int NewState) => {
-                if(WMP.playState == WMPPlayState.wmppsMediaEnded) {
+            WMP.PlayStateChange += (int NewState) =>
+            {
+                if (WMP.playState == WMPPlayState.wmppsMediaEnded)
+                {
                     TalkEnded?.Invoke(this, new EventArgs());
                 }
             };
         }
 
-        public async void ssmlTalk(string ssmlText) {
+        public async void ssmlTalk(string ssmlText)
+        {
             await talk(ssmlText);
         }
 
-        public void stop() {
+        public void stop()
+        {
             WMP.controls.stop();
         }
 
-        private async Task talk(string ssml) {
+        private async Task talk(string ssml)
+        {
 
             string key = Environment.GetEnvironmentVariable("Microsoft_Speech_Secret_key");
 
@@ -46,7 +55,8 @@ namespace HTMLReaderCS.models {
             OutputFileName = DateTime.Now.ToString("yyyyMMddHHmmssff") + ".wav";
             var audioConfig = AudioConfig.FromWavFileOutput($"{OutputDirectoryInfo.Name}\\{OutputFileName}");
 
-            using (var synthesizer = new SpeechSynthesizer(config,audioConfig)) {
+            using (var synthesizer = new SpeechSynthesizer(config, audioConfig))
+            {
                 var ssmlGen = new AzureSSMLGen();
                 await synthesizer.SpeakSsmlAsync(ssml);
 

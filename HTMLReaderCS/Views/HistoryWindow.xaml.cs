@@ -13,12 +13,15 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace HTMLReaderCS.Views {
+namespace HTMLReaderCS.Views
+{
     /// <summary>
     /// HistoryWindow.xaml の相互作用ロジック
     /// </summary>
-    public partial class HistoryWindow : UserControl {
-        public HistoryWindow() {
+    public partial class HistoryWindow : UserControl
+    {
+        public HistoryWindow()
+        {
             InitializeComponent();
         }
     }

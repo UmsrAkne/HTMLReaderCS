@@ -9,8 +9,10 @@ using System.Text;
 using System.Threading.Tasks;
 using WMPLib;
 
-namespace HTMLReaderCS.ViewModels {
-    class HistoryWindowViewModel : BindableBase, IDialogAware {
+namespace HTMLReaderCS.ViewModels
+{
+    class HistoryWindowViewModel : BindableBase, IDialogAware
+    {
         public string Title => "履歴";
 
         public event Action<IDialogResult> RequestClose;
@@ -27,18 +29,23 @@ namespace HTMLReaderCS.ViewModels {
 
         public bool CanCloseDialog() => true;
 
-        public void OnDialogClosed() {
+        public void OnDialogClosed()
+        {
         }
 
-        public void OnDialogOpened(IDialogParameters parameters) {
+        public void OnDialogOpened(IDialogParameters parameters)
+        {
             SQLiteHelper = new SQLiteHelper();
             OutputHistory = SQLiteHelper.getHistories();
         }
 
-        public DelegateCommand PlayFileCommand {
+        public DelegateCommand PlayFileCommand
+        {
             #region
-            get => playFileCommand ?? (playFileCommand = new DelegateCommand(() => {
-                if(SelectedItem != null && SelectedItem.Exists) {
+            get => playFileCommand ?? (playFileCommand = new DelegateCommand(() =>
+            {
+                if (SelectedItem != null && SelectedItem.Exists)
+                {
                     WMP.URL = $"{Properties.Settings.Default.OutputDirectoryName}\\{SelectedItem.FileName}";
                     WMP.controls.play();
                 }
@@ -47,18 +54,22 @@ namespace HTMLReaderCS.ViewModels {
         private DelegateCommand playFileCommand;
         #endregion
 
-        public DelegateCommand StopSoundCommand {
+        public DelegateCommand StopSoundCommand
+        {
             #region
-            get => stopSoundCommand ?? (stopSoundCommand = new DelegateCommand(() => {
+            get => stopSoundCommand ?? (stopSoundCommand = new DelegateCommand(() =>
+            {
                 WMP.controls.stop();
             }));
         }
         private DelegateCommand stopSoundCommand;
         #endregion
 
-        public DelegateCommand CloseWindowCommand {
+        public DelegateCommand CloseWindowCommand
+        {
             #region
-            get => closeWindowCommand ?? (closeWindowCommand = new DelegateCommand(() => {
+            get => closeWindowCommand ?? (closeWindowCommand = new DelegateCommand(() =>
+            {
                 RequestClose?.Invoke(new DialogResult());
             }));
         }

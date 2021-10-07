@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HTMLReaderCS.models {
-    public class AzureSSMLGen {
+namespace HTMLReaderCS.models
+{
+    public class AzureSSMLGen
+    {
 
         private string RootStartTag => "<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xml:lang=\"string\">";
         private string RootEndTag => "</speak>";
@@ -31,16 +33,19 @@ namespace HTMLReaderCS.models {
         /// </summary>
         public TimeSpan AfterWait { get; set; }
 
-        public AzureSSMLGen() {
+        public AzureSSMLGen()
+        {
             Rate = DefaultRate;
         }
 
-        public string getSSML(string plainText) {
+        public string getSSML(string plainText)
+        {
             string prosodyStartTag = "";
             string prosodyEndTag = "";
 
-            if(Rate != DefaultRate) {
-                Decimal rateDecimal = Decimal.Divide(Rate,100);
+            if (Rate != DefaultRate)
+            {
+                Decimal rateDecimal = Decimal.Divide(Rate, 100);
                 prosodyStartTag = $"<prosody rate=\"{rateDecimal}\">";
                 prosodyEndTag = "</prosody>";
             }
@@ -48,11 +53,13 @@ namespace HTMLReaderCS.models {
             string beforeWaitTag = "";
             string afterWaitTag = "";
 
-            if(BeforeWait.TotalMilliseconds != 0) {
+            if (BeforeWait.TotalMilliseconds != 0)
+            {
                 beforeWaitTag = $"<break time=\"{BeforeWait.TotalMilliseconds}\" />";
             }
 
-            if(AfterWait.TotalMilliseconds != 0) {
+            if (AfterWait.TotalMilliseconds != 0)
+            {
                 afterWaitTag = $"<break time=\"{AfterWait.TotalMilliseconds}\" />";
             }
 

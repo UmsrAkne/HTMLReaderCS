@@ -15,15 +15,18 @@ namespace HTMLReaderCSTests.models
 
         public string OutputFileName { get; }
 
-        public void ssmlTalk(string ssmlText) {
+        public void ssmlTalk(string ssmlText)
+        {
             PlayingText = ssmlText;
         }
 
-        public void dispatchTalkEnded (){
+        public void dispatchTalkEnded()
+        {
             TalkEnded(this, new EventArgs());
         }
 
-        public void stop() {
+        public void stop()
+        {
         }
     }
 }

@@ -10,13 +10,14 @@ namespace HTMLReaderCS.models
     /// <summary>
     /// テキストを SSML に変換する機能を提供します
     /// </summary>
-    public class SSMLConverter {
+    public class SSMLConverter
+    {
 
         public String Text { get; set; }
 
         public Pitch Pitch { get; set; } = Pitch.Default;
         public Rate Rate { get; set; } = Rate.Default;
-        public Volume Volume{ get; set; } = Volume.Default;
+        public Volume Volume { get; set; } = Volume.Default;
 
         public Emphasis Emphasis { get; set; } = Emphasis.none;
         public Break Break { get; set; } = Break.None;
@@ -25,14 +26,21 @@ namespace HTMLReaderCS.models
         /// 声道の長さを指定します。デフォルト状態では DefaultVoiceTractLength の値が割り当てられます。
         /// 値は 50 - 200 の間の値を指定します。
         /// </summary>
-        public int VocalTractLength {
+        public int VocalTractLength
+        {
             get => vocalTractLength;
-            set {
-                if(value < 50) {
+            set
+            {
+                if (value < 50)
+                {
                     vocalTractLength = 50;
-                } else if(value > 200) {
+                }
+                else if (value > 200)
+                {
                     vocalTractLength = 200;
-                } else {
+                }
+                else
+                {
                     vocalTractLength = value;
                 }
             }
@@ -46,11 +54,13 @@ namespace HTMLReaderCS.models
         public bool DoReplaceNewLineToBreak { get; set; } = false;
 
 
-        public SSMLConverter() {
+        public SSMLConverter()
+        {
             VocalTractLength = DefaultVocalTractLength;
         }
 
-        public SSMLConverter(String text) : this() {
+        public SSMLConverter(String text) : this()
+        {
             Text = text;
         }
 
@@ -58,21 +68,25 @@ namespace HTMLReaderCS.models
         /// メソッド内部でSSMLを生成して返します
         /// </summary>
         /// <returns></returns>
-        public String getSSML() {
+        public String getSSML()
+        {
             String ssml = Text;
 
-            if (DoReplaceNewLineToBreak) {
+            if (DoReplaceNewLineToBreak)
+            {
                 String breakTag = "<break strength=" + breakStrings[this.Break] + " />";
                 ssml = Regex.Replace(ssml, @"\r\n?|\n", breakTag);
             }
 
-            if (VocalTractLength != DefaultVocalTractLength) {
+            if (VocalTractLength != DefaultVocalTractLength)
+            {
                 string vtlTag = "<amazon:effect vocal-tract-length=";
                 vtlTag += "\"" + VocalTractLength.ToString() + "%\">";
                 ssml = vtlTag + ssml + "</amazon:effect>";
             }
 
-            if (!prosodyIsDefault()) {
+            if (!prosodyIsDefault())
+            {
                 string prosodyTag = "<prosody ";
                 prosodyTag += (this.Pitch != Pitch.Default) ? "pitch=" + pitchStrings[this.Pitch] + " " : "";
                 prosodyTag += (this.Rate != Rate.Default) ? "rate=" + rateStrings[this.Rate] + " " : "";
@@ -81,7 +95,8 @@ namespace HTMLReaderCS.models
                 ssml = prosodyTag + ssml + "</prosody>";
             }
 
-            if (this.Emphasis != Emphasis.none) {
+            if (this.Emphasis != Emphasis.none)
+            {
                 ssml = "<emphasis level=" + "\"" + this.Emphasis.ToString() + "\">" + ssml + "</emphasis>";
             }
 
@@ -96,7 +111,8 @@ namespace HTMLReaderCS.models
         /// <summary>
         /// Prosody に関わるパラメーターである Pitch, Rate, Volume プロパティを全て default に設定します
         /// </summary>
-        public void resetProsody() {
+        public void resetProsody()
+        {
             Pitch = Pitch.Default;
             Rate = Rate.Default;
             Volume = Volume.Default;
@@ -143,27 +159,32 @@ namespace HTMLReaderCS.models
     }
 
     // 声の高さ
-    public enum Pitch {
-        Default, XLow, Low, Mediaum, High, XHigh 
+    public enum Pitch
+    {
+        Default, XLow, Low, Mediaum, High, XHigh
     }
 
     // 読み上げ速度
-    public enum Rate {
+    public enum Rate
+    {
         Default, XSlow, Slow, Medium, Fast, XFast
     }
 
     // 音量
-    public enum Volume {
+    public enum Volume
+    {
         Default, XSoft, Soft, Medium, Loud, XLoud, Silent, Minus10Db, Plus10Db
     }
 
     // 声の強弱
-    public enum Emphasis {
+    public enum Emphasis
+    {
         strong, moderate, none, reduced
     }
 
     // 声の一時停止の強弱
-    public enum Break {
+    public enum Break
+    {
         None, XWeak, Medium, Strong, XStrong
     }
 }

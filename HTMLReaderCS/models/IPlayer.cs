@@ -7,8 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HTMLReaderCS.models {
-    public interface IPlayer {
+namespace HTMLReaderCS.models
+{
+    public interface IPlayer
+    {
         ObservableCollection<FileInfo> FileList { get; set; }
         FileInfo SelectedFile { get; set; }
         int SelectedFileIndex { get; set; }

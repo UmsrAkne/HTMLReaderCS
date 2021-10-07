@@ -12,10 +12,11 @@ namespace HTMLReaderCS.models.Tests
     public class SSMLConverterTests
     {
         [TestMethod()]
-        public void SSMLConverterTest() {
+        public void SSMLConverterTest()
+        {
             SSMLConverter converter = new SSMLConverter();
             converter.Text = "test";
-            Assert.AreEqual(converter.getSSML(),"<speak>test</speak>");
+            Assert.AreEqual(converter.getSSML(), "<speak>test</speak>");
 
             Assert.IsTrue(converter.prosodyIsDefault());
             converter.Volume = Volume.Medium;

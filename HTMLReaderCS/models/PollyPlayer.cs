@@ -10,8 +10,10 @@ using System.Windows;
 using WMPLib;
 using System.Windows.Threading;
 
-namespace HTMLReaderCS.models {
-    public class PollyPlayer : ITalker {
+namespace HTMLReaderCS.models
+{
+    public class PollyPlayer : ITalker
+    {
 
         public SSMLConverter SsmlConverter { get; set; } = new SSMLConverter();
 
@@ -30,12 +32,14 @@ namespace HTMLReaderCS.models {
 
         public event EventHandler TalkEnded;
 
-        public PollyPlayer() {
+        public PollyPlayer()
+        {
             var accKey = Environment.GetEnvironmentVariable("AWS_ACCESS_KEY_ID");
             var secKey = Environment.GetEnvironmentVariable("AWS_SECRET_ACCESS_KEY");
             PollyClient = new AmazonPollyClient(accKey, secKey, Amazon.RegionEndpoint.APNortheast1);
 
-            if (!OutputDirectoryInfo.Exists) {
+            if (!OutputDirectoryInfo.Exists)
+            {
                 OutputDirectoryInfo.Create();
             }
 
@@ -52,21 +56,25 @@ namespace HTMLReaderCS.models {
             */
             timer = new DispatcherTimer();
             timer.Interval = new TimeSpan(0, 0, 1);
-            timer.Tick += (sender, e) => {
-                TalkEnded(this,new EventArgs());
+            timer.Tick += (sender, e) =>
+            {
+                TalkEnded(this, new EventArgs());
 
                 // timer は一回開始するごとに、一回だけ動作すればいいので、このメソッドが実行した時点で止める。
                 timer.Stop();
             };
         }
 
-        private void WMP_PlayStateChange(int NewState) {
-            if((int)WMP.playState == (int)WMPPlayState.wmppsMediaEnded) {
+        private void WMP_PlayStateChange(int NewState)
+        {
+            if ((int)WMP.playState == (int)WMPPlayState.wmppsMediaEnded)
+            {
                 timer.Start();
             }
         }
 
-        public void ssmlTalk(string ssmlText) {
+        public void ssmlTalk(string ssmlText)
+        {
 
             var req = new SynthesizeSpeechRequest();
             req.VoiceId = VoiceId.Takumi;
@@ -81,7 +89,8 @@ namespace HTMLReaderCS.models {
             OutputFileName = $"{DateTime.Now.ToString("yyyyMMddHHmmssff")}.mp3";
             var filePath = $"{OutputDirectoryInfo.Name}\\{OutputFileName}";
 
-            using (var output = new FileStream(filePath, FileMode.Create)) {
+            using (var output = new FileStream(filePath, FileMode.Create))
+            {
                 stream.CopyTo(output);
                 stream.Flush();
                 stream.Close();
@@ -90,11 +99,13 @@ namespace HTMLReaderCS.models {
             play(filePath);
         }
 
-        public void stop() {
+        public void stop()
+        {
             WMP.controls.stop();
         }
 
-        private void play(string filePath) {
+        private void play(string filePath)
+        {
             WMP.URL = filePath;
             WMP.controls.play();
         }

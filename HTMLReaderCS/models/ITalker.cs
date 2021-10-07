@@ -10,7 +10,8 @@ namespace HTMLReaderCS.models
     /// <summary>
     /// テキストを読み上げる機能を持つクラスが実装するインターフェースです
     /// </summary>
-    public interface ITalker {
+    public interface ITalker
+    {
 
         /// <summary>
         /// ssmlのテキストを読み上げる機能です。

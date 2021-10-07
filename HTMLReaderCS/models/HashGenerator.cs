@@ -2,8 +2,10 @@
 using System.Text;
 using System.Security.Cryptography;
 
-namespace HTMLReaderCS.models {
-    public class HashGenerator {
+namespace HTMLReaderCS.models
+{
+    public class HashGenerator
+    {
 
         private HashGenerator() { }
 
@@ -12,10 +14,12 @@ namespace HTMLReaderCS.models {
         /// </summary>
         /// <param name="target"></param>
         /// <returns> MD5ハッシュを生成し、16進数表記(数字、アルファベット小文字)で32文字の文字列を取得します。</returns>
-        public static string getMD5Hash(string target) {
+        public static string getMD5Hash(string target)
+        {
             byte[] data = Encoding.UTF8.GetBytes(target);
 
-            using (var md5 = new MD5CryptoServiceProvider()) {
+            using (var md5 = new MD5CryptoServiceProvider())
+            {
                 byte[] bs = md5.ComputeHash(data);
                 md5.Clear();
                 return BitConverter.ToString(bs).ToLower().Replace("-", "").ToString();

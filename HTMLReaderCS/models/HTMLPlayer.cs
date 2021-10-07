@@ -11,7 +11,8 @@ using System.Threading.Tasks;
 
 namespace HTMLReaderCS.models
 {
-    public class HTMLPlayer : BindableBase, IPlayer{
+    public class HTMLPlayer : BindableBase, IPlayer
+    {
 
         private HTMLContents currentHtmlContents { get; set; }
 
@@ -28,9 +29,11 @@ namespace HTMLReaderCS.models
         private SQLiteHelper sqLiteHelper = new SQLiteHelper();
         private Stopwatch stopwatch = new Stopwatch();
 
-        public FileInfo SelectedFile { 
+        public FileInfo SelectedFile
+        {
             get => selectedFile;
-            set {
+            set
+            {
                 currentHtmlContents = new HTMLContents(File.ReadAllText(value.FullName));
 
                 // 選択中のコンテンツが切り替わった時点で現在の再生状況はリセットするのが妥当。
@@ -42,27 +45,32 @@ namespace HTMLReaderCS.models
         }
         private FileInfo selectedFile;
 
-        public int SelectedFileIndex {
+        public int SelectedFileIndex
+        {
             get => selectedFileIndex;
             set => SetProperty(ref selectedFileIndex, value);
         }
         private int selectedFileIndex = 0;
 
-        public int SelectedTextIndex {
+        public int SelectedTextIndex
+        {
             get => selectedTextIndex;
             set => SetProperty(ref selectedTextIndex, value);
         }
         private int selectedTextIndex;
 
-        public List<string> Texts {
+        public List<string> Texts
+        {
             get => texts;
             set => SetProperty(ref texts, value);
         }
         private List<string> texts = new List<string>();
 
-        public HTMLPlayer(ITalker talker) {
+        public HTMLPlayer(ITalker talker)
+        {
             this.talker = talker;
-            this.talker.TalkEnded += (sender, e) => {
+            this.talker.TalkEnded += (sender, e) =>
+            {
 
                 stopwatch.Stop();
                 outputFileInfo.LengthSec = (int)stopwatch.Elapsed.TotalSeconds;
@@ -77,23 +85,29 @@ namespace HTMLReaderCS.models
             SSMLConverter.Rate = 85;
         }
 
-        public void resetFiles() {
+        public void resetFiles()
+        {
             StopCommand.Execute();
             FileList.Clear();
             SelectedFile = null;
         }
 
         private DelegateCommand playCommand;
-        public DelegateCommand PlayCommand {
+        public DelegateCommand PlayCommand
+        {
             get => playCommand ?? (playCommand = new DelegateCommand(
-                () => {
+                () =>
+                {
 
-                    if(currentHtmlContents.TextElements.Count <= PlayingIndex) {
-                        if(SelectedFileIndex < FileList.Count -1) {
+                    if (currentHtmlContents.TextElements.Count <= PlayingIndex)
+                    {
+                        if (SelectedFileIndex < FileList.Count - 1)
+                        {
                             SelectedFileIndex++;
                             SelectedFile = FileList[SelectedFileIndex];
                         }
-                        else {
+                        else
+                        {
                             return; // 次の HTML ファイルが存在しない場合は処理を中止
                         }
                     }
@@ -104,7 +118,7 @@ namespace HTMLReaderCS.models
 
                     stopwatch.Start();
                     outputFileInfo = new OutputFileInfo();
-                    outputFileInfo.HeaderText = PlayingPlainText.Substring(0, Math.Min(50,PlayingPlainText.Length));
+                    outputFileInfo.HeaderText = PlayingPlainText.Substring(0, Math.Min(50, PlayingPlainText.Length));
                     outputFileInfo.OutputDateTime = DateTime.Now;
                     outputFileInfo.TagName = currentHtmlContents.TextElements[PlayingIndex].TagName;
                     outputFileInfo.FileName = talker.OutputFileName;
@@ -113,18 +127,22 @@ namespace HTMLReaderCS.models
             ));
         }
 
-        public DelegateCommand PlayFromIndexCommand {
+        public DelegateCommand PlayFromIndexCommand
+        {
             #region
-            get => playFromIndexCommand ?? (playFromIndexCommand = new DelegateCommand(() => {
+            get => playFromIndexCommand ?? (playFromIndexCommand = new DelegateCommand(() =>
+            {
             }));
         }
         private DelegateCommand playFromIndexCommand;
         #endregion
 
 
-        public DelegateCommand JumpToUnreadCommand {
+        public DelegateCommand JumpToUnreadCommand
+        {
             #region
-            get => jumpToUnreadCommand ?? (jumpToUnreadCommand = new DelegateCommand(() => {
+            get => jumpToUnreadCommand ?? (jumpToUnreadCommand = new DelegateCommand(() =>
+            {
             }));
         }
         private DelegateCommand jumpToUnreadCommand;
@@ -132,9 +150,11 @@ namespace HTMLReaderCS.models
 
 
         private DelegateCommand stopCommand;
-        public DelegateCommand StopCommand {
+        public DelegateCommand StopCommand
+        {
             get => stopCommand ?? (stopCommand = new DelegateCommand(
-                () => {
+                () =>
+                {
                     talker.stop();
                 }
             ));

@@ -19,21 +19,25 @@ namespace HTMLReaderCS.ViewModels
         }
 
         private IPlayer player;
-        public IPlayer Player {
+        public IPlayer Player
+        {
             get => player;
             set => SetProperty(ref player, value);
         }
 
         private IDialogService dialogService;
 
-        public MainWindowViewModel(IDialogService _dialogService) {
+        public MainWindowViewModel(IDialogService _dialogService)
+        {
             dialogService = _dialogService;
         }
 
 
-        public DelegateCommand PlayNextCommand {
+        public DelegateCommand PlayNextCommand
+        {
             #region
-            get => playNextCommand ?? (playNextCommand = new DelegateCommand(() => {
+            get => playNextCommand ?? (playNextCommand = new DelegateCommand(() =>
+            {
                 Player.StopCommand.Execute();
                 Player.PlayingIndex++;
                 Player.PlayCommand.Execute();
@@ -42,9 +46,11 @@ namespace HTMLReaderCS.ViewModels
         private DelegateCommand playNextCommand;
         #endregion
 
-        public DelegateCommand ResetFileListCommand {
+        public DelegateCommand ResetFileListCommand
+        {
             #region
-            get => resetFileListCommand ?? (resetFileListCommand = new DelegateCommand(() => {
+            get => resetFileListCommand ?? (resetFileListCommand = new DelegateCommand(() =>
+            {
                 Player.resetFiles();
             }));
         }
@@ -52,10 +58,13 @@ namespace HTMLReaderCS.ViewModels
         #endregion
 
 
-        public DelegateCommand ShowHistoryWindowCommand {
+        public DelegateCommand ShowHistoryWindowCommand
+        {
             #region
-            get => showHistoryWindowCommand ?? (showHistoryWindowCommand = new DelegateCommand(() => {
-                dialogService.ShowDialog(nameof(HistoryWindow), new DialogParameters(), (IDialogResult result) => {
+            get => showHistoryWindowCommand ?? (showHistoryWindowCommand = new DelegateCommand(() =>
+            {
+                dialogService.ShowDialog(nameof(HistoryWindow), new DialogParameters(), (IDialogResult result) =>
+                {
                 });
             }));
         }

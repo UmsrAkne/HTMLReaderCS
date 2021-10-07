@@ -6,10 +6,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 
-namespace HTMLReaderCS.Models {
-    class HeaderTextConverter : IValueConverter {
+namespace HTMLReaderCS.Models
+{
+    class HeaderTextConverter : IValueConverter
+    {
 
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
 
             // 表示されるテキストから改行文字を取り除きます。
 
@@ -17,7 +20,8 @@ namespace HTMLReaderCS.Models {
             return text.Replace("\r", "").Replace("\n", "");
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) {
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
             throw new NotImplementedException();
         }
     }
