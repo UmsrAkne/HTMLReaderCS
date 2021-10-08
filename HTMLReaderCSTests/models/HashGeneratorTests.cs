@@ -1,11 +1,14 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿namespace HTMLReaderCS.Models.Tests
+{
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace HTMLReaderCS.models.Tests {
-    [TestClass()]
-    public class HashGeneratorTests {
-        [TestMethod()]
-        public void getMD5HashTest() {
-            Assert.AreEqual(HashGenerator.getMD5Hash("abcdefghijk").Length, 32);
+    [TestClass]
+    public class HashGeneratorTests
+    {
+        [TestMethod]
+        public void GetMD5HashTest()
+        {
+            Assert.AreEqual(HashGenerator.GetMD5Hash("abcdefghijk").Length, 32);
         }
     }
 }

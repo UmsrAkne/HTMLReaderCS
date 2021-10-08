@@ -1,29 +1,32 @@
-﻿using HTMLReaderCS.models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HTMLReaderCSTests.models
+﻿namespace HTMLReaderCSTests.Models
 {
-    class DummyTalker : ITalker
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using HTMLReaderCS.Models;
+
+    public class DummyTalker : ITalker
     {
         public event EventHandler TalkEnded;
 
-        public String PlayingText { get; set; }
+        public string PlayingText { get; set; }
 
         public string OutputFileName { get; }
 
-        public void ssmlTalk(string ssmlText) {
+        public void SSMLTalk(string ssmlText)
+        {
             PlayingText = ssmlText;
         }
 
-        public void dispatchTalkEnded (){
+        public void DispatchTalkEnded()
+        {
             TalkEnded(this, new EventArgs());
         }
 
-        public void stop() {
+        public void Stop()
+        {
         }
     }
 }

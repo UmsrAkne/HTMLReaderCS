@@ -4,6 +4,6 @@
 	     xmlns:prism="http://prismlibrary.com/"
              xmlns:local="clr-namespace:HTMLReaderCS">
     <Application.Resources>
-         
+
     </Application.Resources>
 </prism:PrismApplication>

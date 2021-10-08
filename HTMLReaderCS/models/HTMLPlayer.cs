@@ -1,74 +1,42 @@
-﻿using Prism.Commands;
-using Prism.Mvvm;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HTMLReaderCS.models
+﻿namespace HTMLReaderCS.Models
 {
-    public class HTMLPlayer : BindableBase, IPlayer{
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Diagnostics;
+    using System.IO;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using Prism.Commands;
+    using Prism.Mvvm;
 
-        private HTMLContents currentHtmlContents { get; set; }
-
-        public ObservableCollection<FileInfo> FileList { get; set; } = new ObservableCollection<FileInfo>();
-
+    public class HTMLPlayer : BindableBase, IPlayer
+    {
+        private FileInfo selectedFile;
         private ITalker talker;
 
-        public AzureSSMLGen SSMLConverter { get; } = new AzureSSMLGen();
-
-        public int PlayingIndex { get; set; } = 0;
-        public String PlayingPlainText { get; private set; } = "";
-
         private OutputFileInfo outputFileInfo;
-        private SQLiteHelper sqLiteHelper = new SQLiteHelper();
+        private SQLiteHelper sqliteHelper = new SQLiteHelper();
         private Stopwatch stopwatch = new Stopwatch();
-
-        public FileInfo SelectedFile { 
-            get => selectedFile;
-            set {
-                currentHtmlContents = new HTMLContents(File.ReadAllText(value.FullName));
-
-                // 選択中のコンテンツが切り替わった時点で現在の再生状況はリセットするのが妥当。
-                PlayingIndex = 0;
-                this.talker.stop();
-
-                SetProperty(ref selectedFile, value);
-            }
-        }
-        private FileInfo selectedFile;
-
-        public int SelectedFileIndex {
-            get => selectedFileIndex;
-            set => SetProperty(ref selectedFileIndex, value);
-        }
+        private DelegateCommand playCommand;
+        private DelegateCommand playFromIndexCommand;
+        private DelegateCommand jumpToUnreadCommand;
+        private DelegateCommand stopCommand;
         private int selectedFileIndex = 0;
-
-        public int SelectedTextIndex {
-            get => selectedTextIndex;
-            set => SetProperty(ref selectedTextIndex, value);
-        }
         private int selectedTextIndex;
-
-        public List<string> Texts {
-            get => texts;
-            set => SetProperty(ref texts, value);
-        }
         private List<string> texts = new List<string>();
 
-        public HTMLPlayer(ITalker talker) {
+        public HTMLPlayer(ITalker talker)
+        {
             this.talker = talker;
-            this.talker.TalkEnded += (sender, e) => {
-
+            this.talker.TalkEnded += (sender, e) =>
+            {
                 stopwatch.Stop();
                 outputFileInfo.LengthSec = (int)stopwatch.Elapsed.TotalSeconds;
                 stopwatch.Reset();
 
-                sqLiteHelper.insert(outputFileInfo);
+                sqliteHelper.Insert(outputFileInfo);
 
                 PlayingIndex++;
                 PlayCommand.Execute();
@@ -77,67 +45,107 @@ namespace HTMLReaderCS.models
             SSMLConverter.Rate = 85;
         }
 
-        public void resetFiles() {
-            StopCommand.Execute();
-            FileList.Clear();
-            SelectedFile = null;
+        public FileInfo SelectedFile
+        {
+            get => selectedFile;
+            set
+            {
+                CurrentHtmlContents = new HTMLContents(File.ReadAllText(value.FullName));
+
+                // 選択中のコンテンツが切り替わった時点で現在の再生状況はリセットするのが妥当。
+                PlayingIndex = 0;
+                this.talker.Stop();
+
+                SetProperty(ref selectedFile, value);
+            }
         }
 
-        private DelegateCommand playCommand;
-        public DelegateCommand PlayCommand {
-            get => playCommand ?? (playCommand = new DelegateCommand(
-                () => {
+        public ObservableCollection<FileInfo> FileList { get; set; } = new ObservableCollection<FileInfo>();
 
-                    if(currentHtmlContents.TextElements.Count <= PlayingIndex) {
-                        if(SelectedFileIndex < FileList.Count -1) {
+        public AzureSSMLGen SSMLConverter { get; } = new AzureSSMLGen();
+
+        public int PlayingIndex { get; set; } = 0;
+
+        public string PlayingPlainText { get; private set; } = string.Empty;
+
+        public int SelectedFileIndex
+        {
+            get => selectedFileIndex;
+            set => SetProperty(ref selectedFileIndex, value);
+        }
+
+        public int SelectedTextIndex
+        {
+            get => selectedTextIndex;
+            set => SetProperty(ref selectedTextIndex, value);
+        }
+
+        public List<string> Texts
+        {
+            get => texts;
+            set => SetProperty(ref texts, value);
+        }
+
+        public DelegateCommand PlayCommand
+        {
+            get => playCommand ?? (playCommand = new DelegateCommand(() =>
+                {
+                    if (CurrentHtmlContents.TextElements.Count <= PlayingIndex)
+                    {
+                        if (SelectedFileIndex < FileList.Count - 1)
+                        {
                             SelectedFileIndex++;
                             SelectedFile = FileList[SelectedFileIndex];
                         }
-                        else {
+                        else
+                        {
                             return; // 次の HTML ファイルが存在しない場合は処理を中止
                         }
                     }
 
-                    PlayingPlainText = currentHtmlContents.TextElements[PlayingIndex].TextContent;
+                    PlayingPlainText = CurrentHtmlContents.TextElements[PlayingIndex].TextContent;
 
-                    talker.ssmlTalk(SSMLConverter.getSSML(PlayingPlainText));
+                    talker.SSMLTalk(SSMLConverter.GetSSML(PlayingPlainText));
 
                     stopwatch.Start();
                     outputFileInfo = new OutputFileInfo();
-                    outputFileInfo.HeaderText = PlayingPlainText.Substring(0, Math.Min(50,PlayingPlainText.Length));
+                    outputFileInfo.HeaderText = PlayingPlainText.Substring(0, Math.Min(50, PlayingPlainText.Length));
                     outputFileInfo.OutputDateTime = DateTime.Now;
-                    outputFileInfo.TagName = currentHtmlContents.TextElements[PlayingIndex].TagName;
+                    outputFileInfo.TagName = CurrentHtmlContents.TextElements[PlayingIndex].TagName;
                     outputFileInfo.FileName = talker.OutputFileName;
-                    outputFileInfo.HtmlFileName = currentHtmlContents.FileName;
-                }
-            ));
+                    outputFileInfo.HtmlFileName = CurrentHtmlContents.FileName;
+                }));
         }
 
-        public DelegateCommand PlayFromIndexCommand {
-            #region
-            get => playFromIndexCommand ?? (playFromIndexCommand = new DelegateCommand(() => {
+        public DelegateCommand PlayFromIndexCommand
+        {
+            get => playFromIndexCommand ?? (playFromIndexCommand = new DelegateCommand(() =>
+            {
             }));
         }
-        private DelegateCommand playFromIndexCommand;
-        #endregion
 
-
-        public DelegateCommand JumpToUnreadCommand {
-            #region
-            get => jumpToUnreadCommand ?? (jumpToUnreadCommand = new DelegateCommand(() => {
+        public DelegateCommand JumpToUnreadCommand
+        {
+            get => jumpToUnreadCommand ?? (jumpToUnreadCommand = new DelegateCommand(() =>
+            {
             }));
         }
-        private DelegateCommand jumpToUnreadCommand;
-        #endregion
 
+        public DelegateCommand StopCommand
+        {
+            get => stopCommand ?? (stopCommand = new DelegateCommand(() =>
+            {
+                talker.Stop();
+            }));
+        }
 
-        private DelegateCommand stopCommand;
-        public DelegateCommand StopCommand {
-            get => stopCommand ?? (stopCommand = new DelegateCommand(
-                () => {
-                    talker.stop();
-                }
-            ));
+        private HTMLContents CurrentHtmlContents { get; set; }
+
+        public void ResetFiles()
+        {
+            StopCommand.Execute();
+            FileList.Clear();
+            SelectedFile = null;
         }
     }
 }
