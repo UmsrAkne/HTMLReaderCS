@@ -36,16 +36,17 @@
     {
         None, XWeak, Medium, Strong, XStrong
     }
+
     /// <summary>
     /// テキストを SSML に変換する機能を提供します
     /// </summary>
-
     public class SSMLConverter
     {
         public const int DefaultVocalTractLength = 100;
         private int vocalTractLength;
 
-        private Dictionary<Pitch, string> pitchStrings = new Dictionary<Pitch, string> {
+        private Dictionary<Pitch, string> pitchStrings = new Dictionary<Pitch, string>
+        {
             { Pitch.Default,    "\"default\"" },
             { Pitch.XLow,       "\"x-low\"" },
             { Pitch.Low,        "\"low\"" },
@@ -54,7 +55,8 @@
             { Pitch.XHigh,      "\"x-high\"" }
         };
 
-        private Dictionary<Rate, string> rateStrings = new Dictionary<Rate, string> {
+        private Dictionary<Rate, string> rateStrings = new Dictionary<Rate, string>
+        {
             { Rate.Default,  "\"default\"" },
             { Rate.XSlow,    "\"x-slow\"" },
             { Rate.Slow,     "\"slow\"" },
@@ -63,7 +65,8 @@
             { Rate.XFast,    "\"x-fast\"" },
         };
 
-        private Dictionary<Volume, string> volumeStrings = new Dictionary<Volume, string> {
+        private Dictionary<Volume, string> volumeStrings = new Dictionary<Volume, string>
+        {
             { Volume.Default,    "\"default\"" },
             { Volume.XSoft,      "\"x-soft\"" },
             { Volume.Soft,       "\"soft\"" },
@@ -75,13 +78,15 @@
             { Volume.Plus10Db,   "\"+10bB\"" },
         };
 
-        private Dictionary<Break, string> breakStrings = new Dictionary<Break, string> {
+        private Dictionary<Break, string> breakStrings = new Dictionary<Break, string>
+        {
             { Break.None,    "\"none\"" },
             { Break.XWeak,   "\"x-weak\"" },
             { Break.Medium,  "\"medium\"" },
             { Break.Strong,  "\"strong\"" },
             { Break.XStrong, "\"x-strong\"" },
         };
+
         public SSMLConverter()
         {
             VocalTractLength = DefaultVocalTractLength;
@@ -95,10 +100,13 @@
         public string Text { get; set; }
 
         public Pitch Pitch { get; set; } = Pitch.Default;
+
         public Rate Rate { get; set; } = Rate.Default;
+
         public Volume Volume { get; set; } = Volume.Default;
 
         public Emphasis Emphasis { get; set; } = Emphasis.none;
+
         public Break Break { get; set; } = Break.None;
 
         /// <summary>
@@ -134,7 +142,7 @@
         /// メソッド内部でSSMLを生成して返します
         /// </summary>
         /// <returns></returns>
-        public string getSSML()
+        public string GetSSML()
         {
             string ssml = Text;
 
@@ -151,7 +159,7 @@
                 ssml = vtlTag + ssml + "</amazon:effect>";
             }
 
-            if (!prosodyIsDefault())
+            if (!ProsodyIsDefault())
             {
                 string prosodyTag = "<prosody ";
                 prosodyTag += (this.Pitch != Pitch.Default) ? "pitch=" + pitchStrings[this.Pitch] + " " : string.Empty;
@@ -171,13 +179,13 @@
             return ssml;
         }
 
-        public bool prosodyIsDefault() =>
+        public bool ProsodyIsDefault() =>
             this.Pitch == Pitch.Default && this.Rate == Rate.Default && this.Volume == Volume.Default;
 
         /// <summary>
         /// Prosody に関わるパラメーターである Pitch, Rate, Volume プロパティを全て default に設定します
         /// </summary>
-        public void resetProsody()
+        public void ResetProsody()
         {
             Pitch = Pitch.Default;
             Rate = Rate.Default;

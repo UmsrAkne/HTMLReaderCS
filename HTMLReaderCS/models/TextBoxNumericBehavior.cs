@@ -9,7 +9,6 @@
     /// </summary>
     public class TextBoxNumericBehavior
     {
-
         /// <summary>
         /// True なら入力を数字のみに制限します。
         /// </summary>
@@ -28,27 +27,13 @@
             obj.SetValue(IsNumericProperty, value);
         }
 
-        private static void IsNumericChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        internal static void OnKeyDown(object sender, KeyEventArgs e)
         {
-
             var textBox = sender as TextBox;
-            if (textBox == null) return;
-
-            // イベントを登録・削除 
-            textBox.KeyDown -= OnKeyDown;
-            textBox.TextChanged -= OnTextChanged;
-            var newValue = (bool)e.NewValue;
-            if (newValue)
+            if (textBox == null)
             {
-                textBox.KeyDown += OnKeyDown;
-                textBox.TextChanged += OnTextChanged;
+                return;
             }
-        }
-
-        static void OnKeyDown(object sender, KeyEventArgs e)
-        {
-            var textBox = sender as TextBox;
-            if (textBox == null) return;
 
             if ((Key.D0 <= e.Key && e.Key <= Key.D9) ||
                 (Key.NumPad0 <= e.Key && e.Key <= Key.NumPad9) ||
@@ -62,10 +47,32 @@
             }
         }
 
+        private static void IsNumericChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
+            var textBox = sender as TextBox;
+            if (textBox == null)
+            {
+                return;
+            }
+
+            // イベントを登録・削除 
+            textBox.KeyDown -= OnKeyDown;
+            textBox.TextChanged -= OnTextChanged;
+            var newValue = (bool)e.NewValue;
+            if (newValue)
+            {
+                textBox.KeyDown += OnKeyDown;
+                textBox.TextChanged += OnTextChanged;
+            }
+        }
+
         private static void OnTextChanged(object sender, TextChangedEventArgs e)
         {
             var textBox = sender as TextBox;
-            if (textBox == null) return;
+            if (textBox == null)
+            {
+                return;
+            }
 
             if (string.IsNullOrEmpty(textBox.Text))
             {

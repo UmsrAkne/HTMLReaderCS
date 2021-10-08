@@ -10,11 +10,9 @@
 
     public class HeaderTextConverter : IValueConverter
     {
-
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-
-            // 表示されるテキストから改行文字を取り除きます。
+            //// 表示されるテキストから改行文字を取り除きます。
 
             var text = (string)value;
             return text.Replace("\r", string.Empty).Replace("\n", string.Empty);

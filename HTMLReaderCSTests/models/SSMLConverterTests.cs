@@ -16,36 +16,36 @@
         {
             SSMLConverter converter = new SSMLConverter();
             converter.Text = "test";
-            Assert.AreEqual(converter.getSSML(), "<speak>test</speak>");
+            Assert.AreEqual(converter.GetSSML(), "<speak>test</speak>");
 
-            Assert.IsTrue(converter.prosodyIsDefault());
+            Assert.IsTrue(converter.ProsodyIsDefault());
             converter.Volume = Volume.Medium;
 
-            Assert.IsFalse(converter.prosodyIsDefault());
+            Assert.IsFalse(converter.ProsodyIsDefault());
 
-            Assert.AreEqual(converter.getSSML(), "<speak><prosody volume=\"medium\" >test</prosody></speak>");
+            Assert.AreEqual(converter.GetSSML(), "<speak><prosody volume=\"medium\" >test</prosody></speak>");
 
             converter.Rate = Rate.XSlow;
-            Assert.AreEqual(converter.getSSML(), "<speak><prosody rate=\"x-slow\" volume=\"medium\" >test</prosody></speak>");
+            Assert.AreEqual(converter.GetSSML(), "<speak><prosody rate=\"x-slow\" volume=\"medium\" >test</prosody></speak>");
 
             converter.Pitch = Pitch.High;
-            Assert.AreEqual(converter.getSSML(), "<speak><prosody pitch=\"high\" rate=\"x-slow\" volume=\"medium\" >test</prosody></speak>");
+            Assert.AreEqual(converter.GetSSML(), "<speak><prosody pitch=\"high\" rate=\"x-slow\" volume=\"medium\" >test</prosody></speak>");
 
-            converter.resetProsody();
-            Assert.IsTrue(converter.prosodyIsDefault());
+            converter.ResetProsody();
+            Assert.IsTrue(converter.ProsodyIsDefault());
 
             converter.Emphasis = Emphasis.strong;
-            Assert.AreEqual(converter.getSSML(), "<speak><emphasis level=\"strong\">test</emphasis></speak>");
+            Assert.AreEqual(converter.GetSSML(), "<speak><emphasis level=\"strong\">test</emphasis></speak>");
 
             converter.Rate = Rate.Slow;
-            Assert.AreEqual(converter.getSSML(), "<speak><emphasis level=\"strong\"><prosody rate=\"slow\" >test</prosody></emphasis></speak>");
+            Assert.AreEqual(converter.GetSSML(), "<speak><emphasis level=\"strong\"><prosody rate=\"slow\" >test</prosody></emphasis></speak>");
 
             converter.DoReplaceNewLineToBreak = true;
-            converter.resetProsody();
+            converter.ResetProsody();
             converter.Emphasis = Emphasis.none;
             converter.Break = Break.Medium;
             converter.Text = "test\rtest\r\ntest\ntest";
-            Assert.AreEqual(converter.getSSML(), "<speak>test<break strength=\"medium\" />test<break strength=\"medium\" />test<break strength=\"medium\" />test</speak>");
+            Assert.AreEqual(converter.GetSSML(), "<speak>test<break strength=\"medium\" />test<break strength=\"medium\" />test<break strength=\"medium\" />test</speak>");
 
             converter = new SSMLConverter("test");
             converter.VocalTractLength = 120;
@@ -54,7 +54,7 @@
             expectedString += "<amazon:effect vocal-tract-length=\"120%\">test</amazon:effect>";
             expectedString += "</speak>";
 
-            Assert.AreEqual(converter.getSSML(), expectedString);
+            Assert.AreEqual(converter.GetSSML(), expectedString);
 
             converter.DoReplaceNewLineToBreak = true;
             converter.Break = Break.Medium;
@@ -77,7 +77,7 @@
                                 "</prosody>" +
                             "</speak>";
 
-            Assert.AreEqual(converter.getSSML(), expectedString);
+            Assert.AreEqual(converter.GetSSML(), expectedString);
         }
     }
 }

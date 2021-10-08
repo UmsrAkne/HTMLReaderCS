@@ -11,7 +11,6 @@
     /// </summary>
     public interface ITalker
     {
-
         /// <summary>
         /// 読み上げの終了時に送出されるイベントです
         /// </summary>
@@ -22,8 +21,8 @@
         /// <summary>
         /// ssmlのテキストを読み上げる機能です。
         /// </summary>
-        void ssmlTalk(string ssmlText);
+        void SSMLTalk(string ssmlText);
 
-        void stop();
+        void Stop();
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace HTMLReaderCSTests.models
+﻿namespace HTMLReaderCSTests.Models
 {
     using System;
     using System.Collections.Generic;
@@ -15,17 +15,17 @@
 
         public string OutputFileName { get; }
 
-        public void ssmlTalk(string ssmlText)
+        public void SSMLTalk(string ssmlText)
         {
             PlayingText = ssmlText;
         }
 
-        public void dispatchTalkEnded()
+        public void DispatchTalkEnded()
         {
             TalkEnded(this, new EventArgs());
         }
 
-        public void stop()
+        public void Stop()
         {
         }
     }

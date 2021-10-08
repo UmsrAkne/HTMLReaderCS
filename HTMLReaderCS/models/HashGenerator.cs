@@ -6,15 +6,16 @@
 
     public class HashGenerator
     {
-
-        private HashGenerator() { }
+        private HashGenerator()
+        {
+        }
 
         /// <summary>
         /// 文字列のMD5ハッシュを取得します。セキュリティに関わる用途では使用禁止。
         /// </summary>
         /// <param name="target"></param>
         /// <returns> MD5ハッシュを生成し、16進数表記(数字、アルファベット小文字)で32文字の文字列を取得します。</returns>
-        public static string getMD5Hash(string target)
+        public static string GetMD5Hash(string target)
         {
             byte[] data = Encoding.UTF8.GetBytes(target);
 

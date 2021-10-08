@@ -29,7 +29,7 @@
         {
             if (doReplaceRubyTag)
             {
-                htmlText = replaceRubyTag(htmlText);
+                htmlText = ReplaceRubyTag(htmlText);
             }
 
             var parser = new HtmlParser();
@@ -75,16 +75,17 @@
                         }
                     });
                 }
+
                 return textElements;
             }
         }
 
-        public IHtmlAllCollection getAllElement()
+        public IHtmlAllCollection GetAllElement()
         {
             return htmlDocument.All;
         }
 
-        private string replaceRubyTag(string target)
+        private string ReplaceRubyTag(string target)
         {
             target = Regex.Replace(target, " |　", string.Empty);
             target = Regex.Replace(target, "<rt>(.+?)</rt>", string.Empty);

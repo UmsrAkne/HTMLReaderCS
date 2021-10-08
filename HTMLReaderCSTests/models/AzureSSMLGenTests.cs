@@ -8,16 +8,16 @@
     using HTMLReaderCS.Models;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-    [TestClass()]
+    [TestClass]
     public class AzureSSMLGenTests
     {
-        [TestMethod()]
-        public void getSSMLTest()
+        [TestMethod]
+        public void GetSSMLTest()
         {
             var gen = new AzureSSMLGen();
             gen.Rate = 80;
 
-            var ssmlActual = gen.getSSML("読み上げるテキスト");
+            var ssmlActual = gen.GetSSML("読み上げるテキスト");
 
             string expected = "<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xml:lang=\"string\">" +
                                   "<voice name=\"ja-JP-KeitaNeural\">" +
@@ -42,7 +42,7 @@
                                   "</voice>" +
                               "</speak>";
 
-            Assert.AreEqual(gen.getSSML("読み上げるテキスト"), expected2);
+            Assert.AreEqual(gen.GetSSML("読み上げるテキスト"), expected2);
         }
     }
 }

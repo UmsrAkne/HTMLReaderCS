@@ -6,9 +6,9 @@
     public class HashGeneratorTests
     {
         [TestMethod]
-        public void getMD5HashTest()
+        public void GetMD5HashTest()
         {
-            Assert.AreEqual(HashGenerator.getMD5Hash("abcdefghijk").Length, 32);
+            Assert.AreEqual(HashGenerator.GetMD5Hash("abcdefghijk").Length, 32);
         }
     }
 }

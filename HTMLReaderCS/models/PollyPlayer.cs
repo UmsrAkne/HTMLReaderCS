@@ -59,9 +59,8 @@
 
         private WindowsMediaPlayer WMP { get; set; } = new WindowsMediaPlayer();
 
-        public void ssmlTalk(string ssmlText)
+        public void SSMLTalk(string ssmlText)
         {
-
             var req = new SynthesizeSpeechRequest();
             req.VoiceId = VoiceId.Takumi;
             req.OutputFormat = OutputFormat.Mp3;
@@ -82,15 +81,15 @@
                 stream.Close();
             }
 
-            play(filePath);
+            Play(filePath);
         }
 
-        public void stop()
+        public void Stop()
         {
             WMP.controls.stop();
         }
 
-        private void WMP_PlayStateChange(int NewState)
+        private void WMP_PlayStateChange(int newState)
         {
             if ((int)WMP.playState == (int)WMPPlayState.wmppsMediaEnded)
             {
@@ -98,7 +97,7 @@
             }
         }
 
-        private void play(string filePath)
+        private void Play(string filePath)
         {
             WMP.URL = filePath;
             WMP.controls.play();

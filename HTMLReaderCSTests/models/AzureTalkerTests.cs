@@ -12,11 +12,11 @@
     public class AzureTalkerTests
     {
         [TestMethod]
-        public void m1Test()
+        public void M1Test()
         {
             var azureTalker = new AzureTalker();
             var ssmlGen = new AzureSSMLGen();
-            azureTalker.ssmlTalk(ssmlGen.getSSML("このテキストを読み上げます"));
+            azureTalker.SSMLTalk(ssmlGen.GetSSML("このテキストを読み上げます"));
         }
     }
 }

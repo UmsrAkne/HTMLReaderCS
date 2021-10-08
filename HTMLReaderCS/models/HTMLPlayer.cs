@@ -13,12 +13,11 @@
 
     public class HTMLPlayer : BindableBase, IPlayer
     {
-
         private FileInfo selectedFile;
         private ITalker talker;
 
         private OutputFileInfo outputFileInfo;
-        private SQLiteHelper sqLiteHelper = new SQLiteHelper();
+        private SQLiteHelper sqliteHelper = new SQLiteHelper();
         private Stopwatch stopwatch = new Stopwatch();
         private DelegateCommand playCommand;
         private DelegateCommand playFromIndexCommand;
@@ -33,12 +32,11 @@
             this.talker = talker;
             this.talker.TalkEnded += (sender, e) =>
             {
-
                 stopwatch.Stop();
                 outputFileInfo.LengthSec = (int)stopwatch.Elapsed.TotalSeconds;
                 stopwatch.Reset();
 
-                sqLiteHelper.insert(outputFileInfo);
+                sqliteHelper.Insert(outputFileInfo);
 
                 PlayingIndex++;
                 PlayCommand.Execute();
@@ -52,11 +50,11 @@
             get => selectedFile;
             set
             {
-                currentHtmlContents = new HTMLContents(File.ReadAllText(value.FullName));
+                CurrentHtmlContents = new HTMLContents(File.ReadAllText(value.FullName));
 
                 // 選択中のコンテンツが切り替わった時点で現在の再生状況はリセットするのが妥当。
                 PlayingIndex = 0;
-                this.talker.stop();
+                this.talker.Stop();
 
                 SetProperty(ref selectedFile, value);
             }
@@ -67,6 +65,7 @@
         public AzureSSMLGen SSMLConverter { get; } = new AzureSSMLGen();
 
         public int PlayingIndex { get; set; } = 0;
+
         public string PlayingPlainText { get; private set; } = string.Empty;
 
         public int SelectedFileIndex
@@ -91,8 +90,7 @@
         {
             get => playCommand ?? (playCommand = new DelegateCommand(() =>
                 {
-
-                    if (currentHtmlContents.TextElements.Count <= PlayingIndex)
+                    if (CurrentHtmlContents.TextElements.Count <= PlayingIndex)
                     {
                         if (SelectedFileIndex < FileList.Count - 1)
                         {
@@ -105,17 +103,17 @@
                         }
                     }
 
-                    PlayingPlainText = currentHtmlContents.TextElements[PlayingIndex].TextContent;
+                    PlayingPlainText = CurrentHtmlContents.TextElements[PlayingIndex].TextContent;
 
-                    talker.ssmlTalk(SSMLConverter.getSSML(PlayingPlainText));
+                    talker.SSMLTalk(SSMLConverter.GetSSML(PlayingPlainText));
 
                     stopwatch.Start();
                     outputFileInfo = new OutputFileInfo();
                     outputFileInfo.HeaderText = PlayingPlainText.Substring(0, Math.Min(50, PlayingPlainText.Length));
                     outputFileInfo.OutputDateTime = DateTime.Now;
-                    outputFileInfo.TagName = currentHtmlContents.TextElements[PlayingIndex].TagName;
+                    outputFileInfo.TagName = CurrentHtmlContents.TextElements[PlayingIndex].TagName;
                     outputFileInfo.FileName = talker.OutputFileName;
-                    outputFileInfo.HtmlFileName = currentHtmlContents.FileName;
+                    outputFileInfo.HtmlFileName = CurrentHtmlContents.FileName;
                 }));
         }
 
@@ -137,13 +135,13 @@
         {
             get => stopCommand ?? (stopCommand = new DelegateCommand(() =>
             {
-                talker.stop();
+                talker.Stop();
             }));
         }
 
-        private HTMLContents currentHtmlContents { get; set; }
+        private HTMLContents CurrentHtmlContents { get; set; }
 
-        public void resetFiles()
+        public void ResetFiles()
         {
             StopCommand.Execute();
             FileList.Clear();

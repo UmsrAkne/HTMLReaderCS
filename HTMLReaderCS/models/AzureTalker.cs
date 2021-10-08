@@ -9,13 +9,13 @@
 
     public class AzureTalker : ITalker
     {
-        private DirectoryInfo OutputDirectoryInfo = new DirectoryInfo(Properties.Settings.Default.OutputDirectoryName);
+        private DirectoryInfo outputDirectoryInfo = new DirectoryInfo(Properties.Settings.Default.OutputDirectoryName);
 
         public AzureTalker()
         {
-            if (!OutputDirectoryInfo.Exists)
+            if (!outputDirectoryInfo.Exists)
             {
-                OutputDirectoryInfo.Create();
+                outputDirectoryInfo.Create();
             }
 
             WMP.PlayStateChange += (int NewState) =>
@@ -33,19 +33,18 @@
 
         private WindowsMediaPlayer WMP { get; } = new WindowsMediaPlayer();
 
-        public async void ssmlTalk(string ssmlText)
+        public async void SSMLTalk(string ssmlText)
         {
-            await talk(ssmlText);
+            await Talk(ssmlText);
         }
 
-        public void stop()
+        public void Stop()
         {
             WMP.controls.stop();
         }
 
-        private async Task talk(string ssml)
+        private async Task Talk(string ssml)
         {
-
             string key = Environment.GetEnvironmentVariable("Microsoft_Speech_Secret_key");
 
             var config = SpeechConfig.FromSubscription(key, "japaneast");
@@ -53,16 +52,15 @@
             config.SpeechSynthesisVoiceName = "ja-JP-KeitaNeural";
 
             OutputFileName = DateTime.Now.ToString("yyyyMMddHHmmssff") + ".wav";
-            var audioConfig = AudioConfig.FromWavFileOutput($"{OutputDirectoryInfo.Name}\\{OutputFileName}");
+            var audioConfig = AudioConfig.FromWavFileOutput($"{outputDirectoryInfo.Name}\\{OutputFileName}");
 
             using (var synthesizer = new SpeechSynthesizer(config, audioConfig))
             {
                 var ssmlGen = new AzureSSMLGen();
                 await synthesizer.SpeakSsmlAsync(ssml);
-
             }
 
-            WMP.URL = $"{OutputDirectoryInfo.Name}\\{OutputFileName}";
+            WMP.URL = $"{outputDirectoryInfo.Name}\\{OutputFileName}";
             WMP.controls.play();
         }
     }

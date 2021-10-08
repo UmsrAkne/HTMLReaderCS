@@ -32,13 +32,15 @@
         public TimeSpan AfterWait { get; set; }
 
         private string RootStartTag => "<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xml:lang=\"string\">";
+
         private string RootEndTag => "</speak>";
 
         // voice に指定できる値は他にも存在するが、現状では他の声で読み上げてもらう予定はないので固定値とする。
         private string VoiceNameStartTag => "<voice name=\"ja-JP-KeitaNeural\">";
+
         private string VoiceNameEndTag => "</voice>";
 
-        public string getSSML(string plainText)
+        public string GetSSML(string plainText)
         {
             string prosodyStartTag = string.Empty;
             string prosodyEndTag = string.Empty;

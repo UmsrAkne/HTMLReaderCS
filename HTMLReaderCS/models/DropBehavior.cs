@@ -10,7 +10,6 @@
 
     public class DropBehavior : Behavior<Window>
     {
-
         protected override void OnAttached()
         {
             base.OnAttached();
@@ -55,7 +54,6 @@
             {
                 vm.Player.SelectedFile = vm.Player.FileList[0];
             }
-
         }
 
         private void AssociatedObject_PreviewDragOver(object sender, DragEventArgs e)

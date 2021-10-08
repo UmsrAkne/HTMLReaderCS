@@ -20,7 +20,7 @@
         private int selectedFileIndex;
 
         private OutputFileInfo outputFileInfo;
-        private SQLiteHelper sqLiteHelper = new SQLiteHelper();
+        private SQLiteHelper sqliteHelper = new SQLiteHelper();
         private Stopwatch stopwatch = new Stopwatch();
         private DelegateCommand playCommand;
         private DelegateCommand playFromIndexCommand;
@@ -32,12 +32,11 @@
             this.talker = talker;
             this.talker.TalkEnded += (sender, e) =>
             {
-
                 stopwatch.Stop();
                 outputFileInfo.LengthSec = (int)stopwatch.Elapsed.TotalSeconds;
                 stopwatch.Reset();
 
-                sqLiteHelper.insert(outputFileInfo);
+                sqliteHelper.Insert(outputFileInfo);
 
                 PlayingIndex++;
                 PlayCommand.Execute();
@@ -61,11 +60,11 @@
             {
                 // 選択中のコンテンツが切り替わった時点で現在の再生状況はリセットするのが妥当。
                 PlayingIndex = 0;
-                this.talker.stop();
+                this.talker.Stop();
                 SetProperty(ref selectedFile, value);
 
                 Texts = File.ReadAllLines(selectedFile.FullName).ToList<string>();
-                CurrentFileHash = HashGenerator.getMD5Hash(File.ReadAllText(selectedFile.FullName));
+                CurrentFileHash = HashGenerator.GetMD5Hash(File.ReadAllText(selectedFile.FullName));
             }
         }
 
@@ -92,7 +91,6 @@
             get => playCommand ?? (playCommand = new DelegateCommand(
                 () =>
                 {
-
                     if (Texts.Count == 0)
                     {
                         return;
@@ -129,7 +127,7 @@
 
                     // 空行があった場合は、行数に応じてウェイトを挟む。
                     SSMLConverter.BeforeWait = new TimeSpan(0, 0, 0, 0, BlankLineWaitTime * emptyLineCount);
-                    talker.ssmlTalk(SSMLConverter.getSSML(Texts[PlayingIndex]));
+                    talker.SSMLTalk(SSMLConverter.GetSSML(Texts[PlayingIndex]));
 
                     stopwatch.Start();
                     outputFileInfo = new OutputFileInfo();
@@ -147,7 +145,7 @@
             {
                 if (SelectedTextIndex < Texts.Count)
                 {
-                    talker.stop();
+                    talker.Stop();
                     PlayingIndex = SelectedTextIndex;
                     PlayCommand.Execute();
                 }
@@ -158,8 +156,8 @@
         {
             get => jumpToUnreadCommand ?? (jumpToUnreadCommand = new DelegateCommand(() =>
             {
-                talker.stop();
-                var unreadLineNumber = sqLiteHelper.getUnreadLine(CurrentFileHash);
+                talker.Stop();
+                var unreadLineNumber = sqliteHelper.GetUnreadLine(CurrentFileHash);
                 PlayingIndex = unreadLineNumber;
                 SelectedTextIndex = unreadLineNumber;
             }));
@@ -170,7 +168,7 @@
             get => stopCommand ?? (stopCommand = new DelegateCommand(
             () =>
             {
-                talker.stop();
+                talker.Stop();
             }));
         }
 
@@ -178,12 +176,11 @@
 
         private string CurrentFileHash { get; set; } = string.Empty;
 
-        public void resetFiles()
+        public void ResetFiles()
         {
             StopCommand.Execute();
             FileList.Clear();
             SelectedFile = null;
         }
-
     }
 }

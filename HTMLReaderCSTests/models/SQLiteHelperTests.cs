@@ -8,28 +8,28 @@
         [TestMethod]
         public void SQLiteHelperTest()
         {
-            var SQLiteHelper = new SQLiteHelper();
+            var sqliteHelper = new SQLiteHelper();
         }
 
         [TestMethod]
-        public void insertTest()
+        public void InsertTest()
         {
             var sqliteHelper = new SQLiteHelper();
-            sqliteHelper.insert(new OutputFileInfo());
+            sqliteHelper.Insert(new OutputFileInfo());
         }
 
         [TestMethod]
-        public void selectTest()
+        public void SelectTest()
         {
             var sqliteHelper = new SQLiteHelper();
-            var l = sqliteHelper.select($"select * from {sqliteHelper.TableName};");
+            var l = sqliteHelper.Select($"select * from {sqliteHelper.TableName};");
         }
 
         [TestMethod]
-        public void getHistoriesTest()
+        public void GetHistoriesTest()
         {
             var sqliteHelper = new SQLiteHelper();
-            var l = sqliteHelper.getHistories();
+            var l = sqliteHelper.GetHistories();
         }
     }
 }

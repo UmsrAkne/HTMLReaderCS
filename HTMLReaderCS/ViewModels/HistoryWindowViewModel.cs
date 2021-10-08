@@ -64,7 +64,7 @@
         public void OnDialogOpened(IDialogParameters parameters)
         {
             SQLiteHelper = new SQLiteHelper();
-            OutputHistory = SQLiteHelper.getHistories();
+            OutputHistory = SQLiteHelper.GetHistories();
         }
 
         public bool CanCloseDialog() => true;

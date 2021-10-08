@@ -8,22 +8,22 @@
 
     public class MainWindowViewModel : BindableBase
     {
-        private string _title = "HTML Reader CS";
+        private string title = "HTML Reader CS";
         private IPlayer player;
         private IDialogService dialogService;
         private DelegateCommand playNextCommand;
         private DelegateCommand resetFileListCommand;
         private DelegateCommand showHistoryWindowCommand;
 
-        public MainWindowViewModel(IDialogService _dialogService)
+        public MainWindowViewModel(IDialogService dialogService)
         {
-            dialogService = _dialogService;
+            this.dialogService = dialogService;
         }
 
         public string Title
         {
-            get { return _title; }
-            set { SetProperty(ref _title, value); }
+            get { return title; }
+            set { SetProperty(ref title, value); }
         }
 
         public IPlayer Player
@@ -46,7 +46,7 @@
         {
             get => resetFileListCommand ?? (resetFileListCommand = new DelegateCommand(() =>
             {
-                Player.resetFiles();
+                Player.ResetFiles();
             }));
         }
 

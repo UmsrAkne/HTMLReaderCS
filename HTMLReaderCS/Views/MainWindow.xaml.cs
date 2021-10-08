@@ -1,6 +1,7 @@
 ﻿namespace HTMLReaderCS.Views
 {
     using System.Windows;
+
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>

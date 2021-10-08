@@ -10,7 +10,7 @@
     {
         public SQLiteHelper()
         {
-            executeNonQuer(
+            ExecuteNonquery(
                 $"CREATE TABLE IF NOT EXISTS {TableName} (" +
                 $"id                                         INTEGER NOT NULL PRIMARY KEY, " +
                 $"{nameof(OutputFileInfo.LengthSec)}         INTEGER NOT NULL, " +
@@ -25,6 +25,7 @@
         }
 
         public string DBFileName => "OutputHistory.sqlite";
+
         public string TableName => "output_history";
 
         private SQLiteConnection Connection
@@ -36,10 +37,10 @@
             }
         }
 
-        public void insert(OutputFileInfo outputFileInfo)
+        public void Insert(OutputFileInfo outputFileInfo)
         {
-            var count = getCount() + 1;
-            executeNonQuer($"INSERT INTO {TableName}(" +
+            var count = GetCount() + 1;
+            ExecuteNonquery($"INSERT INTO {TableName}(" +
                 $"id," +
                 $"{nameof(OutputFileInfo.LengthSec)}," +
                 $"{nameof(OutputFileInfo.FileName)}," +
@@ -62,12 +63,12 @@
                 $");");
         }
 
-        public long getCount()
+        public long GetCount()
         {
-            return (long)select($"SELECT COUNT(*) FROM {TableName};").First()["COUNT(*)"];
+            return (long)Select($"SELECT COUNT(*) FROM {TableName};").First()["COUNT(*)"];
         }
 
-        public List<Hashtable> select(string sql)
+        public List<Hashtable> Select(string sql)
         {
             using (var con = Connection)
             {
@@ -83,6 +84,7 @@
                     {
                         hashtable[dataReader.GetName(i)] = dataReader.GetValue(i);
                     }
+
                     resultList.Add(hashtable);
                 }
 
@@ -91,10 +93,10 @@
             }
         }
 
-        public List<OutputFileInfo> getHistories()
+        public List<OutputFileInfo> GetHistories()
         {
             var list = new List<OutputFileInfo>();
-            var hashs = select($"SELECT * FROM {TableName} ORDER BY {nameof(OutputFileInfo.OutputDateTime)};");
+            var hashs = Select($"SELECT * FROM {TableName} ORDER BY {nameof(OutputFileInfo.OutputDateTime)};");
             foreach (var h in hashs)
             {
                 var outputFileInfo = new OutputFileInfo();
@@ -116,9 +118,9 @@
             return list;
         }
 
-        public int getUnreadLine(string fileHash)
+        public int GetUnreadLine(string fileHash)
         {
-            var h = select($"SELECT MAX({nameof(OutputFileInfo.Position)}) " +
+            var h = Select($"SELECT MAX({nameof(OutputFileInfo.Position)}) " +
                     $"FROM {TableName} " +
                     $"WHERE {nameof(OutputFileInfo.Hash)} = '{fileHash}'" +
                     $"ORDER BY {nameof(OutputFileInfo.Position)}");
@@ -131,7 +133,7 @@
             return (int)(long)h.First()["MAX(Position)"];
         }
 
-        private void executeNonQuer(string sql)
+        private void ExecuteNonquery(string sql)
         {
             using (var con = Connection)
             {
