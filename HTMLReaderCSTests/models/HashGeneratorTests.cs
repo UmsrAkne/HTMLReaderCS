@@ -1,4 +1,4 @@
-﻿namespace HTMLReaderCS.models.Tests
+﻿namespace HTMLReaderCS.Models.Tests
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 

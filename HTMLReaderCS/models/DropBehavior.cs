@@ -5,7 +5,7 @@
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Interactivity;
-    using HTMLReaderCS.models;
+    using HTMLReaderCS.Models;
     using HTMLReaderCS.ViewModels;
 
     public class DropBehavior : Behavior<Window>

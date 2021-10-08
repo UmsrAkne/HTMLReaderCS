@@ -1,4 +1,4 @@
-﻿namespace HTMLReaderCS.models
+﻿namespace HTMLReaderCS.Models
 {
     using System;
     using System.Collections.Generic;

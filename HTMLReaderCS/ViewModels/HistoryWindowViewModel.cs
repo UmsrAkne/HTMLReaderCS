@@ -2,7 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
-    using HTMLReaderCS.models;
+    using HTMLReaderCS.Models;
     using Prism.Commands;
     using Prism.Mvvm;
     using Prism.Services.Dialogs;

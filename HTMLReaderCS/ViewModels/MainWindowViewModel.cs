@@ -1,6 +1,6 @@
 ﻿namespace HTMLReaderCS.ViewModels
 {
-    using HTMLReaderCS.models;
+    using HTMLReaderCS.Models;
     using HTMLReaderCS.Views;
     using Prism.Commands;
     using Prism.Mvvm;
