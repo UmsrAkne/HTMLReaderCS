@@ -81,12 +81,12 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="models\AzureSSMLGenTests.cs" />
-    <Compile Include="models\AzureTalkerTests.cs" />
-    <Compile Include="models\DummyTalker.cs" />
-    <Compile Include="models\HashGeneratorTests.cs" />
-    <Compile Include="models\SQLiteHelperTests.cs" />
-    <Compile Include="models\SSMLConverterTests.cs" />
+    <Compile Include="Models\AzureSSMLGenTests.cs" />
+    <Compile Include="Models\AzureTalkerTests.cs" />
+    <Compile Include="Models\DummyTalker.cs" />
+    <Compile Include="Models\HashGeneratorTests.cs" />
+    <Compile Include="Models\SQLiteHelperTests.cs" />
+    <Compile Include="Models\SSMLConverterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

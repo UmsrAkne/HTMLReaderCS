@@ -88,22 +88,22 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="models\AzureSSMLGen.cs" />
-    <Compile Include="models\AzureTalker.cs" />
-    <Compile Include="models\DateTimeConverter.cs" />
-    <Compile Include="models\DropBehavior.cs" />
-    <Compile Include="models\HashGenerator.cs" />
-    <Compile Include="models\HeaderTextConverter.cs" />
-    <Compile Include="models\HTMLContents.cs" />
-    <Compile Include="models\IPlayer.cs" />
-    <Compile Include="models\TextBoxNumericBehavior.cs" />
-    <Compile Include="models\TextPlayer.cs" />
-    <Compile Include="models\HTMLPlayer.cs" />
-    <Compile Include="models\ITalker.cs" />
-    <Compile Include="models\OutputFileInfo.cs" />
-    <Compile Include="models\PollyPlayer.cs" />
-    <Compile Include="models\SQLiteHelper.cs" />
-    <Compile Include="models\SSMLConverter.cs" />
+    <Compile Include="Models\AzureSSMLGen.cs" />
+    <Compile Include="Models\AzureTalker.cs" />
+    <Compile Include="Models\DateTimeConverter.cs" />
+    <Compile Include="Models\DropBehavior.cs" />
+    <Compile Include="Models\HashGenerator.cs" />
+    <Compile Include="Models\HeaderTextConverter.cs" />
+    <Compile Include="Models\HTMLContents.cs" />
+    <Compile Include="Models\IPlayer.cs" />
+    <Compile Include="Models\TextBoxNumericBehavior.cs" />
+    <Compile Include="Models\TextPlayer.cs" />
+    <Compile Include="Models\HTMLPlayer.cs" />
+    <Compile Include="Models\ITalker.cs" />
+    <Compile Include="Models\OutputFileInfo.cs" />
+    <Compile Include="Models\PollyPlayer.cs" />
+    <Compile Include="Models\SQLiteHelper.cs" />
+    <Compile Include="Models\SSMLConverter.cs" />
     <Compile Include="ViewModels\HistoryWindowViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="Views\HistoryWindow.xaml.cs">
