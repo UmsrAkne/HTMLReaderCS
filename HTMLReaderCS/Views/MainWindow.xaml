@@ -134,6 +134,7 @@
         <ListView
             Grid.Row="2"
             Grid.Column="1"
+            AlternationCount="2"
             ItemsSource="{Binding Player.Texts}"
             ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 
@@ -157,13 +158,19 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="{x:Type ContentControl}">
-                                <Border>
+                                <Border x:Name="ListViewBorder" Background="{TemplateBinding Background}">
                                     <ContentPresenter />
                                 </Border>
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>
 
+                    <Style.Triggers>
+                        <Trigger Property="ListView.AlternationIndex" Value="0">
+                            <Setter Property="Background" Value="WhiteSmoke" />
+                        </Trigger>
+
+                    </Style.Triggers>
                 </Style>
             </ListView.ItemContainerStyle>
 
