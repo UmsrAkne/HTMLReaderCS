@@ -41,8 +41,6 @@
                 PlayingIndex++;
                 PlayCommand.Execute();
             };
-
-            SSMLConverter.Rate = 85;
         }
 
         public ObservableCollection<FileInfo> FileList { get; set; } = new ObservableCollection<FileInfo>();
