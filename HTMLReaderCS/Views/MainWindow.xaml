@@ -134,38 +134,46 @@
         <ListView
             Grid.Row="2"
             Grid.Column="1"
+            AlternationCount="2"
             ItemsSource="{Binding Player.Texts}"
             ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Border BorderBrush="LightGray" BorderThickness="1,0,0,1">
+                        <StackPanel Orientation="Horizontal">
+
+                            <TextBlock
+                                Padding="4,1"
+                                Text="{Binding}"
+                                TextWrapping="Wrap" />
+
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
-                    <Setter Property="BorderThickness" Value="1" />
-                    <Setter Property="BorderBrush" Value="LightGray" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ContentControl}">
+                                <Border x:Name="ListViewBorder" Background="{TemplateBinding Background}">
+                                    <ContentPresenter />
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+
+                    <Style.Triggers>
+                        <Trigger Property="ListView.AlternationIndex" Value="0">
+                            <Setter Property="Background" Value="WhiteSmoke" />
+                        </Trigger>
+
+                    </Style.Triggers>
                 </Style>
             </ListView.ItemContainerStyle>
 
-            <ListView.View>
-                <GridView>
-                    <GridView.Columns>
-
-                        <GridViewColumn Header="本文">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Border BorderBrush="LightGray" BorderThickness="1,0,0,0">
-                                        <TextBlock
-                                            Padding="4,0,0,0"
-                                            Text="{Binding}"
-                                            TextWrapping="Wrap" />
-                                    </Border>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-
-                    </GridView.Columns>
-
-                </GridView>
-            </ListView.View>
         </ListView>
-
     </Grid>
 </Window>
