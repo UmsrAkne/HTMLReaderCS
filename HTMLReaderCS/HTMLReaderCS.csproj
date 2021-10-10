@@ -96,6 +96,7 @@
     <Compile Include="Models\HeaderTextConverter.cs" />
     <Compile Include="Models\HTMLContents.cs" />
     <Compile Include="Models\IPlayer.cs" />
+    <Compile Include="Models\LineText.cs" />
     <Compile Include="Models\TextBoxNumericBehavior.cs" />
     <Compile Include="Models\TextPlayer.cs" />
     <Compile Include="Models\HTMLPlayer.cs" />
