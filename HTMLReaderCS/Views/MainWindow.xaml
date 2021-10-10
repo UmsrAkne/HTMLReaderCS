@@ -142,10 +142,16 @@
                 <DataTemplate>
                     <Border BorderBrush="LightGray" BorderThickness="1,0,0,1">
                         <StackPanel Orientation="Horizontal">
+                            <TextBlock Width="50" Text="{Binding LineNumber}" />
+
+                            <Border
+                                Width="2"
+                                Margin="0,3"
+                                Background="LightGray" />
 
                             <TextBlock
                                 Padding="4,1"
-                                Text="{Binding}"
+                                Text="{Binding Text}"
                                 TextWrapping="Wrap" />
 
                         </StackPanel>
