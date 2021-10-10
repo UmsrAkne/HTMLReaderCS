@@ -37,6 +37,7 @@
                 stopwatch.Reset();
 
                 sqliteHelper.Insert(outputFileInfo);
+                Texts[PlayingIndex].IsSelected = false;
 
                 PlayingIndex++;
                 PlayCommand.Execute();
@@ -127,6 +128,7 @@
                     // 空行があった場合は、行数に応じてウェイトを挟む。
                     SSMLConverter.BeforeWait = new TimeSpan(0, 0, 0, 0, BlankLineWaitTime * emptyLineCount);
                     talker.SSMLTalk(SSMLConverter.GetSSML(Texts[PlayingIndex].Text));
+                    Texts[PlayingIndex].IsSelected = true;
 
                     stopwatch.Start();
                     outputFileInfo = new OutputFileInfo();

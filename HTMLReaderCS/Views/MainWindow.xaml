@@ -176,6 +176,10 @@
                             <Setter Property="Background" Value="WhiteSmoke" />
                         </Trigger>
 
+                        <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                            <Setter Property="Background" Value="Pink" />
+                        </DataTrigger>
+
                     </Style.Triggers>
                 </Style>
             </ListView.ItemContainerStyle>
