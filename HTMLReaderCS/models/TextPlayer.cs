@@ -109,11 +109,10 @@
                         }
                     }
 
-                    PlayingPlainText = Texts[PlayingIndex].Text;
                     int emptyLineCount = 0;
 
                     // PlayingPlainText が空文字だった場合はスキップして次の行を入力する。
-                    while (string.IsNullOrEmpty(PlayingPlainText))
+                    while (Texts[PlayingIndex].IsEmpty)
                     {
                         emptyLineCount++;
                         PlayingIndex++;
