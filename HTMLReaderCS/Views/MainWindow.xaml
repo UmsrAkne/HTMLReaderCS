@@ -48,6 +48,11 @@
             </MenuItem>
 
             <MenuItem Header="機能">
+                <MenuItem
+                    Command="{Binding ScrollToItemCommand}"
+                    CommandParameter="{Binding ElementName=ReadTextListView}"
+                    Header="読み上げ中の行にジャンプ" />
+
                 <MenuItem Command="{Binding Player.JumpToUnreadCommand}" Header="未読行へジャンプ" />
             </MenuItem>
         </Menu>
@@ -132,11 +137,18 @@
 
 
         <ListView
+            Name="ReadTextListView"
             Grid.Row="2"
             Grid.Column="1"
             AlternationCount="2"
             ItemsSource="{Binding Player.Texts}"
             ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding ScrollToItemCommand}" CommandParameter="{Binding ElementName=ReadTextListView}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
 
             <ListView.ItemTemplate>
                 <DataTemplate>

@@ -1,5 +1,6 @@
 ﻿namespace HTMLReaderCS.ViewModels
 {
+    using System.Windows.Controls;
     using HTMLReaderCS.Models;
     using HTMLReaderCS.Views;
     using Prism.Commands;
@@ -14,6 +15,7 @@
         private DelegateCommand playNextCommand;
         private DelegateCommand resetFileListCommand;
         private DelegateCommand showHistoryWindowCommand;
+        private DelegateCommand<ListView> scrollToItemCommand;
 
         public MainWindowViewModel(IDialogService dialogService)
         {
@@ -56,6 +58,14 @@
             {
                 dialogService.ShowDialog(nameof(HistoryWindow), new DialogParameters(), (IDialogResult result) => { });
             }));
+        }
+
+        public DelegateCommand<ListView> ScrollToItemCommand
+        {
+            get => scrollToItemCommand ?? (scrollToItemCommand = new DelegateCommand<ListView>((lv) =>
+             {
+                 lv.ScrollIntoView(lv.Items[Player.PlayingIndex]);
+             }));
         }
     }
 }
