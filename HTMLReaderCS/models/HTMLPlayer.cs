@@ -25,7 +25,7 @@
         private DelegateCommand stopCommand;
         private int selectedFileIndex = 0;
         private int selectedTextIndex;
-        private List<string> texts = new List<string>();
+        private List<LineText> texts = new List<LineText>();
 
         public HTMLPlayer(ITalker talker)
         {
@@ -80,7 +80,7 @@
             set => SetProperty(ref selectedTextIndex, value);
         }
 
-        public List<string> Texts
+        public List<LineText> Texts
         {
             get => texts;
             set => SetProperty(ref texts, value);

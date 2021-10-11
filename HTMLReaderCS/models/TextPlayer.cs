@@ -15,7 +15,7 @@
     {
         private ITalker talker;
         private FileInfo selectedFile;
-        private List<string> texts = new List<string>();
+        private List<LineText> texts = new List<LineText>();
         private int selectedTextIndex = 0;
         private int selectedFileIndex;
 
@@ -37,6 +37,7 @@
                 stopwatch.Reset();
 
                 sqliteHelper.Insert(outputFileInfo);
+                Texts[PlayingIndex].IsSelected = false;
 
                 PlayingIndex++;
                 PlayCommand.Execute();
@@ -61,12 +62,13 @@
                 this.talker.Stop();
                 SetProperty(ref selectedFile, value);
 
-                Texts = File.ReadAllLines(selectedFile.FullName).ToList<string>();
+                Texts = File.ReadAllLines(selectedFile.FullName).ToList().Select(s => new LineText() { Text = s }).ToList();
+                Enumerable.Range(0, Texts.Count).ToList().ForEach(i => Texts[i].LineNumber = i + 1);
                 CurrentFileHash = HashGenerator.GetMD5Hash(File.ReadAllText(selectedFile.FullName));
             }
         }
 
-        public List<string> Texts
+        public List<LineText> Texts
         {
             get => texts;
             set => SetProperty(ref texts, value);
@@ -107,15 +109,14 @@
                         }
                     }
 
-                    PlayingPlainText = Texts[PlayingIndex];
                     int emptyLineCount = 0;
 
                     // PlayingPlainText が空文字だった場合はスキップして次の行を入力する。
-                    while (string.IsNullOrEmpty(PlayingPlainText))
+                    while (Texts[PlayingIndex].IsEmpty)
                     {
                         emptyLineCount++;
                         PlayingIndex++;
-                        PlayingPlainText = Texts[PlayingIndex];
+                        PlayingPlainText = Texts[PlayingIndex].Text;
 
                         if (Texts.Count <= PlayingIndex)
                         {
@@ -125,7 +126,8 @@
 
                     // 空行があった場合は、行数に応じてウェイトを挟む。
                     SSMLConverter.BeforeWait = new TimeSpan(0, 0, 0, 0, BlankLineWaitTime * emptyLineCount);
-                    talker.SSMLTalk(SSMLConverter.GetSSML(Texts[PlayingIndex]));
+                    talker.SSMLTalk(SSMLConverter.GetSSML(Texts[PlayingIndex].Text));
+                    Texts[PlayingIndex].IsSelected = true;
 
                     stopwatch.Start();
                     outputFileInfo = new OutputFileInfo();

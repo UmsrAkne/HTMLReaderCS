@@ -21,7 +21,7 @@
 
         int PlayingIndex { get; set; }
 
-        List<string> Texts { get; }
+        List<LineText> Texts { get; }
 
         DelegateCommand PlayCommand { get; }
 

@@ -48,6 +48,11 @@
             </MenuItem>
 
             <MenuItem Header="機能">
+                <MenuItem
+                    Command="{Binding ScrollToItemCommand}"
+                    CommandParameter="{Binding ElementName=ReadTextListView}"
+                    Header="読み上げ中の行にジャンプ" />
+
                 <MenuItem Command="{Binding Player.JumpToUnreadCommand}" Header="未読行へジャンプ" />
             </MenuItem>
         </Menu>
@@ -132,20 +137,33 @@
 
 
         <ListView
+            Name="ReadTextListView"
             Grid.Row="2"
             Grid.Column="1"
             AlternationCount="2"
             ItemsSource="{Binding Player.Texts}"
             ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding ScrollToItemCommand}" CommandParameter="{Binding ElementName=ReadTextListView}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Border BorderBrush="LightGray" BorderThickness="1,0,0,1">
                         <StackPanel Orientation="Horizontal">
+                            <TextBlock Width="50" Text="{Binding LineNumber}" />
+
+                            <Border
+                                Width="2"
+                                Margin="0,3"
+                                Background="LightGray" />
 
                             <TextBlock
                                 Padding="4,1"
-                                Text="{Binding}"
+                                Text="{Binding Text}"
                                 TextWrapping="Wrap" />
 
                         </StackPanel>
@@ -169,6 +187,10 @@
                         <Trigger Property="ListView.AlternationIndex" Value="0">
                             <Setter Property="Background" Value="WhiteSmoke" />
                         </Trigger>
+
+                        <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                            <Setter Property="Background" Value="Pink" />
+                        </DataTrigger>
 
                     </Style.Triggers>
                 </Style>
