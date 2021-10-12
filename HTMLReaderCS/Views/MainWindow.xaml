@@ -95,6 +95,9 @@
                 HorizontalAlignment="Right"
                 Orientation="Horizontal">
 
+                <TextBlock Text="再生位置 : " />
+                <TextBlock Width="40" Text="{Binding Player.PlayingIndex}" />
+
                 <Button
                     Width="100"
                     Margin="3,0"
