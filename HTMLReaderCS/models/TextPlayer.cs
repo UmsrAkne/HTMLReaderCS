@@ -18,6 +18,7 @@
         private List<LineText> texts = new List<LineText>();
         private int selectedTextIndex = 0;
         private int selectedFileIndex;
+        private int playingIndex;
 
         private OutputFileInfo outputFileInfo;
         private SQLiteHelper sqliteHelper = new SQLiteHelper();
@@ -50,7 +51,11 @@
 
         public string PlayingPlainText { get; private set; } = string.Empty;
 
-        public int PlayingIndex { get; set; } = 0;
+        public int PlayingIndex
+        {
+            get => playingIndex;
+            set => SetProperty(ref playingIndex, value);
+        }
 
         public FileInfo SelectedFile
         {
