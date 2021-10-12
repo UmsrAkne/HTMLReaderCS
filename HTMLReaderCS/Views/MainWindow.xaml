@@ -147,12 +147,6 @@
             ItemsSource="{Binding Player.Texts}"
             ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="SelectionChanged">
-                    <i:InvokeCommandAction Command="{Binding ScrollToItemCommand}" CommandParameter="{Binding ElementName=ReadTextListView}" />
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Border BorderBrush="LightGray" BorderThickness="1,0,0,1">
