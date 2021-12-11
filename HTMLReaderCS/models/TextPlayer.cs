@@ -64,7 +64,7 @@
             {
                 // 選択中のコンテンツが切り替わった時点で現在の再生状況はリセットするのが妥当。
                 PlayingIndex = 0;
-                this.talker.Stop();
+                talker.Stop();
                 SetProperty(ref selectedFile, value);
 
                 Texts = File.ReadAllLines(selectedFile.FullName).ToList().Select(s => new LineText() { Text = s }).ToList();
